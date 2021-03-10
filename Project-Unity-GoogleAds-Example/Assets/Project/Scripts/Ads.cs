@@ -3,22 +3,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ads : MonoBehaviour
 {
     // Ad units.
 #if UNITY_ANDROID
-    private const string _BannerID = "ca-app-pub-5694017510112710/6322992270";
-    private const string _InterstitialID = "ca-app-pub-5694017510112710/2192175576";
-    private const string _RewardedID = "ca-app-pub-5694017510112710/2907503203";
-    private const string _RewardedInterstitialID = "ca-app-pub-5694017510112710/2000603884";
-    private const string _NativeID = "ca-app-pub-5694017510112710/1617460505";
+    private const string _BannerID = "ca-app-pub-6569373569137925/2194855636";
+    private const string _InterstitialID = "ca-app-pub-6569373569137925/9139537939";
+    private const string _RewardedID = "ca-app-pub-6569373569137925/8947966245";
+    private const string _RewardedInterstitialID = "ca-app-pub-6569373569137925/5200292928";
+    private const string _NativeID = "ca-app-pub-6569373569137925/3151702326";
 #elif UNITY_IOS
-    private const string _BannerID = "ca-app-pub-5694017510112710/3860480465";
-    private const string _InterstitialID = "ca-app-pub-5694017510112710/8747628023";
-    private const string _RewardedID = "ca-app-pub-5694017510112710/5929892994";
-    private const string _RewardedInterstitialID = "ca-app-pub-5694017510112710/3495301345";
-    private const string _NativeID = "ca-app-pub-5694017510112710/4425239636";
+    private const string _BannerID = "ca-app-pub-6569373569137925/2190986208";
+    private const string _InterstitialID = "ca-app-pub-6569373569137925/9877904538";
+    private const string _RewardedID = "ca-app-pub-6569373569137925/1999414514";
+    private const string _RewardedInterstitialID = "ca-app-pub-6569373569137925/5938659526";
+    private const string _NativeID = "ca-app-pub-6569373569137925/7060169505";
 #else
     private const string _BannerID = "unexpected_platform";
     private const string _InterstitialID = "unexpected_platform";
@@ -29,13 +30,19 @@ public class Ads : MonoBehaviour
 
     [SerializeField] private bool _TestMode;
     // Test device ID.
-    private List<string> _DeviceIDs = new List<string>();
+    [SerializeField] private List<string> _DeviceIDs = new List<string>();
 
     private BannerView _BannerView;
     private InterstitialAd _InterstitialAd;
     private RewardedAd _RewardedAd;
     private RewardedInterstitialAd _RewardedInterstitialAd;
     private UnifiedNativeAd _UnifiedNativeAd;
+
+    [SerializeField] private RawImage _Native_Icon;
+    [SerializeField] private RawImage _Native_ChoicesIcon;
+    [SerializeField] private Text _Native_Headline;
+    [SerializeField] private Text _Native_CallToAction;
+    [SerializeField] private Text _Native_Advertiser;
 
     private void Start()
     {
@@ -116,7 +123,7 @@ public class Ads : MonoBehaviour
     private void RequestBanner()
     {
         // Create a 320x50 banner at the top of the screen.
-        _BannerView = new BannerView(_BannerID, AdSize.Banner, AdPosition.Bottom);
+        _BannerView = new BannerView(_BannerID, AdSize.SmartBanner, AdPosition.Bottom);
 
         // Called when an ad request has successfully loaded.
         _BannerView.OnAdLoaded += BannerOnAdLoaded;
@@ -345,10 +352,25 @@ public class Ads : MonoBehaviour
         if (_UnifiedNativeAdLoaded)
         {
             // Get Texture2D for icon asset of native ad.
-            Texture2D _icon_texture = _UnifiedNativeAd.GetIconTexture();
-
+            Texture2D _icon = _UnifiedNativeAd.GetIconTexture();
+            Texture2D _choices_icon = _UnifiedNativeAd.GetAdChoicesLogoTexture();
             // Get string for headline asset of native ad.
-            string _head_line = _UnifiedNativeAd.GetHeadlineText();
+            string _headline = _UnifiedNativeAd.GetHeadlineText();
+            string _call_to_action = _UnifiedNativeAd.GetCallToActionText();
+            string _advertiser = _UnifiedNativeAd.GetAdvertiserText();
+
+            _Native_Icon.texture = _icon;
+            _Native_ChoicesIcon.texture = _choices_icon;
+            _Native_Headline.text = _headline;
+            _Native_CallToAction.text = _call_to_action;
+            _Native_Advertiser.text = _advertiser;
+
+            // Register gameobjects.
+            _UnifiedNativeAd.RegisterIconImageGameObject(_Native_Icon.gameObject);
+            _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_Native_ChoicesIcon.gameObject);
+            _UnifiedNativeAd.RegisterHeadlineTextGameObject(_Native_Headline.gameObject);
+            _UnifiedNativeAd.RegisterCallToActionGameObject(_Native_CallToAction.gameObject);
+            _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_Native_Advertiser.gameObject);
 
             _UnifiedNativeAdLoaded = false;
         }
