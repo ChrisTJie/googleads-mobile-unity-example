@@ -8,17 +8,17 @@ public class Ads : MonoBehaviour
 {
     // Ad units.
 #if UNITY_ANDROID
-    private const string _BannerID = "ca-app-pub-3940256099942544/6300978111";
-    private const string _InterstitialID = "ca-app-pub-3940256099942544/1033173712";
-    private const string _RewardedID = "ca-app-pub-3940256099942544/5224354917";
-    private const string _RewardedInterstitialID = "ca-app-pub-3940256099942544/5354046379";
-    private const string _NativeID = "ca-app-pub-3940256099942544/2247696110";
+    private const string _BannerID = "ca-app-pub-5694017510112710/6322992270";
+    private const string _InterstitialID = "ca-app-pub-5694017510112710/2192175576";
+    private const string _RewardedID = "ca-app-pub-5694017510112710/2907503203";
+    private const string _RewardedInterstitialID = "ca-app-pub-5694017510112710/2000603884";
+    private const string _NativeID = "ca-app-pub-5694017510112710/1617460505";
 #elif UNITY_IOS
-    private const string _BannerID = "ca-app-pub-3940256099942544/2934735716";
-    private const string _InterstitialID = "ca-app-pub-3940256099942544/4411468910";
-    private const string _RewardedID = "ca-app-pub-3940256099942544/1712485313";
-    private const string _RewardedInterstitialID = "ca-app-pub-3940256099942544/6978759866";
-    private const string _NativeID = "ca-app-pub-3940256099942544/3986624511";
+    private const string _BannerID = "ca-app-pub-5694017510112710/3860480465";
+    private const string _InterstitialID = "ca-app-pub-5694017510112710/8747628023";
+    private const string _RewardedID = "ca-app-pub-5694017510112710/5929892994";
+    private const string _RewardedInterstitialID = "ca-app-pub-5694017510112710/3495301345";
+    private const string _NativeID = "ca-app-pub-5694017510112710/4425239636";
 #else
     private const string _BannerID = "unexpected_platform";
     private const string _InterstitialID = "unexpected_platform";
@@ -27,6 +27,7 @@ public class Ads : MonoBehaviour
     private const string _NativeID = "unexpected_platform";
 #endif
 
+    [SerializeField] private bool _TestMode;
     // Test device ID.
     private List<string> _DeviceIDs = new List<string>();
 
@@ -34,20 +35,22 @@ public class Ads : MonoBehaviour
     private InterstitialAd _InterstitialAd;
     private RewardedAd _RewardedAd;
     private RewardedInterstitialAd _RewardedInterstitialAd;
+    private UnifiedNativeAd _UnifiedNativeAd;
 
     private void Start()
     {
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(_init_status => { });
 
-        RequestBanner();
-        RequestInterstitial();
-        RequestRewarded();
-        RequestRewardedInterstitial();
+        SetTestDeviceIds();
+
+        Invoke("Request", 5.0f);
     }
 
     private void Update()
     {
+        ShowNativeAd();
+
         if (Input.GetKeyDown(KeyCode.L))
         {
 
@@ -60,16 +63,54 @@ public class Ads : MonoBehaviour
 
     private void SetTestDeviceIds()
     {
-        // Add your device IDs.
-        _DeviceIDs.Add("Your device ID.");
+        if (!_TestMode) return;
 
-        RequestConfiguration _request_configuration = new RequestConfiguration
-            .Builder()
-            .SetTestDeviceIds(_DeviceIDs)
-            .build();
+        // Add this device ID.
+        _DeviceIDs.Add(AdRequest.TestDeviceSimulator);
+        _DeviceIDs.Add(SystemInfo.deviceUniqueIdentifier.ToUpper());
+        foreach (string _device_ids in _DeviceIDs)
+        {
+            Debug.LogFormat("Your device ID is: {0}.", _device_ids);
+        }
+
+        RequestConfiguration _request_configuration = new RequestConfiguration.Builder().SetTestDeviceIds(_DeviceIDs).build();
 
         // Set requestConfiguration globally to MobileAds.
         MobileAds.SetRequestConfiguration(_request_configuration);
+    }
+
+#if UNITY_ANDROID
+    // Detect Google Play pre-launch report.
+    private static bool IsTestLab()
+    {
+        try
+        {
+            using (var _act_class = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                var _context = _act_class.GetStatic<AndroidJavaObject>("currentActivity");
+                var _system_global = new AndroidJavaClass("android.provider.Settings$System");
+                var _test_lab = _system_global.CallStatic<string>("getString", _context.Call<AndroidJavaObject>("getContentResolver"), "firebase.test.lab");
+                Debug.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), _test_lab);
+                return _test_lab == "true";
+            }
+        }
+        catch (Exception _exception)
+        {
+            Debug.LogWarning(_exception);
+            return false;
+        }
+    }
+#endif
+
+    private void Request()
+    {
+        if (IsTestLab()) { Debug.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), IsTestLab()); return; };
+
+        RequestBanner();
+        RequestInterstitial();
+        RequestRewarded();
+        RequestRewardedInterstitial();
+        RequestNative();
     }
 
     private void RequestBanner()
@@ -114,6 +155,7 @@ public class Ads : MonoBehaviour
     {
         Debug.Log("BannerOnAdLeavingApplication event received.");
     }
+    private void BannerViewHide() => _BannerView.Hide();
     private void BannerViewDestroy() => _BannerView.Destroy();
 
     private void RequestInterstitial()
@@ -286,5 +328,39 @@ public class Ads : MonoBehaviour
     private void RewardedInterstitialOnPaidEvent(object _sender, AdValueEventArgs _args)
     {
         Debug.Log("RewardedInterstitialOnPaidEvent has received a paid event.");
+    }
+
+    private void RequestNative()
+    {
+        AdLoader _ad_loader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
+
+        _ad_loader.OnUnifiedNativeAdLoaded += NativeOnUnifiedNativeAdLoaded;
+        _ad_loader.OnAdFailedToLoad += NativeOnAdFailedToLoad;
+
+        _ad_loader.LoadAd(new AdRequest.Builder().Build());
+    }
+    private bool _UnifiedNativeAdLoaded;
+    private void ShowNativeAd()
+    {
+        if (_UnifiedNativeAdLoaded)
+        {
+            // Get Texture2D for icon asset of native ad.
+            Texture2D _icon_texture = _UnifiedNativeAd.GetIconTexture();
+
+            // Get string for headline asset of native ad.
+            string _head_line = _UnifiedNativeAd.GetHeadlineText();
+
+            _UnifiedNativeAdLoaded = false;
+        }
+    }
+    private void NativeOnUnifiedNativeAdLoaded(object _sender, UnifiedNativeAdEventArgs _args)
+    {
+        Debug.Log("NativeOnUnifiedNativeAdLoaded loaded.");
+        _UnifiedNativeAd = _args.nativeAd;
+        _UnifiedNativeAdLoaded = true;
+    }
+    private void NativeOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
+    {
+        Debug.LogWarningFormat("NativeOnAdFailedToLoad failed to load: {0}.", _args.Message);
     }
 }
