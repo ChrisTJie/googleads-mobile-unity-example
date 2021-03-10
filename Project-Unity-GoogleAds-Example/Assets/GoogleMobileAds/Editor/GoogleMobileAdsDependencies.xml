@@ -5,6 +5,13 @@
         <repository>https://maven.google.com/</repository>
       </repositories>
     </androidPackage>
+    <!-- copybara:strip_begin -->
+    <androidPackage spec="com.google.code.gson:gson:2.8.5">
+      <repositories>
+        <repository>https://maven.google.com/</repository>
+      </repositories>
+    </androidPackage>
+    <!-- copybara:strip_end -->
   </androidPackages>
 
   <iosPods>

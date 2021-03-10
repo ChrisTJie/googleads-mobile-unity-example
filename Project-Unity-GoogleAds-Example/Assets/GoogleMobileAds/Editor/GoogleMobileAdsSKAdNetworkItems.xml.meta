@@ -1,7 +1,12 @@
 fileFormatVersion: 2
 guid: 1b220ee54ad7045739e3375f260c2f07
+labels:
+- gvh
+- gvh_version-5.4.0.90
+- gvhp_exportpath-GoogleMobileAds/Editor/GoogleMobileAdsSKAdNetworkItems.xml
+timeCreated: 1480838400
 TextScriptImporter:
   externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  userData:
+  assetBundleName:
+  assetBundleVariant:
