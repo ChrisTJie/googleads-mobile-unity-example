@@ -30,7 +30,7 @@ public class Ads : MonoBehaviour
 
     [SerializeField] private bool _TestMode;
     // Test device ID.
-    [SerializeField] private List<string> _DeviceIDs = new List<string>();
+    private List<string> _DeviceIDs = new List<string>();
 
     private BannerView _BannerView;
     private InterstitialAd _InterstitialAd;
