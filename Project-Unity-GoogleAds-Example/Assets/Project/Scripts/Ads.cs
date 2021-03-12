@@ -7,65 +7,97 @@ using UnityEngine.UI;
 
 public class Ads : MonoBehaviour
 {
+    public enum Mode
+    {
+        Enable,
+        Disable
+    }
+    public Mode _Mode;
+
     // Ad units.
-#if UNITY_ANDROID
-    private const string _BannerID = "ca-app-pub-6569373569137925/2194855636";
-    private const string _InterstitialID = "ca-app-pub-6569373569137925/9139537939";
-    private const string _RewardedID = "ca-app-pub-6569373569137925/8947966245";
-    private const string _RewardedInterstitialID = "ca-app-pub-6569373569137925/5200292928";
-    private const string _NativeID = "ca-app-pub-6569373569137925/3151702326";
-#elif UNITY_IOS
-    private const string _BannerID = "ca-app-pub-6569373569137925/2190986208";
-    private const string _InterstitialID = "ca-app-pub-6569373569137925/9877904538";
-    private const string _RewardedID = "ca-app-pub-6569373569137925/1999414514";
-    private const string _RewardedInterstitialID = "ca-app-pub-6569373569137925/5938659526";
-    private const string _NativeID = "ca-app-pub-6569373569137925/7060169505";
-#else
+    public string _Android_BannerID = "ca-app-pub-6569373569137925/2194855636";
+    public string _Android_InterstitialID = "ca-app-pub-6569373569137925/9139537939";
+    public string _Android_RewardedID = "ca-app-pub-6569373569137925/8947966245";
+    public string _Android_RewardedInterstitialID = "ca-app-pub-6569373569137925/5200292928";
+    public string _Android_NativeID = "ca-app-pub-6569373569137925/3151702326";
+    public string _IOS_BannerID = "ca-app-pub-6569373569137925/2190986208";
+    public string _IOS_InterstitialID = "ca-app-pub-6569373569137925/9877904538";
+    public string _IOS_RewardedID = "ca-app-pub-6569373569137925/1999414514";
+    public string _IOS_RewardedInterstitialID = "ca-app-pub-6569373569137925/5938659526";
+    public string _IOS_NativeID = "ca-app-pub-6569373569137925/7060169505";
     private const string _BannerID = "unexpected_platform";
     private const string _InterstitialID = "unexpected_platform";
     private const string _RewardedID = "unexpected_platform";
     private const string _RewardedInterstitialID = "unexpected_platform";
     private const string _NativeID = "unexpected_platform";
-#endif
 
-    [SerializeField] private bool _TestMode;
+    public bool _AutoInitialize;
+    public bool _TestMode;
     // Test device ID.
     private List<string> _DeviceIDs = new List<string>();
+    public bool _EnableBanner;
+    public bool _EnableInterstitial;
+    public bool _EnableRewarded;
+    public bool _EnableRewardedInterstitial;
+    public bool _EnableNative;
 
     private BannerView _BannerView;
+    public enum BannerAdSize
+    {
+        Banner,
+        IABBanner,
+        Leaderboard,
+        MediumRectangle,
+        SmartBanner
+    }
+    public BannerAdSize _BannerAdSize;
+    private AdSize _AdSize
+    {
+        get
+        {
+            switch (_BannerAdSize)
+            {
+                case BannerAdSize.Banner:
+                    return AdSize.Banner;
+                case BannerAdSize.IABBanner:
+                    return AdSize.IABBanner;
+                case BannerAdSize.Leaderboard:
+                    return AdSize.Leaderboard;
+                case BannerAdSize.MediumRectangle:
+                    return AdSize.MediumRectangle;
+                case BannerAdSize.SmartBanner:
+                    return AdSize.SmartBanner;
+                default:
+                    return AdSize.Banner;
+            }
+        }
+    }
+    public AdPosition _AdPosition;
     private InterstitialAd _InterstitialAd;
     private RewardedAd _RewardedAd;
     private RewardedInterstitialAd _RewardedInterstitialAd;
     private UnifiedNativeAd _UnifiedNativeAd;
 
-    [SerializeField] private RawImage _Native_Icon;
-    [SerializeField] private RawImage _Native_ChoicesIcon;
-    [SerializeField] private Text _Native_Headline;
-    [SerializeField] private Text _Native_CallToAction;
-    [SerializeField] private Text _Native_Advertiser;
+    public RawImage _Native_Icon;
+    public RawImage _Native_ChoicesIcon;
+    public Text _Native_Headline;
+    public Text _Native_Body;
+    public Text _Native_CallToAction;
+    public Text _Native_Advertiser;
 
     private void Start()
     {
+        if (!_AutoInitialize) return;
+
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(_init_status => { });
-
         SetTestDeviceIds();
-
         Invoke("Request", 5.0f);
     }
 
     private void Update()
     {
         ShowNativeAd();
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-
-        }
     }
 
     private void SetTestDeviceIds()
@@ -122,8 +154,16 @@ public class Ads : MonoBehaviour
 
     private void RequestBanner()
     {
+        if (!_EnableBanner) return;
+
         // Create a 320x50 banner at the top of the screen.
-        _BannerView = new BannerView(_BannerID, AdSize.SmartBanner, AdPosition.Bottom);
+#if UNITY_ANDROID
+        _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
+#elif UNITY_IOS
+        _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition);
+#else
+        _BannerView = new BannerView(_BannerID, _AdSize, _AdPosition);
+#endif
 
         // Called when an ad request has successfully loaded.
         _BannerView.OnAdLoaded += BannerOnAdLoaded;
@@ -167,8 +207,16 @@ public class Ads : MonoBehaviour
 
     private void RequestInterstitial()
     {
+        if (!_EnableInterstitial) return;
+
         // Initialize an InterstitialAd.
+#if UNITY_ANDROID
+        _InterstitialAd = new InterstitialAd(_Android_InterstitialID);
+#elif UNITY_IOS
+        _InterstitialAd = new InterstitialAd(_IOS_InterstitialID);
+#else
         _InterstitialAd = new InterstitialAd(_InterstitialID);
+#endif
 
         // Called when an ad request has successfully loaded.
         _InterstitialAd.OnAdLoaded += InterstitialOnAdLoaded;
@@ -189,6 +237,8 @@ public class Ads : MonoBehaviour
     }
     public void ShowInterstitialAd()
     {
+        if (!_EnableInterstitial) return;
+
         if (_InterstitialAd.IsLoaded())
         {
             _InterstitialAd.Show();
@@ -224,7 +274,15 @@ public class Ads : MonoBehaviour
 
     private void RequestRewarded()
     {
+        if (!_EnableRewarded) return;
+
+#if UNITY_ANDROID
+        _RewardedAd = new RewardedAd(_Android_RewardedID);
+#elif UNITY_IOS
+        _RewardedAd = new RewardedAd(_IOS_RewardedID);
+#else
         _RewardedAd = new RewardedAd(_RewardedID);
+#endif
 
         // Called when an ad request has successfully loaded.
         _RewardedAd.OnAdLoaded += RewardedOnAdLoaded;
@@ -247,6 +305,8 @@ public class Ads : MonoBehaviour
     }
     public void ShowRewardedAd()
     {
+        if (!_EnableRewarded) return;
+
         if (_RewardedAd.IsLoaded())
         {
             _RewardedAd.Show();
@@ -287,13 +347,23 @@ public class Ads : MonoBehaviour
 
     private void RequestRewardedInterstitial()
     {
+        if (!_EnableRewardedInterstitial) return;
+
         // Create an empty ad request.
         AdRequest _ad_request = new AdRequest.Builder().Build();
 
+#if UNITY_ANDROID
+        RewardedInterstitialAd.LoadAd(_Android_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+#elif UNITY_IOS
+        RewardedInterstitialAd.LoadAd(_IOS_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+#else
         RewardedInterstitialAd.LoadAd(_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+#endif
     }
     public void ShowRewardedInterstitialAd()
     {
+        if (!_EnableRewardedInterstitial) return;
+
         if (_RewardedInterstitialAd != null)
         {
             _RewardedInterstitialAd.Show(UserEarnedRewardCallBack);
@@ -339,16 +409,26 @@ public class Ads : MonoBehaviour
 
     private void RequestNative()
     {
+        if (!_EnableNative) return;
+
+#if UNITY_ANDROID
+        AdLoader _ad_loader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
+#elif UNITY_IOS
+        AdLoader _ad_loader = new AdLoader.Builder(_IOS_NativeID).ForUnifiedNativeAd().Build();
+#else
         AdLoader _ad_loader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
+#endif
 
         _ad_loader.OnUnifiedNativeAdLoaded += NativeOnUnifiedNativeAdLoaded;
         _ad_loader.OnAdFailedToLoad += NativeOnAdFailedToLoad;
 
         _ad_loader.LoadAd(new AdRequest.Builder().Build());
     }
-    private bool _UnifiedNativeAdLoaded;
+    private bool _UnifiedNativeAdLoaded = false;
     private void ShowNativeAd()
     {
+        if (!_EnableNative) return;
+
         if (_UnifiedNativeAdLoaded)
         {
             // Get Texture2D for icon asset of native ad.
@@ -356,12 +436,14 @@ public class Ads : MonoBehaviour
             Texture2D _choices_icon = _UnifiedNativeAd.GetAdChoicesLogoTexture();
             // Get string for headline asset of native ad.
             string _headline = _UnifiedNativeAd.GetHeadlineText();
+            string _body = _UnifiedNativeAd.GetBodyText();
             string _call_to_action = _UnifiedNativeAd.GetCallToActionText();
             string _advertiser = _UnifiedNativeAd.GetAdvertiserText();
 
             _Native_Icon.texture = _icon;
             _Native_ChoicesIcon.texture = _choices_icon;
             _Native_Headline.text = _headline;
+            _Native_Body.text = _body;
             _Native_CallToAction.text = _call_to_action;
             _Native_Advertiser.text = _advertiser;
 
@@ -369,6 +451,7 @@ public class Ads : MonoBehaviour
             _UnifiedNativeAd.RegisterIconImageGameObject(_Native_Icon.gameObject);
             _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_Native_ChoicesIcon.gameObject);
             _UnifiedNativeAd.RegisterHeadlineTextGameObject(_Native_Headline.gameObject);
+            _UnifiedNativeAd.RegisterBodyTextGameObject(_Native_Body.gameObject);
             _UnifiedNativeAd.RegisterCallToActionGameObject(_Native_CallToAction.gameObject);
             _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_Native_Advertiser.gameObject);
 
