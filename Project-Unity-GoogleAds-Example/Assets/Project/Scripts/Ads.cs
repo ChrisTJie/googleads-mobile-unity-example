@@ -32,6 +32,8 @@ public class Ads : MonoBehaviour
     private const string _NativeID = "unexpected_platform";
 
     public bool _AutoInitialize;
+    public bool _AutoAdRequest;
+    public float _AdRequestTime;
     public bool _TestMode;
     // Test device ID.
     private List<string> _DeviceIDs = new List<string>();
@@ -78,6 +80,12 @@ public class Ads : MonoBehaviour
     private RewardedInterstitialAd _RewardedInterstitialAd;
     private UnifiedNativeAd _UnifiedNativeAd;
 
+    private bool _BannerLoaded;
+    private bool _InterstitialLoaded;
+    private bool _RewardedLoaded;
+    private bool _RewardedInterstitialLoaded;
+    private bool _NativeLoaded;
+
     public RawImage _Native_Icon;
     public RawImage _Native_ChoicesIcon;
     public Text _Native_Headline;
@@ -91,8 +99,21 @@ public class Ads : MonoBehaviour
 
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(_init_status => { });
+        StartCoroutine(AutoAdRequest(_AdRequestTime));
         SetTestDeviceIds();
         Invoke("Request", 5.0f);
+    }
+
+    private IEnumerator AutoAdRequest(float _delay)
+    {
+        if (!_AutoAdRequest) yield break;
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+            Debug.Log("Ad checking.");
+            Request();
+            yield return new WaitForSecondsRealtime(_delay);
+        }
     }
 
     private void Update()
@@ -156,6 +177,8 @@ public class Ads : MonoBehaviour
     {
         if (!_EnableBanner) return;
 
+        if (_BannerLoaded) return;
+
         // Create a 320x50 banner at the top of the screen.
 #if UNITY_ANDROID
         _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
@@ -185,10 +208,12 @@ public class Ads : MonoBehaviour
     private void BannerOnAdLoaded(object _sender, EventArgs _args)
     {
         Debug.Log("BannerOnAdLoaded event received.");
+        _BannerLoaded = true;
     }
     private void BannerOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
     {
         Debug.LogWarningFormat("BannerOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        _BannerLoaded = false;
     }
     private void BannerOnAdOpening(object _sender, EventArgs _args)
     {
@@ -203,11 +228,18 @@ public class Ads : MonoBehaviour
         Debug.Log("BannerOnAdLeavingApplication event received.");
     }
     private void BannerViewHide() => _BannerView.Hide();
-    private void BannerViewDestroy() => _BannerView.Destroy();
+    private void BannerViewDestroy()
+    {
+        _BannerView.Destroy();
+        _BannerLoaded = false;
+        Debug.LogWarning("Banner Destroyed.");
+    }
 
     private void RequestInterstitial()
     {
         if (!_EnableInterstitial) return;
+
+        if (_InterstitialLoaded) return;
 
         // Initialize an InterstitialAd.
 #if UNITY_ANDROID
@@ -252,10 +284,12 @@ public class Ads : MonoBehaviour
     private void InterstitialOnAdLoaded(object _sender, EventArgs _args)
     {
         Debug.Log("InterstitialOnAdLoaded event received.");
+        _InterstitialLoaded = true;
     }
     private void InterstitialOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
     {
         Debug.LogWarningFormat("InterstitialOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        _InterstitialLoaded = false;
     }
     private void InterstitialOnAdOpening(object _sender, EventArgs _args)
     {
@@ -264,17 +298,25 @@ public class Ads : MonoBehaviour
     private void InterstitialOnAdClosed(object _sender, EventArgs _args)
     {
         Debug.Log("InterstitialOnAdClosed event received.");
+        _InterstitialLoaded = false;
         RequestInterstitial();
     }
     private void InterstitialOnAdLeavingApplication(object _sender, EventArgs _args)
     {
         Debug.Log("InterstitialOnAdLeavingApplication event received.");
     }
-    private void InterstitialAdDestroy() => _InterstitialAd.Destroy();
+    private void InterstitialAdDestroy()
+    {
+        _InterstitialAd.Destroy();
+        _InterstitialLoaded = false;
+        Debug.LogWarning("Interstitial Destroyed.");
+    }
 
     private void RequestRewarded()
     {
         if (!_EnableRewarded) return;
+
+        if (_RewardedLoaded) return;
 
 #if UNITY_ANDROID
         _RewardedAd = new RewardedAd(_Android_RewardedID);
@@ -320,10 +362,12 @@ public class Ads : MonoBehaviour
     private void RewardedOnAdLoaded(object _sender, EventArgs _args)
     {
         Debug.Log("RewardedOnAdLoaded event received.");
+        _RewardedLoaded = true;
     }
     private void RewardedOnAdFailedToLoad(object _sender, AdErrorEventArgs _args)
     {
         Debug.LogWarningFormat("RewardedOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        _RewardedLoaded = false;
     }
     private void RewardedOnAdOpening(object _sender, EventArgs _args)
     {
@@ -336,6 +380,7 @@ public class Ads : MonoBehaviour
     private void RewardedOnAdClosed(object _sender, EventArgs _args)
     {
         Debug.Log("RewardedOnAdClosed event received.");
+        _RewardedLoaded = false;
         RequestRewarded();
     }
     private void RewardedOnUserEarnedReward(object _sender, Reward _args)
@@ -348,6 +393,8 @@ public class Ads : MonoBehaviour
     private void RequestRewardedInterstitial()
     {
         if (!_EnableRewardedInterstitial) return;
+
+        if (_RewardedInterstitialLoaded) return;
 
         // Create an empty ad request.
         AdRequest _ad_request = new AdRequest.Builder().Build();
@@ -383,6 +430,8 @@ public class Ads : MonoBehaviour
             _RewardedInterstitialAd.OnAdDidPresentFullScreenContent += RewardedInterstitialOnAdDidPresentFullScreenContent;
             _RewardedInterstitialAd.OnAdDidDismissFullScreenContent += RewardedInterstitialOnAdDidDismissFullScreenContent;
             _RewardedInterstitialAd.OnPaidEvent += RewardedInterstitialOnPaidEvent;
+
+            _RewardedInterstitialLoaded = true;
         }
     }
     private void UserEarnedRewardCallBack(Reward _reward)
@@ -392,6 +441,7 @@ public class Ads : MonoBehaviour
     private void RewardedInterstitialOnAdFailedToPresentFullScreenContent(object _sender, AdErrorEventArgs _args)
     {
         Debug.LogWarning("RewardedInterstitialOnAdFailedToPresentFullScreenContent has failed to present.");
+        _RewardedInterstitialLoaded = false;
     }
     private void RewardedInterstitialOnAdDidPresentFullScreenContent(object _sender, EventArgs _args)
     {
@@ -400,6 +450,7 @@ public class Ads : MonoBehaviour
     private void RewardedInterstitialOnAdDidDismissFullScreenContent(object _sender, EventArgs _args)
     {
         Debug.Log("RewardedInterstitialOnAdDidDismissFullScreenContent has dismissed presentation.");
+        _RewardedInterstitialLoaded = false;
         RequestRewardedInterstitial();
     }
     private void RewardedInterstitialOnPaidEvent(object _sender, AdValueEventArgs _args)
@@ -410,6 +461,9 @@ public class Ads : MonoBehaviour
     private void RequestNative()
     {
         if (!_EnableNative) return;
+
+        _NativeLoaded = _UnifiedNativeAdLoaded;
+        if (_NativeLoaded) return;
 
 #if UNITY_ANDROID
         AdLoader _ad_loader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();

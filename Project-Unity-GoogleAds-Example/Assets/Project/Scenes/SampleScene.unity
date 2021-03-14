@@ -2114,6 +2114,8 @@ MonoBehaviour:
   _IOS_RewardedInterstitialID: ca-app-pub-6569373569137925/5938659526
   _IOS_NativeID: ca-app-pub-6569373569137925/7060169505
   _AutoInitialize: 1
+  _AutoAdRequest: 1
+  _AdRequestTime: 1
   _TestMode: 1
   _EnableBanner: 1
   _EnableInterstitial: 1
