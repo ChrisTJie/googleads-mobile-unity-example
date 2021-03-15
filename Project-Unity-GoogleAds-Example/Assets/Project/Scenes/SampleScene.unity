@@ -2114,14 +2114,14 @@ MonoBehaviour:
   _IOS_RewardedInterstitialID: ca-app-pub-6569373569137925/5938659526
   _IOS_NativeID: ca-app-pub-6569373569137925/7060169505
   _AutoInitialize: 1
-  _AutoAdRequest: 1
-  _AdRequestTime: 1
   _TestMode: 1
+  _AutoAdRequest: 1
+  _AdRequestTime: 0
   _EnableBanner: 1
-  _EnableInterstitial: 1
-  _EnableRewarded: 1
-  _EnableRewardedInterstitial: 1
-  _EnableNative: 1
+  _EnableInterstitial: 0
+  _EnableRewarded: 0
+  _EnableRewardedInterstitial: 0
+  _EnableNative: 0
   _BannerAdSize: 4
   _AdPosition: 1
   _Native_Icon: {fileID: 241465913}

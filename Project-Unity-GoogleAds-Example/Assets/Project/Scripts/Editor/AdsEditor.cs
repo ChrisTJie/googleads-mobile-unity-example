@@ -30,14 +30,14 @@ public class AdsEditor : Editor
             if (_ads._AutoInitialize)
             {
                 EditorGUILayout.Space(25);
+                _ads._TestMode = EditorGUILayout.Toggle("Test Mode", _ads._TestMode);
+                EditorGUILayout.Space(25);
                 _ads._AutoAdRequest = EditorGUILayout.Toggle("Auto Ad Request", _ads._AutoAdRequest);
                 if (_ads._AutoAdRequest)
                 {
                     EditorGUILayout.LabelField("The recommended ad request minimum value is 5.");
                     _ads._AdRequestTime = EditorGUILayout.FloatField("Ad Request Time", _ads._AdRequestTime);
                 }
-                EditorGUILayout.Space(25);
-                _ads._TestMode = EditorGUILayout.Toggle("Test Mode", _ads._TestMode);
                 EditorGUILayout.Space(25);
                 _ads._EnableBanner = EditorGUILayout.Toggle("Enable Banner", _ads._EnableBanner);
                 if (_ads._EnableBanner)
