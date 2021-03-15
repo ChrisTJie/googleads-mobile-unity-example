@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Logger = CTJ.Logger;
 
 public class Ads : MonoBehaviour
 {
@@ -129,7 +130,7 @@ public class Ads : MonoBehaviour
 
         foreach (string _device_ids in _DeviceIDs)
         {
-            Debug.LogFormat("Added device ID is: {0}.", _device_ids);
+            Logger.LogFormat("Added test device ID is: {0}.", _device_ids);
         }
 
         RequestConfiguration _request_configuration = new RequestConfiguration.Builder().SetTestDeviceIds(_DeviceIDs).build();
@@ -164,7 +165,7 @@ public class Ads : MonoBehaviour
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(_delay);
 
-            Debug.Log("Ad active checking.");
+            Logger.Log("Ad active checking.");
             Request();
         }
     }
@@ -180,13 +181,13 @@ public class Ads : MonoBehaviour
                 var _context = _act_class.GetStatic<AndroidJavaObject>("currentActivity");
                 var _system_global = new AndroidJavaClass("android.provider.Settings$System");
                 var _test_lab = _system_global.CallStatic<string>("getString", _context.Call<AndroidJavaObject>("getContentResolver"), "firebase.test.lab");
-                Debug.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), _test_lab);
+                Logger.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), _test_lab);
                 return _test_lab == "true";
             }
         }
         catch (Exception _exception)
         {
-            Debug.LogWarning(_exception);
+            Logger.LogWarning(_exception);
             return false;
         }
     }
@@ -194,7 +195,7 @@ public class Ads : MonoBehaviour
 
     private void Request()
     {
-        if (IsTestLab()) { Debug.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), IsTestLab()); return; };
+        if (IsTestLab()) { Logger.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), IsTestLab()); return; };
 
         RequestBanner();
         RequestInterstitial();
@@ -239,37 +240,39 @@ public class Ads : MonoBehaviour
     }
     private void BannerOnAdLoaded(object _sender, EventArgs _args)
     {
-        Debug.Log("BannerOnAdLoaded event received.");
+        Logger.Log("BannerOnAdLoaded event received.");
         _BannerActivated = true;
     }
     private void BannerOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
     {
-        Debug.LogWarningFormat("BannerOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        Logger.LogWarningFormat("BannerOnAdFailedToLoad event received with message: {0}.", _args.Message);
         _BannerActivated = false;
     }
     private void BannerOnAdOpening(object _sender, EventArgs _args)
     {
-        Debug.Log("BannerOnAdOpening event received.");
+        Logger.Log("BannerOnAdOpening event received.");
     }
     private void BannerOnAdClosed(object _sender, EventArgs _args)
     {
-        Debug.Log("BannerOnAdClosed event received.");
+        Logger.Log("BannerOnAdClosed event received.");
     }
     private void BannerOnAdLeavingApplication(object _sender, EventArgs _args)
     {
-        Debug.Log("BannerOnAdLeavingApplication event received.");
+        Logger.Log("BannerOnAdLeavingApplication event received.");
     }
     private void BannerViewHide() => _BannerView.Hide();
     private void BannerViewDestroy()
     {
         _BannerView.Destroy();
-        Debug.LogWarning("Banner Destroyed.");
+        Logger.LogWarning("Banner Destroyed.");
         _BannerActivated = false;
     }
 
     private void RequestInterstitial()
     {
         if (!_EnableInterstitial) return;
+
+        if (_InterstitialAd != null) { if (_InterstitialActivated) return; }
 
         // Initialize an InterstitialAd.
 #if UNITY_ANDROID
@@ -296,6 +299,8 @@ public class Ads : MonoBehaviour
 
         // Load the interstitial with the request.
         _InterstitialAd.LoadAd(_ad_request);
+
+        _InterstitialActivated = true;
     }
     public void ShowInterstitialAd()
     {
@@ -304,43 +309,49 @@ public class Ads : MonoBehaviour
         if (_InterstitialAd.IsLoaded())
         {
             _InterstitialAd.Show();
-            Debug.Log("Displays the InterstitialAd.");
+            Logger.Log("Displays the InterstitialAd.");
         }
         else
         {
-            Debug.LogWarning("InterstitialAd has not loaded yet.");
+            Logger.LogWarning("InterstitialAd has not loaded yet.");
         }
     }
     private void InterstitialOnAdLoaded(object _sender, EventArgs _args)
     {
-        Debug.Log("InterstitialOnAdLoaded event received.");
+        Logger.Log("InterstitialOnAdLoaded event received.");
+        _InterstitialActivated = true;
     }
     private void InterstitialOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
     {
-        Debug.LogWarningFormat("InterstitialOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        Logger.LogWarningFormat("InterstitialOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        _InterstitialActivated = false;
     }
     private void InterstitialOnAdOpening(object _sender, EventArgs _args)
     {
-        Debug.Log("InterstitialOnAdOpening event received.");
+        Logger.Log("InterstitialOnAdOpening event received.");
     }
     private void InterstitialOnAdClosed(object _sender, EventArgs _args)
     {
-        Debug.Log("InterstitialOnAdClosed event received.");
+        Logger.Log("InterstitialOnAdClosed event received.");
+        _InterstitialActivated = false;
         RequestInterstitial();
     }
     private void InterstitialOnAdLeavingApplication(object _sender, EventArgs _args)
     {
-        Debug.Log("InterstitialOnAdLeavingApplication event received.");
+        Logger.Log("InterstitialOnAdLeavingApplication event received.");
     }
     private void InterstitialAdDestroy()
     {
         _InterstitialAd.Destroy();
-        Debug.LogWarning("Interstitial Destroyed.");
+        Logger.LogWarning("Interstitial Destroyed.");
+        _InterstitialActivated = false;
     }
 
     private void RequestRewarded()
     {
         if (!_EnableRewarded) return;
+
+        if (_RewardedAd != null) { if (_RewardedActivated) return; }
 
 #if UNITY_ANDROID
         _RewardedAd = new RewardedAd(_Android_RewardedID);
@@ -368,6 +379,8 @@ public class Ads : MonoBehaviour
 
         // Load the rewarded ad with the request.
         _RewardedAd.LoadAd(_ad_request);
+
+        _RewardedActivated = true;
     }
     public void ShowRewardedAd()
     {
@@ -376,44 +389,49 @@ public class Ads : MonoBehaviour
         if (_RewardedAd.IsLoaded())
         {
             _RewardedAd.Show();
-            Debug.Log("Displays the RewardedAd.");
+            Logger.Log("Displays the RewardedAd.");
         }
         else
         {
-            Debug.LogWarning("RewardedAd has not loaded yet.");
+            Logger.LogWarning("RewardedAd has not loaded yet.");
         }
     }
     private void RewardedOnAdLoaded(object _sender, EventArgs _args)
     {
-        Debug.Log("RewardedOnAdLoaded event received.");
+        Logger.Log("RewardedOnAdLoaded event received.");
+        _RewardedActivated = true;
     }
     private void RewardedOnAdFailedToLoad(object _sender, AdErrorEventArgs _args)
     {
-        Debug.LogWarningFormat("RewardedOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        Logger.LogWarningFormat("RewardedOnAdFailedToLoad event received with message: {0}.", _args.Message);
+        _RewardedActivated = false;
     }
     private void RewardedOnAdOpening(object _sender, EventArgs _args)
     {
-        Debug.Log("RewardedOnAdOpening event received.");
+        Logger.Log("RewardedOnAdOpening event received.");
     }
     private void RewardedOnAdFailedToShow(object _sender, AdErrorEventArgs _args)
     {
-        Debug.LogWarningFormat("RewardedOnAdFailedToShow event received with message: {0}.", _args.Message);
+        Logger.LogWarningFormat("RewardedOnAdFailedToShow event received with message: {0}.", _args.Message);
     }
     private void RewardedOnAdClosed(object _sender, EventArgs _args)
     {
-        Debug.Log("RewardedOnAdClosed event received.");
+        Logger.Log("RewardedOnAdClosed event received.");
+        _RewardedActivated = false;
         RequestRewarded();
     }
     private void RewardedOnUserEarnedReward(object _sender, Reward _args)
     {
         string _type = _args.Type;
         double _amount = _args.Amount;
-        Debug.LogFormat("RewardedOnUserEarnedReward event received for {0} {1}.", _amount.ToString(), _type);
+        Logger.LogFormat("RewardedOnUserEarnedReward event received for {0} {1}.", _amount.ToString(), _type);
     }
 
     private void RequestRewardedInterstitial()
     {
         if (!_EnableRewardedInterstitial) return;
+
+        if (_RewardedInterstitialAd != null) { if (_RewardedInterstitialActivated) return; }
 
         // Create an empty ad request.
         AdRequest _ad_request = new AdRequest.Builder().Build();
@@ -425,6 +443,8 @@ public class Ads : MonoBehaviour
 #else
         RewardedInterstitialAd.LoadAd(_RewardedInterstitialID, _ad_request, AdLoadCallBack);
 #endif
+
+        _RewardedInterstitialActivated = true;
     }
     public void ShowRewardedInterstitialAd()
     {
@@ -436,7 +456,7 @@ public class Ads : MonoBehaviour
         }
         else
         {
-            Debug.LogWarningFormat("{0} is Null.", nameof(_RewardedInterstitialAd));
+            Logger.LogWarningFormat("{0} is Null.", nameof(_RewardedInterstitialAd));
         }
     }
     private void AdLoadCallBack(RewardedInterstitialAd _rewarded_interstitial_ad, string _error)
@@ -453,29 +473,32 @@ public class Ads : MonoBehaviour
     }
     private void UserEarnedRewardCallBack(Reward _reward)
     {
-        Debug.Log("TODO: Reward the user.");
+        Logger.Log("TODO: Reward the user.");
     }
     private void RewardedInterstitialOnAdFailedToPresentFullScreenContent(object _sender, AdErrorEventArgs _args)
     {
-        Debug.LogWarning("RewardedInterstitialOnAdFailedToPresentFullScreenContent has failed to present.");
+        Logger.LogWarning("RewardedInterstitialOnAdFailedToPresentFullScreenContent has failed to present.");
+        _RewardedInterstitialActivated = false;
     }
     private void RewardedInterstitialOnAdDidPresentFullScreenContent(object _sender, EventArgs _args)
     {
-        Debug.Log("RewardedInterstitialOnAdDidPresentFullScreenContent has presented.");
+        Logger.Log("RewardedInterstitialOnAdDidPresentFullScreenContent has presented.");
     }
     private void RewardedInterstitialOnAdDidDismissFullScreenContent(object _sender, EventArgs _args)
     {
-        Debug.Log("RewardedInterstitialOnAdDidDismissFullScreenContent has dismissed presentation.");
+        Logger.Log("RewardedInterstitialOnAdDidDismissFullScreenContent has dismissed presentation.");
         RequestRewardedInterstitial();
     }
     private void RewardedInterstitialOnPaidEvent(object _sender, AdValueEventArgs _args)
     {
-        Debug.Log("RewardedInterstitialOnPaidEvent has received a paid event.");
+        Logger.Log("RewardedInterstitialOnPaidEvent has received a paid event.");
     }
 
     private void RequestNative()
     {
         if (!_EnableNative) return;
+
+        if (_UnifiedNativeAd != null) { if (_NativeActivated) return; }
 
 #if UNITY_ANDROID
         AdLoader _ad_loader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
@@ -489,6 +512,8 @@ public class Ads : MonoBehaviour
         _ad_loader.OnAdFailedToLoad += NativeOnAdFailedToLoad;
 
         _ad_loader.LoadAd(new AdRequest.Builder().Build());
+
+        _NativeActivated = true;
     }
     private bool _UnifiedNativeAdLoaded = false;
     private void ShowNativeAd()
@@ -526,12 +551,15 @@ public class Ads : MonoBehaviour
     }
     private void NativeOnUnifiedNativeAdLoaded(object _sender, UnifiedNativeAdEventArgs _args)
     {
-        Debug.Log("NativeOnUnifiedNativeAdLoaded loaded.");
+        Logger.Log("NativeOnUnifiedNativeAdLoaded loaded.");
         _UnifiedNativeAd = _args.nativeAd;
         _UnifiedNativeAdLoaded = true;
+        _NativeActivated = true;
     }
     private void NativeOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
     {
-        Debug.LogWarningFormat("NativeOnAdFailedToLoad failed to load: {0}.", _args.Message);
+        Logger.LogWarningFormat("NativeOnAdFailedToLoad failed to load: {0}.", _args.Message);
+        _UnifiedNativeAdLoaded = false;
+        _NativeActivated = false;
     }
 }

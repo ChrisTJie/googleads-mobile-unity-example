@@ -35,7 +35,7 @@ public class AdsEditor : Editor
                 _ads._AutoAdRequest = EditorGUILayout.Toggle("Auto Ad Request", _ads._AutoAdRequest);
                 if (_ads._AutoAdRequest)
                 {
-                    EditorGUILayout.LabelField("The recommended ad request minimum value is 5.");
+                    EditorGUILayout.LabelField("Warning! The minimum value is not less than 5.");
                     _ads._AdRequestTime = EditorGUILayout.FloatField("Ad Request Time", _ads._AdRequestTime);
                 }
                 EditorGUILayout.Space(25);
