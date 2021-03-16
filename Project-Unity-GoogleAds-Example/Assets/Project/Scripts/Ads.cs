@@ -17,25 +17,37 @@ public class Ads : MonoBehaviour
     public Mode _Mode;
 
     // Ad units.
-    public string _Android_BannerID = "ca-app-pub-6569373569137925/2194855636";
-    public string _Android_InterstitialID = "ca-app-pub-6569373569137925/9139537939";
-    public string _Android_RewardedID = "ca-app-pub-6569373569137925/8947966245";
-    public string _Android_RewardedInterstitialID = "ca-app-pub-6569373569137925/5200292928";
-    public string _Android_NativeID = "ca-app-pub-6569373569137925/3151702326";
-    public string _IOS_BannerID = "ca-app-pub-6569373569137925/2190986208";
-    public string _IOS_InterstitialID = "ca-app-pub-6569373569137925/9877904538";
-    public string _IOS_RewardedID = "ca-app-pub-6569373569137925/1999414514";
-    public string _IOS_RewardedInterstitialID = "ca-app-pub-6569373569137925/5938659526";
-    public string _IOS_NativeID = "ca-app-pub-6569373569137925/7060169505";
+    public string _Android_BannerID;
+    public string _Android_InterstitialID;
+    public string _Android_RewardedID;
+    public string _Android_RewardedInterstitialID;
+    public string _Android_NativeID;
+    public string _IOS_BannerID;
+    public string _IOS_InterstitialID;
+    public string _IOS_RewardedID;
+    public string _IOS_RewardedInterstitialID;
+    public string _IOS_NativeID;
     private const string _BannerID = "unexpected_platform";
     private const string _InterstitialID = "unexpected_platform";
     private const string _RewardedID = "unexpected_platform";
     private const string _RewardedInterstitialID = "unexpected_platform";
     private const string _NativeID = "unexpected_platform";
 
+    // Test Ad units.
+    private const string _Test_Android_BannerID = "ca-app-pub-3940256099942544/6300978111";
+    private const string _Test_Android_InterstitialID = "ca-app-pub-3940256099942544/1033173712";
+    private const string _Test_Android_RewardedID = "ca-app-pub-3940256099942544/5224354917";
+    private const string _Test_Android_RewardedInterstitialID = "ca-app-pub-3940256099942544/5354046379";
+    private const string _Test_Android_NativeID = "ca-app-pub-3940256099942544/2247696110";
+    private const string _Test_IOS_BannerID = "ca-app-pub-3940256099942544/2934735716";
+    private const string _Test_IOS_InterstitialID = "ca-app-pub-3940256099942544/4411468910";
+    private const string _Test_IOS_RewardedID = "ca-app-pub-3940256099942544/1712485313";
+    private const string _Test_IOS_RewardedInterstitialID = "ca-app-pub-3940256099942544/6978759866";
+    private const string _Test_IOS_NativeID = "ca-app-pub-3940256099942544/3986624511";
+
     public bool _AutoInitialize;
     private static bool IsTestLab = false;
-    public bool _TestMode;
+    public bool _TestDeviceMode;
     public bool _AutoAdRequest;
     public float _AdRequestTime;
     // Test device ID.
@@ -46,6 +58,12 @@ public class Ads : MonoBehaviour
     public bool _EnableRewardedInterstitial;
     public bool _EnableNative;
 
+    public bool _EnableTestBanner;
+    public bool _EnableTestInterstitial;
+    public bool _EnableTestRewarded;
+    public bool _EnableTestRewardedInterstitial;
+    public bool _EnableTestNative;
+
     private BannerView _BannerView;
     public enum BannerAdSize
     {
@@ -54,9 +72,11 @@ public class Ads : MonoBehaviour
         Leaderboard,
         MediumRectangle,
         SmartBanner,
-        AdaptiveBanner
+        AdaptiveBanner,
+        Custom
     }
     public BannerAdSize _BannerAdSize;
+    public int _Width, _Height;
     private AdSize _AdSize
     {
         get
@@ -75,6 +95,8 @@ public class Ads : MonoBehaviour
                     return AdSize.SmartBanner;
                 case BannerAdSize.AdaptiveBanner:
                     return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+                case BannerAdSize.Custom:
+                    return new AdSize(_Width, _Height);
                 default:
                     return AdSize.Banner;
             }
@@ -118,7 +140,7 @@ public class Ads : MonoBehaviour
 
     private void SetTestDeviceIds()
     {
-        if (!_TestMode) return;
+        if (!_TestDeviceMode) return;
 
         // Add test device ID.
         _DeviceIDs.Add(AdRequest.TestDeviceSimulator);
@@ -217,11 +239,27 @@ public class Ads : MonoBehaviour
 
         if (_BannerView != null) { if (_BannerActivated) return; }
 
-        // Create a 320x50 banner at the top of the screen.
+        // Create a X banner at the X of the screen.
 #if UNITY_ANDROID
-        _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
+        switch (_EnableTestBanner)
+        {
+            case false:
+                _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
+                break;
+            case true:
+                _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _AdPosition);
+                break;
+        }
 #elif UNITY_IOS
-        _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition);
+        switch (_EnableTestBanner)
+        {
+            case false:
+                _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition);
+                break;
+            case true:
+                _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _AdPosition);
+                break;
+        }
 #else
         _BannerView = new BannerView(_BannerID, _AdSize, _AdPosition);
 #endif
@@ -284,9 +322,25 @@ public class Ads : MonoBehaviour
 
         // Initialize an InterstitialAd.
 #if UNITY_ANDROID
-        _InterstitialAd = new InterstitialAd(_Android_InterstitialID);
+        switch (_EnableTestInterstitial)
+        {
+            case false:
+                _InterstitialAd = new InterstitialAd(_Android_InterstitialID);
+                break;
+            case true:
+                _InterstitialAd = new InterstitialAd(_Test_Android_InterstitialID);
+                break;
+        }
 #elif UNITY_IOS
-        _InterstitialAd = new InterstitialAd(_IOS_InterstitialID);
+        switch (_EnableTestInterstitial)
+        {
+            case false:
+                _InterstitialAd = new InterstitialAd(_IOS_InterstitialID);
+                break;
+            case true:
+                _InterstitialAd = new InterstitialAd(_Test_IOS_InterstitialID);
+                break;
+        }
 #else
         _InterstitialAd = new InterstitialAd(_InterstitialID);
 #endif
@@ -365,9 +419,25 @@ public class Ads : MonoBehaviour
         if (_RewardedAd != null) { if (_RewardedActivated) return; }
 
 #if UNITY_ANDROID
-        _RewardedAd = new RewardedAd(_Android_RewardedID);
+        switch (_EnableTestRewarded)
+        {
+            case false:
+                _RewardedAd = new RewardedAd(_Android_RewardedID);
+                break;
+            case true:
+                _RewardedAd = new RewardedAd(_Test_Android_RewardedID);
+                break;
+        }
 #elif UNITY_IOS
-        _RewardedAd = new RewardedAd(_IOS_RewardedID);
+        switch (_EnableTestRewarded)
+        {
+            case false:
+                _RewardedAd = new RewardedAd(_IOS_RewardedID);
+                break;
+            case true:
+                _RewardedAd = new RewardedAd(_Test_IOS_RewardedID);
+                break;
+        }
 #else
         _RewardedAd = new RewardedAd(_RewardedID);
 #endif
@@ -451,9 +521,25 @@ public class Ads : MonoBehaviour
         AdRequest _ad_request = new AdRequest.Builder().Build();
 
 #if UNITY_ANDROID
-        RewardedInterstitialAd.LoadAd(_Android_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+        switch (_EnableTestRewardedInterstitial)
+        {
+            case false:
+                RewardedInterstitialAd.LoadAd(_Android_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                break;
+            case true:
+                RewardedInterstitialAd.LoadAd(_Test_Android_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                break;
+        }
 #elif UNITY_IOS
-        RewardedInterstitialAd.LoadAd(_IOS_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+        switch (_EnableTestRewardedInterstitial)
+        {
+            case false:
+                RewardedInterstitialAd.LoadAd(_IOS_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                break;
+            case true:
+                RewardedInterstitialAd.LoadAd(_Test_IOS_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                break;
+        }
 #else
         RewardedInterstitialAd.LoadAd(_RewardedInterstitialID, _ad_request, AdLoadCallBack);
 #endif
@@ -516,12 +602,29 @@ public class Ads : MonoBehaviour
 
         if (_UnifiedNativeAd != null) { if (_NativeActivated) return; }
 
+        AdLoader _ad_loader;
 #if UNITY_ANDROID
-        AdLoader _ad_loader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
+        switch (_EnableTestNative)
+        {
+            case false:
+                _ad_loader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
+                break;
+            case true:
+                _ad_loader = new AdLoader.Builder(_Test_Android_NativeID).ForUnifiedNativeAd().Build();
+                break;
+        }
 #elif UNITY_IOS
-        AdLoader _ad_loader = new AdLoader.Builder(_IOS_NativeID).ForUnifiedNativeAd().Build();
+        switch (_EnableTestNative)
+        {
+            case false:
+                _ad_loader = new AdLoader.Builder(_IOS_NativeID).ForUnifiedNativeAd().Build();
+                break;
+            case true:
+                _ad_loader = new AdLoader.Builder(_Test_IOS_NativeID).ForUnifiedNativeAd().Build();
+                break;
+        }
 #else
-        AdLoader _ad_loader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
+        _ad_loader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
 #endif
 
         _ad_loader.OnUnifiedNativeAdLoaded += NativeOnUnifiedNativeAdLoaded;
