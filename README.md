@@ -1,6 +1,6 @@
 # Project-Unity-GoogleAds-Example
  
-Unity 2019.4.22f1
+Unity 2020.3.0f1
 
 External Dependency Manager for Unity 1.2.164
 
