@@ -649,6 +649,13 @@ public class Ads : MonoBehaviour
             string _body = _UnifiedNativeAd.GetBodyText();
             string _call_to_action = _UnifiedNativeAd.GetCallToActionText();
             string _advertiser = _UnifiedNativeAd.GetAdvertiserText();
+            List<Texture2D> _image = _UnifiedNativeAd.GetImageTextures();
+            string _price = _UnifiedNativeAd.GetPrice();
+            string _store = _UnifiedNativeAd.GetStore();
+            _UnifiedNativeAd.GetHashCode();
+            _UnifiedNativeAd.GetResponseInfo();
+            _UnifiedNativeAd.GetStarRating();
+            _UnifiedNativeAd.GetType();
 
             _Native_Icon.texture = _icon;
             _Native_ChoicesIcon.texture = _choices_icon;
@@ -664,6 +671,9 @@ public class Ads : MonoBehaviour
             _UnifiedNativeAd.RegisterBodyTextGameObject(_Native_Body.gameObject);
             _UnifiedNativeAd.RegisterCallToActionGameObject(_Native_CallToAction.gameObject);
             _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_Native_Advertiser.gameObject);
+            //_UnifiedNativeAd.RegisterImageGameObjects();
+            //_UnifiedNativeAd.RegisterPriceGameObject();
+            //_UnifiedNativeAd.RegisterStoreGameObject();
 
             _UnifiedNativeAdLoaded = false;
         }
