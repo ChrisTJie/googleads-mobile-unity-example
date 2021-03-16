@@ -34,6 +34,7 @@ public class Ads : MonoBehaviour
     private const string _NativeID = "unexpected_platform";
 
     public bool _AutoInitialize;
+    private static bool IsTestLab = false;
     public bool _TestMode;
     public bool _AutoAdRequest;
     public float _AdRequestTime;
@@ -52,7 +53,8 @@ public class Ads : MonoBehaviour
         IABBanner,
         Leaderboard,
         MediumRectangle,
-        SmartBanner
+        SmartBanner,
+        AdaptiveBanner
     }
     public BannerAdSize _BannerAdSize;
     private AdSize _AdSize
@@ -71,6 +73,8 @@ public class Ads : MonoBehaviour
                     return AdSize.MediumRectangle;
                 case BannerAdSize.SmartBanner:
                     return AdSize.SmartBanner;
+                case BannerAdSize.AdaptiveBanner:
+                    return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
                 default:
                     return AdSize.Banner;
             }
@@ -95,7 +99,6 @@ public class Ads : MonoBehaviour
     public Text _Native_CallToAction;
     public Text _Native_Advertiser;
 
-
     private void Start()
     {
         if (!_AutoInitialize) return;
@@ -103,6 +106,7 @@ public class Ads : MonoBehaviour
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(_init_status => { });
         SetTestDeviceIds();
+        TestLab();
         StartCoroutine(AutoAdRequest(_AdRequestTime));
         if (!_AutoAdRequest) Invoke("Request", 5.0f);
     }
@@ -172,7 +176,7 @@ public class Ads : MonoBehaviour
 
 #if UNITY_ANDROID
     // Detect Google Play pre-launch report.
-    private static bool IsTestLab()
+    private static void TestLab()
     {
         try
         {
@@ -181,21 +185,24 @@ public class Ads : MonoBehaviour
                 var _context = _act_class.GetStatic<AndroidJavaObject>("currentActivity");
                 var _system_global = new AndroidJavaClass("android.provider.Settings$System");
                 var _test_lab = _system_global.CallStatic<string>("getString", _context.Call<AndroidJavaObject>("getContentResolver"), "firebase.test.lab");
-                Logger.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), _test_lab);
-                return _test_lab == "true";
+                IsTestLab = _test_lab == "true";
             }
         }
         catch (Exception _exception)
         {
-            Logger.LogWarning(_exception);
-            return false;
+            Logger.LogWarningFormat("{0}: {1}.", nameof(TestLab), _exception);
+            IsTestLab = false;
+        }
+        finally
+        {
+            Logger.LogWarningFormat("{0}: {1}.", nameof(TestLab), IsTestLab);
         }
     }
 #endif
 
     private void Request()
     {
-        if (IsTestLab()) { Logger.LogWarningFormat("{0}: {1}.", nameof(IsTestLab), IsTestLab()); return; };
+        if (IsTestLab) { Logger.LogWarningFormat("{0}: {1}.", nameof(TestLab), IsTestLab); return; };
 
         RequestBanner();
         RequestInterstitial();
@@ -241,6 +248,7 @@ public class Ads : MonoBehaviour
     private void BannerOnAdLoaded(object _sender, EventArgs _args)
     {
         Logger.Log("BannerOnAdLoaded event received.");
+        Logger.LogFormat("Banner Ad Height: {0}. Width: {1}.", _BannerView.GetHeightInPixels(), _BannerView.GetWidthInPixels());
         _BannerActivated = true;
     }
     private void BannerOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
@@ -306,10 +314,13 @@ public class Ads : MonoBehaviour
     {
         if (!_EnableInterstitial) return;
 
+        if (_InterstitialAd == null) { Logger.LogWarningFormat("{0}: {1}.", nameof(_InterstitialAd), _InterstitialAd); return; }
+
         if (_InterstitialAd.IsLoaded())
         {
             _InterstitialAd.Show();
-            Logger.Log("Displays the InterstitialAd.");
+            Logger.Log("Displays the Interstitial Ad.");
+            return;
         }
         else
         {
@@ -386,10 +397,13 @@ public class Ads : MonoBehaviour
     {
         if (!_EnableRewarded) return;
 
+        if (_RewardedAd == null) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RewardedAd), _RewardedAd); return; }
+
         if (_RewardedAd.IsLoaded())
         {
             _RewardedAd.Show();
-            Logger.Log("Displays the RewardedAd.");
+            Logger.Log("Displays the Rewarded Ad.");
+            return;
         }
         else
         {
@@ -453,10 +467,12 @@ public class Ads : MonoBehaviour
         if (_RewardedInterstitialAd != null)
         {
             _RewardedInterstitialAd.Show(UserEarnedRewardCallBack);
+            Logger.Log("Displays the Rewarded Interstitial Ad.");
+            return;
         }
         else
         {
-            Logger.LogWarningFormat("{0} is Null.", nameof(_RewardedInterstitialAd));
+            Logger.LogWarningFormat("{0}: {1}.", nameof(_RewardedInterstitialAd), _RewardedInterstitialAd);
         }
     }
     private void AdLoadCallBack(RewardedInterstitialAd _rewarded_interstitial_ad, string _error)
