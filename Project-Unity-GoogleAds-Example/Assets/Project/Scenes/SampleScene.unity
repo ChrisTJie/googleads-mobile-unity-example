@@ -1821,7 +1821,7 @@ MonoBehaviour:
   _EnableRewarded: 1
   _EnableRewardedInterstitial: 1
   _EnableNative: 1
-  _BannerAdSize: 4
+  _BannerAdSize: 5
   _AdPosition: 1
   _Native_Icon: {fileID: 241465913}
   _Native_ChoicesIcon: {fileID: 749885820}
