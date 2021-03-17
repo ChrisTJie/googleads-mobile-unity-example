@@ -16,7 +16,7 @@ public class Ads : MonoBehaviour
     }
     public Mode _Mode;
 
-    // Ad units.
+    #region Ad Units
     public string _Android_BannerID;
     public string _Android_InterstitialID;
     public string _Android_RewardedID;
@@ -32,7 +32,6 @@ public class Ads : MonoBehaviour
     private const string _RewardedID = "unexpected_platform";
     private const string _RewardedInterstitialID = "unexpected_platform";
     private const string _NativeID = "unexpected_platform";
-
     // Test Ad units.
     private const string _Test_Android_BannerID = "ca-app-pub-3940256099942544/6300978111";
     private const string _Test_Android_InterstitialID = "ca-app-pub-3940256099942544/1033173712";
@@ -44,82 +43,14 @@ public class Ads : MonoBehaviour
     private const string _Test_IOS_RewardedID = "ca-app-pub-3940256099942544/1712485313";
     private const string _Test_IOS_RewardedInterstitialID = "ca-app-pub-3940256099942544/6978759866";
     private const string _Test_IOS_NativeID = "ca-app-pub-3940256099942544/3986624511";
+    #endregion
 
     public bool _AutoInitialize;
-    private static bool IsTestLab = false;
-    public bool _TestDeviceMode;
-    public bool _AutoAdRequest;
-    public float _AdRequestTime;
-    // Test device ID.
-    private List<string> _DeviceIDs = new List<string>();
-    public bool _EnableBanner;
-    public bool _EnableInterstitial;
-    public bool _EnableRewarded;
-    public bool _EnableRewardedInterstitial;
-    public bool _EnableNative;
 
-    public bool _EnableTestBanner;
-    public bool _EnableTestInterstitial;
-    public bool _EnableTestRewarded;
-    public bool _EnableTestRewardedInterstitial;
-    public bool _EnableTestNative;
-
-    private BannerView _BannerView;
-    public enum BannerAdSize
+    private void Awake()
     {
-        Banner,
-        IABBanner,
-        Leaderboard,
-        MediumRectangle,
-        SmartBanner,
-        AdaptiveBanner,
-        Custom
+        DontDestroyOnLoad(this);
     }
-    public BannerAdSize _BannerAdSize;
-    public int _Width, _Height;
-    private AdSize _AdSize
-    {
-        get
-        {
-            switch (_BannerAdSize)
-            {
-                case BannerAdSize.Banner:
-                    return AdSize.Banner;
-                case BannerAdSize.IABBanner:
-                    return AdSize.IABBanner;
-                case BannerAdSize.Leaderboard:
-                    return AdSize.Leaderboard;
-                case BannerAdSize.MediumRectangle:
-                    return AdSize.MediumRectangle;
-                case BannerAdSize.SmartBanner:
-                    return AdSize.SmartBanner;
-                case BannerAdSize.AdaptiveBanner:
-                    return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
-                case BannerAdSize.Custom:
-                    return new AdSize(_Width, _Height);
-                default:
-                    return AdSize.Banner;
-            }
-        }
-    }
-    public AdPosition _AdPosition;
-    private InterstitialAd _InterstitialAd;
-    private RewardedAd _RewardedAd;
-    private RewardedInterstitialAd _RewardedInterstitialAd;
-    private UnifiedNativeAd _UnifiedNativeAd;
-
-    private bool _BannerActivated;
-    private bool _InterstitialActivated;
-    private bool _RewardedActivated;
-    private bool _RewardedInterstitialActivated;
-    private bool _NativeActivated;
-
-    public RawImage _Native_Icon;
-    public RawImage _Native_ChoicesIcon;
-    public Text _Native_Headline;
-    public Text _Native_Body;
-    public Text _Native_CallToAction;
-    public Text _Native_Advertiser;
 
     private void Start()
     {
@@ -129,8 +60,8 @@ public class Ads : MonoBehaviour
         MobileAds.Initialize(_init_status => { });
         SetTestDeviceIds();
         TestLab();
-        StartCoroutine(AutoAdRequest(_AdRequestTime));
         if (!_AutoAdRequest) Invoke("Request", 5.0f);
+        else StartCoroutine(AutoAdRequest(_AdRequestTime));
     }
 
     private void Update()
@@ -138,6 +69,10 @@ public class Ads : MonoBehaviour
         ShowNativeAd();
     }
 
+    #region Test Mode
+    public bool _TestDeviceMode;
+    // Test device ID.
+    private List<string> _DeviceIDs = new List<string>();
     private void SetTestDeviceIds()
     {
         if (!_TestDeviceMode) return;
@@ -181,22 +116,13 @@ public class Ads : MonoBehaviour
             return _s_b.ToString();
         }
     }
-
-    private IEnumerator AutoAdRequest(float _delay)
-    {
-        if (!_AutoAdRequest) yield break;
-
-        while (true)
-        {
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForSeconds(_delay);
-
-            Logger.Log("Ad active checking.");
-            Request();
-        }
-    }
-
+    public bool _EnableTestBanner;
+    public bool _EnableTestInterstitial;
+    public bool _EnableTestRewarded;
+    public bool _EnableTestRewardedInterstitial;
+    public bool _EnableTestNative;
 #if UNITY_ANDROID
+    private static bool IsTestLab = false;
     // Detect Google Play pre-launch report.
     private static void TestLab()
     {
@@ -221,10 +147,27 @@ public class Ads : MonoBehaviour
         }
     }
 #endif
+    #endregion
 
+    #region Ad Request
+    public bool _AutoAdRequest;
+    public float _AdRequestTime;
+    private IEnumerator AutoAdRequest(float _delay)
+    {
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(_delay);
+
+            Logger.Log("Ad active checking.");
+            Request();
+        }
+    }
     private void Request()
     {
+#if UNITY_ANDROID
         if (IsTestLab) { Logger.LogWarningFormat("{0}: {1}.", nameof(TestLab), IsTestLab); return; };
+#endif
 
         RequestBanner();
         RequestInterstitial();
@@ -232,7 +175,89 @@ public class Ads : MonoBehaviour
         RequestRewardedInterstitial();
         RequestNative();
     }
+    #endregion
 
+    #region Banner Ads
+    public bool _EnableBanner;
+    private bool _BannerActivated;
+    private BannerView _BannerView;
+    public enum BannerAdSize
+    {
+        Banner,
+        IABBanner,
+        Leaderboard,
+        MediumRectangle,
+        SmartBanner,
+        AdaptiveBanner,
+        Custom
+    }
+    public BannerAdSize _BannerAdSize;
+    public Vector2Int _WH;
+    private AdSize _AdSize
+    {
+        get
+        {
+            switch (_BannerAdSize)
+            {
+                case BannerAdSize.Banner:
+                    return AdSize.Banner;
+                case BannerAdSize.IABBanner:
+                    return AdSize.IABBanner;
+                case BannerAdSize.Leaderboard:
+                    return AdSize.Leaderboard;
+                case BannerAdSize.MediumRectangle:
+                    return AdSize.MediumRectangle;
+                case BannerAdSize.SmartBanner:
+                    return AdSize.SmartBanner;
+                case BannerAdSize.AdaptiveBanner:
+                    return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+                case BannerAdSize.Custom:
+                    return new AdSize(_WH.x, _WH.y);
+                default:
+                    return AdSize.Banner;
+            }
+        }
+    }
+    public enum BannerAdPosition
+    {
+        Bottom,
+        BottomLeft,
+        BottomRight,
+        Center,
+        Custom,
+        Top,
+        TopLeft,
+        TopRight
+    }
+    public BannerAdPosition _BannerAdPosition;
+    public Vector2Int _Pos;
+    private AdPosition _AdPosition
+    {
+        get
+        {
+            switch (_BannerAdPosition)
+            {
+                case BannerAdPosition.Bottom:
+                    return AdPosition.Bottom;
+                case BannerAdPosition.BottomLeft:
+                    return AdPosition.BottomLeft;
+                case BannerAdPosition.BottomRight:
+                    return AdPosition.BottomRight;
+                case BannerAdPosition.Center:
+                    return AdPosition.Center;
+                case BannerAdPosition.Custom:
+                    return AdPosition.Custom;
+                case BannerAdPosition.Top:
+                    return AdPosition.Top;
+                case BannerAdPosition.TopLeft:
+                    return AdPosition.TopLeft;
+                case BannerAdPosition.TopRight:
+                    return AdPosition.TopRight;
+                default:
+                    return AdPosition.Bottom;
+            }
+        }
+    }
     private void RequestBanner()
     {
         if (!_EnableBanner) return;
@@ -244,24 +269,29 @@ public class Ads : MonoBehaviour
         switch (_EnableTestBanner)
         {
             case false:
-                _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
+                if (_BannerAdPosition == BannerAdPosition.Custom) _BannerView = new BannerView(_Android_BannerID, _AdSize, _Pos.x, _Pos.y);
+                else _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
                 break;
             case true:
-                _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _AdPosition);
+                if (_BannerAdPosition == BannerAdPosition.Custom) _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _Pos.x, _Pos.y);
+                else _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _AdPosition);
                 break;
         }
 #elif UNITY_IOS
         switch (_EnableTestBanner)
         {
             case false:
-                _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition);
+                if (_BannerAdPosition == BannerAdPosition.Custom) _BannerView = new BannerView(_IOS_BannerID, _AdSize, _Pos.x, _Pos.y);
+                else _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition);
                 break;
             case true:
-                _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _AdPosition);
+                if (_BannerAdPosition == BannerAdPosition.Custom) _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _Pos.x, _Pos.y);
+                else _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _AdPosition);
                 break;
         }
 #else
-        _BannerView = new BannerView(_BannerID, _AdSize, _AdPosition);
+        if (_BannerAdPosition == BannerAdPosition.Custom) _BannerView = new BannerView(_BannerID, _AdSize, _Pos.x, _Pos.y);
+        else _BannerView = new BannerView(_BannerID, _AdSize, _AdPosition);
 #endif
 
         // Called when an ad request has successfully loaded.
@@ -313,7 +343,12 @@ public class Ads : MonoBehaviour
         Logger.LogWarning("Banner Destroyed.");
         _BannerActivated = false;
     }
+    #endregion
 
+    #region Interstitial Ads
+    public bool _EnableInterstitial;
+    private bool _InterstitialActivated;
+    private InterstitialAd _InterstitialAd;
     private void RequestInterstitial()
     {
         if (!_EnableInterstitial) return;
@@ -411,7 +446,12 @@ public class Ads : MonoBehaviour
         Logger.LogWarning("Interstitial Destroyed.");
         _InterstitialActivated = false;
     }
+    #endregion
 
+    #region Rewarded Ads
+    public bool _EnableRewarded;
+    private bool _RewardedActivated;
+    private RewardedAd _RewardedAd;
     private void RequestRewarded()
     {
         if (!_EnableRewarded) return;
@@ -510,7 +550,12 @@ public class Ads : MonoBehaviour
         double _amount = _args.Amount;
         Logger.LogFormat("RewardedOnUserEarnedReward event received for {0} {1}.", _amount.ToString(), _type);
     }
+    #endregion
 
+    #region Rewarded Interstitial Ads
+    public bool _EnableRewardedInterstitial;
+    private bool _RewardedInterstitialActivated;
+    private RewardedInterstitialAd _RewardedInterstitialAd;
     private void RequestRewardedInterstitial()
     {
         if (!_EnableRewardedInterstitial) return;
@@ -595,7 +640,18 @@ public class Ads : MonoBehaviour
     {
         Logger.Log("RewardedInterstitialOnPaidEvent has received a paid event.");
     }
+    #endregion
 
+    #region Native Ads Advanced (Unified)
+    public bool _EnableNative;
+    private bool _NativeActivated;
+    private UnifiedNativeAd _UnifiedNativeAd;
+    public RawImage _Native_AdChoicesLogo;
+    public Text _Native_Advertiser;
+    public Text _Native_Body;
+    public Text _Native_CallToAction;
+    public Text _Native_Headline;
+    public RawImage _Native_Icon;
     private void RequestNative()
     {
         if (!_EnableNative) return;
@@ -634,6 +690,19 @@ public class Ads : MonoBehaviour
 
         _NativeActivated = true;
     }
+    private Texture2D _AdChoicesLogo;
+    private string _Advertiser;
+    private string _Body;
+    private string _CallToAction;
+    private int _HashCode;
+    private string _Headline;
+    private Texture2D _Icon;
+    private List<Texture2D> _Image;
+    private string _Price;
+    private ResponseInfo _ResponseInfo;
+    private double _StarRating;
+    private string _Store;
+    private Type _Type;
     private bool _UnifiedNativeAdLoaded = false;
     private void ShowNativeAd()
     {
@@ -641,39 +710,35 @@ public class Ads : MonoBehaviour
 
         if (_UnifiedNativeAdLoaded)
         {
-            // Get Texture2D for icon asset of native ad.
-            Texture2D _icon = _UnifiedNativeAd.GetIconTexture();
-            Texture2D _choices_icon = _UnifiedNativeAd.GetAdChoicesLogoTexture();
-            // Get string for headline asset of native ad.
-            string _headline = _UnifiedNativeAd.GetHeadlineText();
-            string _body = _UnifiedNativeAd.GetBodyText();
-            string _call_to_action = _UnifiedNativeAd.GetCallToActionText();
-            string _advertiser = _UnifiedNativeAd.GetAdvertiserText();
-            List<Texture2D> _image = _UnifiedNativeAd.GetImageTextures();
-            string _price = _UnifiedNativeAd.GetPrice();
-            string _store = _UnifiedNativeAd.GetStore();
-            _UnifiedNativeAd.GetHashCode();
-            _UnifiedNativeAd.GetResponseInfo();
-            _UnifiedNativeAd.GetStarRating();
-            _UnifiedNativeAd.GetType();
+            // Get asset of native ad.
+            _AdChoicesLogo = _UnifiedNativeAd.GetAdChoicesLogoTexture();
+            _Advertiser = _UnifiedNativeAd.GetAdvertiserText();
+            _Body = _UnifiedNativeAd.GetBodyText();
+            _CallToAction = _UnifiedNativeAd.GetCallToActionText();
+            _HashCode = _UnifiedNativeAd.GetHashCode();
+            _Headline = _UnifiedNativeAd.GetHeadlineText();
+            _Icon = _UnifiedNativeAd.GetIconTexture();
+            _Image = _UnifiedNativeAd.GetImageTextures();
+            _Price = _UnifiedNativeAd.GetPrice();
+            _ResponseInfo = _UnifiedNativeAd.GetResponseInfo();
+            _StarRating = _UnifiedNativeAd.GetStarRating();
+            _Store = _UnifiedNativeAd.GetStore();
+            _Type = _UnifiedNativeAd.GetType();
 
-            _Native_Icon.texture = _icon;
-            _Native_ChoicesIcon.texture = _choices_icon;
-            _Native_Headline.text = _headline;
-            _Native_Body.text = _body;
-            _Native_CallToAction.text = _call_to_action;
-            _Native_Advertiser.text = _advertiser;
+            _Native_AdChoicesLogo.texture = _AdChoicesLogo;
+            _Native_Advertiser.text = _Advertiser;
+            _Native_Body.text = _Body;
+            _Native_CallToAction.text = _CallToAction;
+            _Native_Headline.text = _Headline;
+            _Native_Icon.texture = _Icon;
 
             // Register gameobjects.
-            _UnifiedNativeAd.RegisterIconImageGameObject(_Native_Icon.gameObject);
-            _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_Native_ChoicesIcon.gameObject);
-            _UnifiedNativeAd.RegisterHeadlineTextGameObject(_Native_Headline.gameObject);
+            _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_Native_AdChoicesLogo.gameObject);
+            _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_Native_Advertiser.gameObject);
             _UnifiedNativeAd.RegisterBodyTextGameObject(_Native_Body.gameObject);
             _UnifiedNativeAd.RegisterCallToActionGameObject(_Native_CallToAction.gameObject);
-            _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_Native_Advertiser.gameObject);
-            //_UnifiedNativeAd.RegisterImageGameObjects();
-            //_UnifiedNativeAd.RegisterPriceGameObject();
-            //_UnifiedNativeAd.RegisterStoreGameObject();
+            _UnifiedNativeAd.RegisterHeadlineTextGameObject(_Native_Headline.gameObject);
+            _UnifiedNativeAd.RegisterIconImageGameObject(_Native_Icon.gameObject);
 
             _UnifiedNativeAdLoaded = false;
         }
@@ -691,4 +756,5 @@ public class Ads : MonoBehaviour
         _UnifiedNativeAdLoaded = false;
         _NativeActivated = false;
     }
+    #endregion
 }

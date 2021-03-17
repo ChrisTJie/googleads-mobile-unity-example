@@ -15,10 +15,9 @@ public class AdsEditor : Editor
     public override void OnInspectorGUI()
     {
         _Ads = target as Ads;
-        EditorUtility.SetDirty(_Ads);
         if (EditorApplication.isPlaying)
         {
-            EditorGUILayout.LabelField("Editor in play mode.");
+            EditorGUILayout.HelpBox("Editor in play mode.", MessageType.Info);
             return;
         }
         if (_Ads._Mode == Ads.Mode.Enable)
@@ -28,6 +27,7 @@ public class AdsEditor : Editor
                 _Ads._Mode = Ads.Mode.Disable;
                 return;
             }
+            EditorUtility.SetDirty(_Ads);
             _Ads._AutoInitialize = EditorGUILayout.Toggle("Auto Initialize", _Ads._AutoInitialize);
             if (_Ads._AutoInitialize)
             {
@@ -61,10 +61,15 @@ public class AdsEditor : Editor
                     _Ads._BannerAdSize = (Ads.BannerAdSize)EditorGUILayout.EnumPopup("Banner Ad Size", _Ads._BannerAdSize);
                     if (_Ads._BannerAdSize == Ads.BannerAdSize.Custom)
                     {
-                        _Ads._Width = EditorGUILayout.IntField("Banner Width", _Ads._Width);
-                        _Ads._Height = EditorGUILayout.IntField("Banner Height", _Ads._Height);
+                        _Ads._WH = EditorGUILayout.Vector2IntField("Banner Width & Height", new Vector2Int(Mathf.Abs(_Ads._WH.x), Mathf.Abs(_Ads._WH.y)));
+                        EditorGUILayout.HelpBox("Size in dp (W x H).", MessageType.Info);
                     }
-                    _Ads._AdPosition = (AdPosition)EditorGUILayout.EnumPopup("Banner Ad Position", _Ads._AdPosition);
+                    _Ads._BannerAdPosition = (Ads.BannerAdPosition)EditorGUILayout.EnumPopup("Banner Ad Position", _Ads._BannerAdPosition);
+                    if (_Ads._BannerAdPosition == Ads.BannerAdPosition.Custom)
+                    {
+                        _Ads._Pos = EditorGUILayout.Vector2IntField("Banner Position X & Y", _Ads._Pos);
+                        EditorGUILayout.HelpBox("The top-left corner of the BannerView will be positioned at the x and y values passed to the constructor, where the origin is the top-left of the screen.", MessageType.Info);
+                    }
                 }
                 EditorGUILayout.Space(25);
                 _Ads._EnableInterstitial = EditorGUILayout.Toggle("Enable Interstitial", _Ads._EnableInterstitial);
@@ -125,15 +130,16 @@ public class AdsEditor : Editor
                         _Ads._Android_NativeID = EditorGUILayout.TextField("Android Native ID", _Ads._Android_NativeID);
                         _Ads._IOS_NativeID = EditorGUILayout.TextField("iOS Native ID", _Ads._IOS_NativeID);
                     }
+
                     _NativeObject = EditorGUILayout.Foldout(_NativeObject, "Native Object");
                     if (_NativeObject)
                     {
-                        _Ads._Native_Icon = EditorGUILayout.ObjectField("Native Icon", _Ads._Native_Icon, typeof(RawImage), true) as RawImage;
-                        _Ads._Native_ChoicesIcon = EditorGUILayout.ObjectField("Native Choices Icon", _Ads._Native_ChoicesIcon, typeof(RawImage), true) as RawImage;
-                        _Ads._Native_Headline = EditorGUILayout.ObjectField("Native Headline", _Ads._Native_Headline, typeof(Text), true) as Text;
+                        _Ads._Native_AdChoicesLogo = EditorGUILayout.ObjectField("Native Ad Choices Logo", _Ads._Native_AdChoicesLogo, typeof(RawImage), true) as RawImage;
+                        _Ads._Native_Advertiser = EditorGUILayout.ObjectField("Native Advertiser", _Ads._Native_Advertiser, typeof(Text), true) as Text;
                         _Ads._Native_Body = EditorGUILayout.ObjectField("Native Body", _Ads._Native_Body, typeof(Text), true) as Text;
                         _Ads._Native_CallToAction = EditorGUILayout.ObjectField("Native Call To Action", _Ads._Native_CallToAction, typeof(Text), true) as Text;
-                        _Ads._Native_Advertiser = EditorGUILayout.ObjectField("Native Advertiser", _Ads._Native_Advertiser, typeof(Text), true) as Text;
+                        _Ads._Native_Headline = EditorGUILayout.ObjectField("Native Headline", _Ads._Native_Headline, typeof(Text), true) as Text;
+                        _Ads._Native_Icon = EditorGUILayout.ObjectField("Native Icon", _Ads._Native_Icon, typeof(RawImage), true) as RawImage;
                     }
                     return;
                 }
