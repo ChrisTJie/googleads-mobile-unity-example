@@ -286,8 +286,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752929471}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 4245113753183153881}
+        m_TargetAssemblyTypeName: Ads, Assembly-CSharp
         m_MethodName: ShowInterstitialAd
         m_Mode: 1
         m_Arguments:
@@ -367,7 +367,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1471705226}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -571,8 +571,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752929471}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 4245113753183153881}
+        m_TargetAssemblyTypeName: Ads, Assembly-CSharp
         m_MethodName: ShowRewardedAd
         m_Mode: 1
         m_Arguments:
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 749885820}
   - component: {fileID: 749885822}
   m_Layer: 5
-  m_Name: ChoicesIcon
+  m_Name: AdChoicesLogo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -652,7 +652,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1471705226}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -739,7 +739,7 @@ RectTransform:
   m_Children:
   - {fileID: 914687081}
   m_Father: {fileID: 1471705226}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -952,7 +952,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1471705226}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1097,37 +1097,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1009643577
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1009643578}
-  - component: {fileID: 1752929471}
-  m_Layer: 0
-  m_Name: Ads
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1009643578
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009643577}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1024655674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,7 +1128,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1471705226}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1304,8 +1273,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752929471}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 4245113753183153881}
+        m_TargetAssemblyTypeName: Ads, Assembly-CSharp
         m_MethodName: ShowRewardedInterstitialAd
         m_Mode: 1
         m_Arguments:
@@ -1565,12 +1534,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 241465912}
   - {fileID: 749885819}
-  - {fileID: 1562257296}
+  - {fileID: 1024655675}
   - {fileID: 919007410}
   - {fileID: 833050050}
-  - {fileID: 1024655675}
+  - {fileID: 1562257296}
+  - {fileID: 241465912}
   m_Father: {fileID: 1235253601}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1648,7 +1617,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1471705226}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1789,53 +1758,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634572133}
   m_CullTransparentMesh: 0
---- !u!114 &1752929471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009643577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Mode: 0
-  _Android_BannerID: ca-app-pub-6569373569137925/2194855636
-  _Android_InterstitialID: ca-app-pub-6569373569137925/9139537939
-  _Android_RewardedID: ca-app-pub-6569373569137925/8947966245
-  _Android_RewardedInterstitialID: ca-app-pub-6569373569137925/5200292928
-  _Android_NativeID: ca-app-pub-6569373569137925/3151702326
-  _IOS_BannerID: ca-app-pub-6569373569137925/2190986208
-  _IOS_InterstitialID: ca-app-pub-6569373569137925/9877904538
-  _IOS_RewardedID: ca-app-pub-6569373569137925/1999414514
-  _IOS_RewardedInterstitialID: ca-app-pub-6569373569137925/5938659526
-  _IOS_NativeID: ca-app-pub-6569373569137925/7060169505
-  _AutoInitialize: 1
-  _TestDeviceMode: 1
-  _AutoAdRequest: 1
-  _AdRequestTime: 5
-  _EnableBanner: 1
-  _EnableInterstitial: 1
-  _EnableRewarded: 1
-  _EnableRewardedInterstitial: 1
-  _EnableNative: 1
-  _EnableTestBanner: 0
-  _EnableTestInterstitial: 0
-  _EnableTestRewarded: 0
-  _EnableTestRewardedInterstitial: 0
-  _EnableTestNative: 0
-  _BannerAdSize: 5
-  _Width: 250
-  _Height: 100
-  _AdPosition: 1
-  _Native_Icon: {fileID: 241465913}
-  _Native_ChoicesIcon: {fileID: 749885820}
-  _Native_Headline: {fileID: 1562257297}
-  _Native_Body: {fileID: 919007412}
-  _Native_CallToAction: {fileID: 914687082}
-  _Native_Advertiser: {fileID: 1024655676}
 --- !u!1001 &1998350928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2121,3 +2043,81 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+--- !u!114 &4245113753183153881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245113754595691103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Mode: 1
+  _Android_BannerID: ca-app-pub-6569373569137925/2194855636
+  _Android_InterstitialID: ca-app-pub-6569373569137925/9139537939
+  _Android_RewardedID: ca-app-pub-6569373569137925/8947966245
+  _Android_RewardedInterstitialID: ca-app-pub-6569373569137925/5200292928
+  _Android_NativeID: ca-app-pub-6569373569137925/3151702326
+  _IOS_BannerID: ca-app-pub-6569373569137925/2190986208
+  _IOS_InterstitialID: ca-app-pub-6569373569137925/9877904538
+  _IOS_RewardedID: ca-app-pub-6569373569137925/1999414514
+  _IOS_RewardedInterstitialID: ca-app-pub-6569373569137925/5938659526
+  _IOS_NativeID: ca-app-pub-6569373569137925/7060169505
+  _AutoInitialize: 1
+  _TestDeviceMode: 1
+  _EnableTestBanner: 0
+  _EnableTestInterstitial: 0
+  _EnableTestRewarded: 0
+  _EnableTestRewardedInterstitial: 0
+  _EnableTestNative: 0
+  _AutoAdRequest: 1
+  _AdRequestTime: 5
+  _EnableBanner: 1
+  _BannerAdSize: 5
+  _WH: {x: 320, y: 50}
+  _BannerAdPosition: 0
+  _Pos: {x: 0, y: 0}
+  _EnableInterstitial: 1
+  _EnableRewarded: 1
+  _EnableRewardedInterstitial: 1
+  _EnableNative: 1
+  _Native_AdChoicesLogo: {fileID: 749885820}
+  _Native_Advertiser: {fileID: 1024655676}
+  _Native_Body: {fileID: 919007412}
+  _Native_CallToAction: {fileID: 914687082}
+  _Native_Headline: {fileID: 1562257297}
+  _Native_Icon: {fileID: 241465913}
+--- !u!4 &4245113754595691100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245113754595691103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4245113754595691103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4245113754595691100}
+  - component: {fileID: 4245113753183153881}
+  m_Layer: 0
+  m_Name: Ads
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
