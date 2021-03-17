@@ -1,25 +1,17 @@
 fileFormatVersion: 2
-guid: 6000f9bb302954247ac035b99c10ed90
-labels:
-- gpsr
+guid: 8d905e1f5a0d04ed281ce21e5d30f838
+timeCreated: 1526600286
+licenseType: Pro
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
-  defineConstraints: []
   isPreloaded: 0
   isOverridable: 0
-  isExplicitlyReferenced: 0
-  validateReferences: 1
   platformData:
   - first:
-      Android: Android
-    second:
-      enabled: 1
-      settings: {}
-  - first:
-      Any: 
+      Any:
     second:
       enabled: 0
       settings: {}
@@ -29,6 +21,11 @@ PluginImporter:
       enabled: 0
       settings:
         DefaultValueInitialized: true
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  - first:
+      iPhone: iOS
+    second:
+      enabled: 1
+      settings: {}
+  userData:
+  assetBundleName:
+  assetBundleVariant:
