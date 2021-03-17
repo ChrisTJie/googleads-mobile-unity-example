@@ -57,7 +57,26 @@ public class Ads : MonoBehaviour
         if (!_AutoInitialize) return;
 
         // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize(_init_status => { });
+        MobileAds.Initialize(_init_status =>
+        {
+            Dictionary<string, AdapterStatus> _map = _init_status.getAdapterStatusMap();
+            foreach (KeyValuePair<string, AdapterStatus> _key_value_pair in _map)
+            {
+                string _class_name = _key_value_pair.Key;
+                AdapterStatus _status = _key_value_pair.Value;
+                switch (_status.InitializationState)
+                {
+                    case AdapterState.NotReady:
+                        // The adapter initialization did not complete.
+                        Logger.LogWarningFormat("Adapter: {0} not ready.", _class_name);
+                        break;
+                    case AdapterState.Ready:
+                        // The adapter was successfully initialized.
+                        Logger.LogFormat("Adapter: {0} is initialized.", _class_name);
+                        break;
+                }
+            }
+        });
         SetTestDeviceIds();
         TestLab();
         if (!_AutoAdRequest) Invoke("Request", 5.0f);
