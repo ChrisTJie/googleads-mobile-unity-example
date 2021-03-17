@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: bc3b156e1a184c9c87aa8f1813676f4c
+labels:
+- gvh
+- gvh_version-1.6.0
+- gvhp_exportpath-GoogleMobileAdsMediationTestSuite/Platforms/iOS/MonoPInvokeCallbackAttribute.cs
+timeCreated: 1480838400
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon:
+    instanceID: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

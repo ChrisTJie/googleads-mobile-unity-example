@@ -7,3 +7,5 @@ External Dependency Manager for Unity v1.2.164
 Google Mobile Ads Unity Plugin v5.4.0.90
 
 Google Mobile Ads Unity Ads Mediation v2.6.0
+
+Mediation Test Suite Version v1.6.0
