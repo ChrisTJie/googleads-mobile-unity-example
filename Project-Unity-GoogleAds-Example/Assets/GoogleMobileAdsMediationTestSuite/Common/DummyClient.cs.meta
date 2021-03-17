@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 672d5b4cc3c084048bae3a81ae5188f5
+labels:
+- gvh
+- gvh_version-1.6.0
+- gvhp_exportpath-GoogleMobileAdsMediationTestSuite/Common/DummyClient.cs
+timeCreated: 1480838400
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon:
+    instanceID: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 8603b3529c46244c38e4d877ceaa399f
+labels:
+- gvh
+- gvh_version-1.6.0
+- gvhp_exportpath-GoogleMobileAdsMediationTestSuite/Platforms/iOS/Externs.cs
+timeCreated: 1480838400
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon:
+    instanceID: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:
