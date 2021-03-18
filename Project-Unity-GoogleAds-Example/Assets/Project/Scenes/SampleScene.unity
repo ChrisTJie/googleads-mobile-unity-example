@@ -2210,7 +2210,7 @@ MonoBehaviour:
   _AutoAdRequest: 1
   _AdRequestTime: 5
   _EnableBanner: 1
-  _BannerAdSize: 5
+  _BannerAdSize: 0
   _WH: {x: 320, y: 50}
   _BannerAdPosition: 0
   _Pos: {x: 0, y: 0}
