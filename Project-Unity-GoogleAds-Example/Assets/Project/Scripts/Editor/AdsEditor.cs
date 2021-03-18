@@ -23,12 +23,13 @@ namespace CTJ
             }
             if (_Ads._Mode == Ads.Mode.Enable)
             {
-                if (GUILayout.Button("Collapse"))
+                if (GUILayout.Button("Collapse", GUILayout.Height(25)))
                 {
                     _Ads._Mode = Ads.Mode.Disable;
                     return;
                 }
                 EditorUtility.SetDirty(_Ads);
+                EditorGUILayout.Space(25);
                 _Ads._AutoInitialize = EditorGUILayout.Toggle("Auto Initialize", _Ads._AutoInitialize);
                 if (_Ads._AutoInitialize)
                 {
@@ -126,7 +127,7 @@ namespace CTJ
                     _Ads._EnableNative = EditorGUILayout.Toggle("Enable Native", _Ads._EnableNative);
                     if (_Ads._EnableNative)
                     {
-                        EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Info);
+                        EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Warning);
                         _Ads._EnableTestNative = EditorGUILayout.Toggle("Test Ad Unit ID", _Ads._EnableTestNative);
                         if (_Ads._EnableTestNative)
                         {
@@ -139,14 +140,10 @@ namespace CTJ
                         }
 
                         _NativeObject = EditorGUILayout.Foldout(_NativeObject, "Native Object");
+                        EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Info);
                         if (_NativeObject)
                         {
-                            _Ads._Native_AdChoicesLogo = EditorGUILayout.ObjectField("Native Ad Choices Logo", _Ads._Native_AdChoicesLogo, typeof(RawImage), true) as RawImage;
-                            _Ads._Native_Advertiser = EditorGUILayout.ObjectField("Native Advertiser", _Ads._Native_Advertiser, typeof(Text), true) as Text;
-                            _Ads._Native_Body = EditorGUILayout.ObjectField("Native Body", _Ads._Native_Body, typeof(Text), true) as Text;
-                            _Ads._Native_CallToAction = EditorGUILayout.ObjectField("Native Call To Action", _Ads._Native_CallToAction, typeof(Text), true) as Text;
-                            _Ads._Native_Headline = EditorGUILayout.ObjectField("Native Headline", _Ads._Native_Headline, typeof(Text), true) as Text;
-                            _Ads._Native_Icon = EditorGUILayout.ObjectField("Native Icon", _Ads._Native_Icon, typeof(RawImage), true) as RawImage;
+                            // Test.
                         }
                         return;
                     }
@@ -156,7 +153,7 @@ namespace CTJ
             }
             else if (_Ads._Mode == Ads.Mode.Disable)
             {
-                if (GUILayout.Button("Edit"))
+                if (GUILayout.Button("Edit", GUILayout.Height(25)))
                 {
                     _Ads._Mode = Ads.Mode.Enable;
                     return;
