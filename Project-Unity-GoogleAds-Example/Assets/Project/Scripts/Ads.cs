@@ -1,4 +1,5 @@
 ﻿using GoogleMobileAds.Api;
+using GoogleMobileAdsMediationTestSuite.Api;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -81,6 +82,7 @@ public class Ads : MonoBehaviour
         TestLab();
         if (!_AutoAdRequest) Invoke("Request", 5.0f);
         else StartCoroutine(AutoAdRequest(_AdRequestTime));
+        if (_MediationTestSuiteMode) MediationTestSuite.OnMediationTestSuiteDismissed += HandleMediationTestSuiteDismissed;
     }
 
     private void Update()
@@ -90,6 +92,7 @@ public class Ads : MonoBehaviour
 
     #region Test Mode
     public bool _TestDeviceMode;
+    public bool _MediationTestSuiteMode;
     // Test device ID.
     private List<string> _DeviceIDs = new List<string>();
     private void SetTestDeviceIds()
@@ -99,7 +102,9 @@ public class Ads : MonoBehaviour
         // Add test device ID.
         _DeviceIDs.Add(AdRequest.TestDeviceSimulator);
 #if UNITY_ANDROID
-        _DeviceIDs.Add(SystemInfo.deviceUniqueIdentifier.ToUpper().Trim());
+        string _andriod_device_id;
+        _andriod_device_id = SystemInfo.deviceUniqueIdentifier.ToUpper().Trim();
+        _DeviceIDs.Add(_andriod_device_id);
 #elif UNITY_IOS
         string _ios_device_id;
         _ios_device_id = UnityEngine.iOS.Device.advertisingIdentifier;
@@ -117,6 +122,14 @@ public class Ads : MonoBehaviour
 
         // Set requestConfiguration globally to MobileAds.
         MobileAds.SetRequestConfiguration(_request_configuration);
+
+        // Mediation Test Suite test device.
+        if (!_MediationTestSuiteMode) return;
+#if UNITY_ANDROID
+        MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_andriod_device_id).Build();
+#elif UNITY_IOS
+        MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_ios_device_id).Build();
+#endif
     }
     private static string CreateMD5(string _input)
     {
@@ -774,6 +787,18 @@ public class Ads : MonoBehaviour
         Logger.LogWarningFormat("NativeOnAdFailedToLoad failed to load: {0}.", _args.Message);
         _UnifiedNativeAdLoaded = false;
         _NativeActivated = false;
+    }
+    #endregion
+
+    #region Mediation Test Suite
+    public void ShowMediationTestSuite()
+    {
+        if (_MediationTestSuiteMode) MediationTestSuite.Show();
+        else Logger.LogWarningFormat("{0}: {1}.", nameof(_MediationTestSuiteMode), _MediationTestSuiteMode);
+    }
+    private void HandleMediationTestSuiteDismissed(object _sender, EventArgs _args)
+    {
+        Logger.Log("HandleMediationTestSuiteDismissed event received.");
     }
     #endregion
 }

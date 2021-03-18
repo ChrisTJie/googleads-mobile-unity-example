@@ -56,6 +56,7 @@ MonoBehaviour:
   _IOS_NativeID: 
   _AutoInitialize: 0
   _TestDeviceMode: 0
+  _MediationTestSuiteMode: 0
   _EnableTestBanner: 0
   _EnableTestInterstitial: 0
   _EnableTestRewarded: 0
