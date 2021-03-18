@@ -679,12 +679,6 @@ namespace CTJ
         public bool _EnableNative;
         private bool _NativeActivated;
         private UnifiedNativeAd _UnifiedNativeAd;
-        public RawImage _Native_AdChoicesLogo;
-        public Text _Native_Advertiser;
-        public Text _Native_Body;
-        public Text _Native_CallToAction;
-        public Text _Native_Headline;
-        public RawImage _Native_Icon;
         private void RequestNative()
         {
             if (!_EnableNative) return;
@@ -758,20 +752,18 @@ namespace CTJ
                 _Store = _UnifiedNativeAd.GetStore();
                 _Type = _UnifiedNativeAd.GetType();
 
-                _Native_AdChoicesLogo.texture = _AdChoicesLogo;
-                _Native_Advertiser.text = _Advertiser;
-                _Native_Body.text = _Body;
-                _Native_CallToAction.text = _CallToAction;
-                _Native_Headline.text = _Headline;
-                _Native_Icon.texture = _Icon;
-
                 // Register gameobjects.
-                _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_Native_AdChoicesLogo.gameObject);
-                _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_Native_Advertiser.gameObject);
-                _UnifiedNativeAd.RegisterBodyTextGameObject(_Native_Body.gameObject);
-                _UnifiedNativeAd.RegisterCallToActionGameObject(_Native_CallToAction.gameObject);
-                _UnifiedNativeAd.RegisterHeadlineTextGameObject(_Native_Headline.gameObject);
-                _UnifiedNativeAd.RegisterIconImageGameObject(_Native_Icon.gameObject);
+                GameObject _go = new GameObject();
+                List<GameObject> _list_go = new List<GameObject>();
+                _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_go);
+                _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_go);
+                _UnifiedNativeAd.RegisterBodyTextGameObject(_go);
+                _UnifiedNativeAd.RegisterCallToActionGameObject(_go);
+                _UnifiedNativeAd.RegisterHeadlineTextGameObject(_go);
+                _UnifiedNativeAd.RegisterIconImageGameObject(_go);
+                _UnifiedNativeAd.RegisterImageGameObjects(_list_go);
+                _UnifiedNativeAd.RegisterPriceGameObject(_go);
+                _UnifiedNativeAd.RegisterStoreGameObject(_go);
 
                 _UnifiedNativeAdLoaded = false;
             }
@@ -789,6 +781,15 @@ namespace CTJ
             _UnifiedNativeAdLoaded = false;
             _NativeActivated = false;
         }
+
+
+        private List<GameObject> _RegisterGameObject = new List<GameObject>();
+        private static void RegisterAdChoicesLogoGameObject()
+        {
+
+        }
+
+
         #endregion
 
         #region Mediation Test Suite

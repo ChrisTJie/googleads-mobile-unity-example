@@ -2218,12 +2218,6 @@ MonoBehaviour:
   _EnableRewarded: 1
   _EnableRewardedInterstitial: 1
   _EnableNative: 1
-  _Native_AdChoicesLogo: {fileID: 749885820}
-  _Native_Advertiser: {fileID: 1024655676}
-  _Native_Body: {fileID: 919007412}
-  _Native_CallToAction: {fileID: 914687082}
-  _Native_Headline: {fileID: 1562257297}
-  _Native_Icon: {fileID: 241465913}
 --- !u!4 &4245113754595691100
 Transform:
   m_ObjectHideFlags: 0
