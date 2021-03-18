@@ -37,6 +37,11 @@ public class AdsEditor : Editor
                 {
                     EditorGUILayout.HelpBox("Test device mode enabled.", MessageType.Warning);
                 }
+                _Ads._MediationTestSuiteMode = EditorGUILayout.Toggle("Mediation Test Suite Mode", _Ads._MediationTestSuiteMode);
+                if (_Ads._MediationTestSuiteMode)
+                {
+                    EditorGUILayout.HelpBox("Mediation Test Suite mode enabled.", MessageType.Warning);
+                }
                 EditorGUILayout.Space(25);
                 _Ads._AutoAdRequest = EditorGUILayout.Toggle("Auto Ad Request", _Ads._AutoAdRequest);
                 if (_Ads._AutoAdRequest)
