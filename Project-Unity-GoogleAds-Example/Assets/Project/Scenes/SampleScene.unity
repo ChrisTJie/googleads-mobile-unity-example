@@ -2218,6 +2218,15 @@ MonoBehaviour:
   _EnableRewarded: 1
   _EnableRewardedInterstitial: 1
   _EnableNative: 1
+  _RegisterAdChoicesLogo: {fileID: 749885818}
+  _RegisterAdvertiser: {fileID: 1024655674}
+  _RegisterBody: {fileID: 919007409}
+  _RegisterCallToAction: {fileID: 914687080}
+  _RegisterHeadline: {fileID: 1562257295}
+  _RegisterIcon: {fileID: 241465911}
+  _RegisterImage: []
+  _RegisterPrice: {fileID: 0}
+  _RegisterStore: {fileID: 0}
 --- !u!4 &4245113754595691100
 Transform:
   m_ObjectHideFlags: 0
