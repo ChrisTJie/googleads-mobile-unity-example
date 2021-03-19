@@ -336,6 +336,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103376021}
   m_CullTransparentMesh: 0
+--- !u!1 &208213173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 208213175}
+  - component: {fileID: 208213174}
+  m_Layer: 0
+  m_Name: Demo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &208213174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208213173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c7fe0e9372ffc4e82192c3ac78b0a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AdChoicesLogo: {fileID: 749885818}
+--- !u!4 &208213175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208213173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &241465911
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +530,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &669863017
 GameObject:
@@ -841,7 +885,7 @@ GameObject:
   - component: {fileID: 914687082}
   - component: {fileID: 914687084}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CallToAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1095,7 +1139,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1024655674
 GameObject:
@@ -1420,7 +1464,7 @@ RectTransform:
   - {fileID: 1471705226}
   - {fileID: 1925898506}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2218,15 +2262,6 @@ MonoBehaviour:
   _EnableRewarded: 1
   _EnableRewardedInterstitial: 1
   _EnableNative: 1
-  _RegisterAdChoicesLogo: {fileID: 749885818}
-  _RegisterAdvertiser: {fileID: 1024655674}
-  _RegisterBody: {fileID: 919007409}
-  _RegisterCallToAction: {fileID: 914687080}
-  _RegisterHeadline: {fileID: 1562257295}
-  _RegisterIcon: {fileID: 241465911}
-  _RegisterImage: []
-  _RegisterPrice: {fileID: 0}
-  _RegisterStore: {fileID: 0}
 --- !u!4 &4245113754595691100
 Transform:
   m_ObjectHideFlags: 0
