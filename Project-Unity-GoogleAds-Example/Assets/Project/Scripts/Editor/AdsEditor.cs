@@ -143,7 +143,15 @@ namespace CTJ
                         EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Info);
                         if (_NativeObject)
                         {
-                            // Test.
+                            _Ads._RegisterAdChoicesLogo = EditorGUILayout.ObjectField("Ad Choices Logo", _Ads._RegisterAdChoicesLogo, typeof(GameObject), true) as GameObject;
+                            _Ads._RegisterAdvertiser = EditorGUILayout.ObjectField("Advertiser", _Ads._RegisterAdvertiser, typeof(GameObject), true) as GameObject;
+                            _Ads._RegisterBody = EditorGUILayout.ObjectField("Body", _Ads._RegisterBody, typeof(GameObject), true) as GameObject;
+                            _Ads._RegisterCallToAction = EditorGUILayout.ObjectField("Call To Action", _Ads._RegisterCallToAction, typeof(GameObject), true) as GameObject;
+                            _Ads._RegisterHeadline = EditorGUILayout.ObjectField("Headline", _Ads._RegisterHeadline, typeof(GameObject), true) as GameObject;
+                            _Ads._RegisterIcon = EditorGUILayout.ObjectField("Icon", _Ads._RegisterIcon, typeof(GameObject), true) as GameObject;
+                            // Image
+                            _Ads._RegisterPrice = EditorGUILayout.ObjectField("Price", _Ads._RegisterPrice, typeof(GameObject), true) as GameObject;
+                            _Ads._RegisterStore = EditorGUILayout.ObjectField("Store", _Ads._RegisterStore, typeof(GameObject), true) as GameObject;
                         }
                         return;
                     }
