@@ -137,7 +137,9 @@ namespace CTJ
                             _Ads._Android_NativeID = EditorGUILayout.TextField("Android Native ID", _Ads._Android_NativeID);
                             _Ads._IOS_NativeID = EditorGUILayout.TextField("iOS Native ID", _Ads._IOS_NativeID);
                         }
-                        EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Info);
+                        EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
+                        EditorGUILayout.HelpBox("You can access the Ads module API via the Ads class under the CTJ namespace to register gameobjects or get assets of native advanced ads.", MessageType.Info);
+                        EditorGUILayout.HelpBox("Note that ad assets should only be accessed on the main thread, for example, from the Update() method of a Unity script. Also note the following assets are not always guaranteed to be present, and should be checked before being displayed.", MessageType.Info);
                         return;
                     }
                     return;
