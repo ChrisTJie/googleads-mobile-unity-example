@@ -366,6 +366,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _AdChoicesLogo: {fileID: 749885818}
+  _Advertiser: {fileID: 1024655674}
+  _Body: {fileID: 919007409}
+  _CallToAction: {fileID: 914687080}
+  _Headline: {fileID: 1562257295}
+  _Icon: {fileID: 241465911}
 --- !u!4 &208213175
 Transform:
   m_ObjectHideFlags: 0
@@ -2232,7 +2237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Mode: 1
+  _Mode: 0
   _Android_BannerID: ca-app-pub-6569373569137925/2194855636
   _Android_InterstitialID: ca-app-pub-6569373569137925/9139537939
   _Android_RewardedID: ca-app-pub-6569373569137925/8947966245
