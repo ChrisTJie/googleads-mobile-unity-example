@@ -728,20 +728,33 @@ namespace CTJ
             _NativeActivated = true;
         }
 
-        private Texture2D _AdChoicesLogo;
-        private string _Advertiser;
-        private string _Body;
-        private string _CallToAction;
-        private int _HashCode;
-        private string _Headline;
-        private Texture2D _Icon;
-        private List<Texture2D> _Image;
-        private string _Price;
-        private ResponseInfo _ResponseInfo;
-        private double _StarRating;
-        private string _Store;
-        private Type _Type;
-        public UnityEvent Function;
+        private static Texture2D _AdChoicesLogo;
+        private static string _Advertiser;
+        private static string _Body;
+        private static string _CallToAction;
+        private static int _HashCode;
+        private static string _Headline;
+        private static Texture2D _Icon;
+        private static List<Texture2D> _Image;
+        private static string _Price;
+        private static ResponseInfo _ResponseInfo;
+        private static double _StarRating;
+        private static string _Store;
+        private static Type _Type;
+        // External call get assets of native advanced ads.
+        public static Texture2D GetAdChoicesLogo { get { return _AdChoicesLogo; } }
+        public static string GetAdvertiser { get { return _Advertiser; } }
+        public static string GetBody { get { return _Body; } }
+        public static string GetCallToAction { get { return _CallToAction; } }
+        public static new int GetHashCode { get { return _HashCode; } }
+        public static string GetHeadline { get { return _Headline; } }
+        public static Texture2D GetIcon { get { return _Icon; } }
+        public static List<Texture2D> GetImage { get { return _Image; } }
+        public static string GetPrice { get { return _Price; } }
+        public static ResponseInfo GetResponseInfo { get { return _ResponseInfo; } }
+        public static double GetStarRating { get { return _StarRating; } }
+        public static string GetStore { get { return _Store; } }
+        public static new Type GetType { get { return _Type; } }
 
         private static GameObject _RegisterAdChoicesLogo;
         private static GameObject _RegisterAdvertiser;
@@ -762,6 +775,8 @@ namespace CTJ
         public static void RegisterImage(List<GameObject> _go) => _RegisterImage = _go;
         public static void RegisterPrice(GameObject _go) => _RegisterPrice = _go;
         public static void RegisterStore(GameObject _go) => _RegisterStore = _go;
+
+        public UnityEvent OtherFunctions;
 
         private bool _UnifiedNativeAdLoaded = false;
         private void ShowNativeAd()
@@ -785,8 +800,8 @@ namespace CTJ
                 _Store = _UnifiedNativeAd.GetStore();
                 _Type = _UnifiedNativeAd.GetType();
 
-                // 調用外部函式
-                Function.Invoke();
+                // Invoke all registered callbacks (runtime and persistent).
+                OtherFunctions.Invoke();
 
                 // Register gameobjects.
                 try

@@ -6,13 +6,20 @@ using UnityEngine;
 namespace CTJ
 {
     [CustomEditor(typeof(Ads))]
+    [CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
         private Ads _Ads;
+        private SerializedProperty _OtherFunctions;
+
+        private void OnEnable()
+        {
+            _Ads = target as Ads;
+            _OtherFunctions = serializedObject.FindProperty("OtherFunctions");
+        }
 
         public override void OnInspectorGUI()
         {
-            _Ads = target as Ads;
             if (EditorApplication.isPlaying)
             {
                 EditorGUILayout.HelpBox("Editor in play mode.", MessageType.Info);
@@ -136,10 +143,10 @@ namespace CTJ
                             _Ads._IOS_NativeID = EditorGUILayout.TextField("iOS Native ID", _Ads._IOS_NativeID);
                         }
                         EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("You can access the Ads module API via the Ads class under the CTJ namespace to register gameobjects or get assets of native advanced ads.", MessageType.Info);
-                        EditorGUILayout.HelpBox("Note that ad assets should only be accessed on the main thread, for example, from the Update() method of a Unity script. Also note the following assets are not always guaranteed to be present, and should be checked before being displayed.", MessageType.Info);
-                        serializedObject.Update();
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("Function"), true);
+                        EditorGUILayout.HelpBox("You can access the Ads module API via the Ads class under the CTJ namespace to get assets of native advanced ads and register gameobjects.", MessageType.Info);
+                        if (_Ads.OtherFunctions.GetPersistentEventCount() <= 0) EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Error);
+                        else EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Info);
+                        EditorGUILayout.PropertyField(_OtherFunctions, true);
                         serializedObject.ApplyModifiedProperties();
                         return;
                     }

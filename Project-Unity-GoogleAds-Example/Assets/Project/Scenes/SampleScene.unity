@@ -365,7 +365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c7fe0e9372ffc4e82192c3ac78b0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _RawImage: {fileID: 0}
   _AdChoicesLogo: {fileID: 749885818}
   _Advertiser: {fileID: 1024655674}
   _Body: {fileID: 919007409}
@@ -2268,7 +2267,7 @@ MonoBehaviour:
   _EnableRewarded: 1
   _EnableRewardedInterstitial: 1
   _EnableNative: 1
-  Function:
+  OtherFunctions:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 208213174}
