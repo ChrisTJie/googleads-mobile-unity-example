@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Demo : MonoBehaviour
 {
+    [SerializeField] private RawImage _RawImage;
+
     [SerializeField] private GameObject _AdChoicesLogo;
     [SerializeField] private GameObject _Advertiser;
     [SerializeField] private GameObject _Body;
@@ -24,5 +27,11 @@ public class Demo : MonoBehaviour
     private void Update()
     {
 
+    }
+
+    // 自定義函式
+    public void Test()
+    {
+        CTJ.Logger.Log("外部調用成功");
     }
 }

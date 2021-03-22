@@ -365,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c7fe0e9372ffc4e82192c3ac78b0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _RawImage: {fileID: 0}
   _AdChoicesLogo: {fileID: 749885818}
   _Advertiser: {fileID: 1024655674}
   _Body: {fileID: 919007409}
@@ -2237,7 +2238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Mode: 0
+  _Mode: 1
   _Android_BannerID: ca-app-pub-6569373569137925/2194855636
   _Android_InterstitialID: ca-app-pub-6569373569137925/9139537939
   _Android_RewardedID: ca-app-pub-6569373569137925/8947966245
@@ -2267,6 +2268,21 @@ MonoBehaviour:
   _EnableRewarded: 1
   _EnableRewardedInterstitial: 1
   _EnableNative: 1
+  Function:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 208213174}
+        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
+        m_MethodName: Test
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &4245113754595691100
 Transform:
   m_ObjectHideFlags: 0
