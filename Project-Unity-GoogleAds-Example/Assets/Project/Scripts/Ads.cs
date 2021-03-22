@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace CTJ
 {
@@ -84,8 +84,12 @@ namespace CTJ
             TestLab();
             if (!_AutoAdRequest) Invoke("Request", 5.0f);
             else StartCoroutine(AutoAdRequest(_AdRequestTime));
-            StartCoroutine(ShowNativeAd());
             if (_MediationTestSuiteMode) MediationTestSuite.OnMediationTestSuiteDismissed += HandleMediationTestSuiteDismissed;
+        }
+
+        private void Update()
+        {
+            ShowNativeAd();
         }
         #endregion
 
@@ -724,123 +728,20 @@ namespace CTJ
             _NativeActivated = true;
         }
 
-        private static Texture2D _AdChoicesLogo;
-        private static string _Advertiser;
-        private static string _Body;
-        private static string _CallToAction;
-        private static int _HashCode;
-        private static string _Headline;
-        private static Texture2D _Icon;
-        private static List<Texture2D> _Image;
-        private static string _Price;
-        private static ResponseInfo _ResponseInfo;
-        private static double _StarRating;
-        private static string _Store;
-        private static Type _Type;
-        public static Texture2D GetAdChoicesLogo
-        {
-            get
-            {
-                if (_AdChoicesLogo == null) { Logger.LogWarningFormat("{0} is null.", nameof(_AdChoicesLogo)); return null; }
-                else { Logger.Log(_AdChoicesLogo); return _AdChoicesLogo; }
-            }
-        }
-        public static string GetAdvertiser
-        {
-            get
-            {
-                if (_Advertiser == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Advertiser)); return null; }
-                else { Logger.Log(_Advertiser); return _Advertiser; }
-            }
-        }
-        public static string GetBody
-        {
-            get
-            {
-                if (_Body == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Body)); return null; }
-                else { Logger.Log(_Body); return _Body; }
-            }
-        }
-        public static string GetCallToAction
-        {
-            get
-            {
-                if (_CallToAction == null) { Logger.LogWarningFormat("{0} is null.", nameof(_CallToAction)); return null; }
-                else { Logger.Log(_CallToAction); return _CallToAction; }
-            }
-        }
-        public static new int GetHashCode
-        {
-            get
-            {
-                if (_HashCode == 0) { Logger.LogWarningFormat("{0} is 0.", nameof(_HashCode)); return 0; }
-                else { Logger.Log(_HashCode); return _HashCode; }
-            }
-        }
-        public static string GetHeadline
-        {
-            get
-            {
-                if (_Headline == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Headline)); return null; }
-                else { Logger.Log(_Headline); return _Headline; }
-            }
-        }
-        public static Texture2D GetIcon
-        {
-            get
-            {
-                if (_Icon == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Icon)); return null; }
-                else { Logger.Log(_Icon); return _Icon; }
-            }
-        }
-        public static List<Texture2D> GetImage
-        {
-            get
-            {
-                if (_Image == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Image)); return null; }
-                else { Logger.Log(_Image); return _Image; }
-            }
-        }
-        public static string GetPrice
-        {
-            get
-            {
-                if (_Price == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Price)); return null; }
-                else { Logger.Log(_Price); return _Price; }
-            }
-        }
-        public static ResponseInfo GetResponseInfo
-        {
-            get
-            {
-                if (_ResponseInfo == null) { Logger.LogWarningFormat("{0} is null.", nameof(_ResponseInfo)); return null; }
-                else { Logger.Log(_ResponseInfo); return _ResponseInfo; }
-            }
-        }
-        public static double GetStarRating
-        {
-            get
-            {
-                if (_StarRating == 0) { Logger.LogWarningFormat("{0} is 0.", nameof(_StarRating)); return 0; }
-                else { Logger.Log(_StarRating); return _StarRating; }
-            }
-        }
-        public static string GetStore
-        {
-            get
-            {
-                if (_Store == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Store)); return null; }
-                else { Logger.Log(_Store); return _Store; }
-            }
-        }
-        public static new Type GetType
-        {
-            get
-            {
-                if (_Type == null) { Logger.LogWarningFormat("{0} is null.", nameof(_Type)); return null; }
-                else { Logger.Log(_Type); return _Type; }
-            }
-        }
+        private Texture2D _AdChoicesLogo;
+        private string _Advertiser;
+        private string _Body;
+        private string _CallToAction;
+        private int _HashCode;
+        private string _Headline;
+        private Texture2D _Icon;
+        private List<Texture2D> _Image;
+        private string _Price;
+        private ResponseInfo _ResponseInfo;
+        private double _StarRating;
+        private string _Store;
+        private Type _Type;
+        public UnityEvent Function;
 
         private static GameObject _RegisterAdChoicesLogo;
         private static GameObject _RegisterAdvertiser;
@@ -863,91 +764,87 @@ namespace CTJ
         public static void RegisterStore(GameObject _go) => _RegisterStore = _go;
 
         private bool _UnifiedNativeAdLoaded = false;
-        private IEnumerator ShowNativeAd()
+        private void ShowNativeAd()
         {
-            if (!_EnableNative) yield break;
+            if (!_EnableNative) return;
 
-            while (true)
+            if (_UnifiedNativeAdLoaded)
             {
-                yield return new WaitForEndOfFrame();
+                // Get asset of native ad.
+                _AdChoicesLogo = _UnifiedNativeAd.GetAdChoicesLogoTexture();
+                _Advertiser = _UnifiedNativeAd.GetAdvertiserText();
+                _Body = _UnifiedNativeAd.GetBodyText();
+                _CallToAction = _UnifiedNativeAd.GetCallToActionText();
+                _HashCode = _UnifiedNativeAd.GetHashCode();
+                _Headline = _UnifiedNativeAd.GetHeadlineText();
+                _Icon = _UnifiedNativeAd.GetIconTexture();
+                _Image = _UnifiedNativeAd.GetImageTextures();
+                _Price = _UnifiedNativeAd.GetPrice();
+                _ResponseInfo = _UnifiedNativeAd.GetResponseInfo();
+                _StarRating = _UnifiedNativeAd.GetStarRating();
+                _Store = _UnifiedNativeAd.GetStore();
+                _Type = _UnifiedNativeAd.GetType();
 
-                if (_UnifiedNativeAdLoaded)
+                // 調用外部函式
+                Function.Invoke();
+
+                // Register gameobjects.
+                try
                 {
-                    // Get asset of native ad.
-                    _AdChoicesLogo = _UnifiedNativeAd.GetAdChoicesLogoTexture();
-                    _Advertiser = _UnifiedNativeAd.GetAdvertiserText();
-                    _Body = _UnifiedNativeAd.GetBodyText();
-                    _CallToAction = _UnifiedNativeAd.GetCallToActionText();
-                    _HashCode = _UnifiedNativeAd.GetHashCode();
-                    _Headline = _UnifiedNativeAd.GetHeadlineText();
-                    _Icon = _UnifiedNativeAd.GetIconTexture();
-                    _Image = _UnifiedNativeAd.GetImageTextures();
-                    _Price = _UnifiedNativeAd.GetPrice();
-                    _ResponseInfo = _UnifiedNativeAd.GetResponseInfo();
-                    _StarRating = _UnifiedNativeAd.GetStarRating();
-                    _Store = _UnifiedNativeAd.GetStore();
-                    _Type = _UnifiedNativeAd.GetType();
-
-                    // Register gameobjects.
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterAdChoicesLogo), _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterAdChoicesLogo), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterAdvertiser), _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterAdvertiser), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterBody), _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterBody), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterCallToAction), _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterCallToAction), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterHeadline), _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterHeadline), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterIcon), _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterIcon), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterImageGameObjects(_RegisterImage);
-                        Logger.LogFormat("{0} can not be displayed.", nameof(_RegisterImage));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterImage), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterPrice), _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterPrice), _exception.Message); }
-                    try
-                    {
-                        _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore);
-                        Logger.LogFormat("{0}: {1}.", nameof(_RegisterStore), _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore));
-                    }
-                    catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterStore), _exception.Message); }
-
-                    _UnifiedNativeAdLoaded = false;
-
-                    yield break;
+                    _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterAdChoicesLogo), _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo));
                 }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterAdChoicesLogo), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterAdvertiser), _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterAdvertiser), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterBody), _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterBody), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterCallToAction), _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterCallToAction), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterHeadline), _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterHeadline), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterIcon), _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterIcon), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterImageGameObjects(_RegisterImage);
+                    Logger.LogFormat("{0} can not be displayed.", nameof(_RegisterImage));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterImage), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterPrice), _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterPrice), _exception.Message); }
+                try
+                {
+                    _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore);
+                    Logger.LogFormat("{0}: {1}.", nameof(_RegisterStore), _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore));
+                }
+                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}.", nameof(_RegisterStore), _exception.Message); }
+
+                _UnifiedNativeAdLoaded = false;
             }
         }
         private void NativeOnUnifiedNativeAdLoaded(object _sender, UnifiedNativeAdEventArgs _args)
