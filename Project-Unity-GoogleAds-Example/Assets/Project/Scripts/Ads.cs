@@ -11,24 +11,28 @@ namespace CTJ
 {
     public class Ads : MonoBehaviour
     {
-        public enum Mode
+        public static Ads Instance;
+
+        private enum Mode
         {
             Enable,
             Disable
         }
-        public Mode _Mode;
+        [SerializeField] private Mode _Mode;
+
+        [SerializeField] private bool _AutoInitialize;
 
         #region Ad Units
-        public string _Android_BannerID;
-        public string _Android_InterstitialID;
-        public string _Android_RewardedID;
-        public string _Android_RewardedInterstitialID;
-        public string _Android_NativeID;
-        public string _IOS_BannerID;
-        public string _IOS_InterstitialID;
-        public string _IOS_RewardedID;
-        public string _IOS_RewardedInterstitialID;
-        public string _IOS_NativeID;
+        [SerializeField] private string _Android_BannerID;
+        [SerializeField] private string _Android_InterstitialID;
+        [SerializeField] private string _Android_RewardedID;
+        [SerializeField] private string _Android_RewardedInterstitialID;
+        [SerializeField] private string _Android_NativeID;
+        [SerializeField] private string _IOS_BannerID;
+        [SerializeField] private string _IOS_InterstitialID;
+        [SerializeField] private string _IOS_RewardedID;
+        [SerializeField] private string _IOS_RewardedInterstitialID;
+        [SerializeField] private string _IOS_NativeID;
         private const string _BannerID = "unexpected_platform";
         private const string _InterstitialID = "unexpected_platform";
         private const string _RewardedID = "unexpected_platform";
@@ -47,12 +51,15 @@ namespace CTJ
         private const string _Test_IOS_NativeID = "ca-app-pub-3940256099942544/3986624511";
         #endregion
 
-        public bool _AutoInitialize;
-
         #region MonoBehaviour
         private void Awake()
         {
-            DontDestroyOnLoad(this);
+            if (Instance == null)
+            {
+                DontDestroyOnLoad(gameObject);
+                Instance = this;
+            }
+            else Destroy(gameObject);
         }
 
         private void Start()
@@ -94,8 +101,8 @@ namespace CTJ
         #endregion
 
         #region Test Mode
-        public bool _TestDeviceMode;
-        public bool _MediationTestSuiteMode;
+        [SerializeField] private bool _TestDeviceMode;
+        [SerializeField] private bool _MediationTestSuiteMode;
         // Test device ID.
         private List<string> _DeviceIDs = new List<string>();
         private void SetTestDeviceIds()
@@ -151,11 +158,11 @@ namespace CTJ
                 return _s_b.ToString();
             }
         }
-        public bool _EnableTestBanner;
-        public bool _EnableTestInterstitial;
-        public bool _EnableTestRewarded;
-        public bool _EnableTestRewardedInterstitial;
-        public bool _EnableTestNative;
+        [SerializeField] private bool _EnableTestBanner;
+        [SerializeField] private bool _EnableTestInterstitial;
+        [SerializeField] private bool _EnableTestRewarded;
+        [SerializeField] private bool _EnableTestRewardedInterstitial;
+        [SerializeField] private bool _EnableTestNative;
 #if UNITY_ANDROID
         private bool IsTestLab = false;
         // Detect Google Play pre-launch report.
@@ -193,8 +200,8 @@ namespace CTJ
         #endregion
 
         #region Ad Request
-        public bool _AutoAdRequest;
-        public float _AdRequestTime;
+        [SerializeField] private bool _AutoAdRequest;
+        [SerializeField] [Range(5.0f, 100.0f)] private float _AdRequestTime;
         private IEnumerator AutoAdRequest(float _delay)
         {
             while (true)
@@ -221,10 +228,10 @@ namespace CTJ
         #endregion
 
         #region Banner Ads
-        public bool _EnableBanner;
+        [SerializeField] private bool _EnableBanner;
         private bool _BannerActivated;
         private BannerView _BannerView;
-        public enum BannerAdSize
+        private enum BannerAdSize
         {
             Banner,
             IABBanner,
@@ -234,8 +241,8 @@ namespace CTJ
             AdaptiveBanner,
             Custom
         }
-        public BannerAdSize _BannerAdSize;
-        public Vector2Int _WH;
+        [SerializeField] private BannerAdSize _BannerAdSize;
+        [SerializeField] private Vector2Int _WH;
         private AdSize _AdSize
         {
             get
@@ -261,7 +268,7 @@ namespace CTJ
                 }
             }
         }
-        public enum BannerAdPosition
+        private enum BannerAdPosition
         {
             Bottom,
             BottomLeft,
@@ -272,8 +279,8 @@ namespace CTJ
             TopLeft,
             TopRight
         }
-        public BannerAdPosition _BannerAdPosition;
-        public Vector2Int _Pos;
+        [SerializeField] private BannerAdPosition _BannerAdPosition;
+        [SerializeField] private Vector2Int _Pos;
         private AdPosition _AdPosition
         {
             get
@@ -353,6 +360,7 @@ namespace CTJ
 
             // Load the banner with the request.
             _BannerView.LoadAd(_ad_request);
+            HideBannerAd();
 
             _BannerActivated = true;
         }
@@ -379,8 +387,9 @@ namespace CTJ
         {
             Logger.Log("BannerOnAdLeavingApplication event received.");
         }
-        private void BannerViewHide() => _BannerView.Hide();
-        private void BannerViewDestroy()
+        public void ShowBannerAd() => _BannerView.Show();
+        public void HideBannerAd() => _BannerView.Hide();
+        public void DestroyBannerAd()
         {
             _BannerView.Destroy();
             Logger.LogWarning("Banner Destroyed.");
@@ -389,7 +398,7 @@ namespace CTJ
         #endregion
 
         #region Interstitial Ads
-        public bool _EnableInterstitial;
+        [SerializeField] private bool _EnableInterstitial;
         private bool _InterstitialActivated;
         private InterstitialAd _InterstitialAd;
         private void RequestInterstitial()
@@ -483,7 +492,7 @@ namespace CTJ
         {
             Logger.Log("InterstitialOnAdLeavingApplication event received.");
         }
-        private void InterstitialAdDestroy()
+        public void DestroyInterstitialAd()
         {
             _InterstitialAd.Destroy();
             Logger.LogWarning("Interstitial Destroyed.");
@@ -492,7 +501,7 @@ namespace CTJ
         #endregion
 
         #region Rewarded Ads
-        public bool _EnableRewarded;
+        [SerializeField] private bool _EnableRewarded;
         private bool _RewardedActivated;
         private RewardedAd _RewardedAd;
         private void RequestRewarded()
@@ -596,7 +605,7 @@ namespace CTJ
         #endregion
 
         #region Rewarded Interstitial Ads
-        public bool _EnableRewardedInterstitial;
+        [SerializeField] private bool _EnableRewardedInterstitial;
         private bool _RewardedInterstitialActivated;
         private RewardedInterstitialAd _RewardedInterstitialAd;
         private void RequestRewardedInterstitial()
@@ -686,7 +695,7 @@ namespace CTJ
         #endregion
 
         #region Native Ads Advanced (Unified)
-        public bool _EnableNative;
+        [SerializeField] private bool _EnableNative;
         private bool _NativeActivated;
         private UnifiedNativeAd _UnifiedNativeAd;
         private void RequestNative()
@@ -728,55 +737,55 @@ namespace CTJ
             _NativeActivated = true;
         }
 
-        private static Texture2D _AdChoicesLogo;
-        private static string _Advertiser;
-        private static string _Body;
-        private static string _CallToAction;
-        private static int _HashCode;
-        private static string _Headline;
-        private static Texture2D _Icon;
-        private static List<Texture2D> _Image;
-        private static string _Price;
-        private static ResponseInfo _ResponseInfo;
-        private static double _StarRating;
-        private static string _Store;
-        private static Type _Type;
+        private Texture2D _AdChoicesLogo;
+        private string _Advertiser;
+        private string _Body;
+        private string _CallToAction;
+        private int _HashCode;
+        private string _Headline;
+        private Texture2D _Icon;
+        private List<Texture2D> _Image;
+        private string _Price;
+        private ResponseInfo _ResponseInfo;
+        private double _StarRating;
+        private string _Store;
+        private Type _Type;
         // External call get assets of native advanced ads.
-        public static Texture2D GetAdChoicesLogo { get { return _AdChoicesLogo; } }
-        public static string GetAdvertiser { get { return _Advertiser; } }
-        public static string GetBody { get { return _Body; } }
-        public static string GetCallToAction { get { return _CallToAction; } }
-        public static new int GetHashCode { get { return _HashCode; } }
-        public static string GetHeadline { get { return _Headline; } }
-        public static Texture2D GetIcon { get { return _Icon; } }
-        public static List<Texture2D> GetImage { get { return _Image; } }
-        public static string GetPrice { get { return _Price; } }
-        public static ResponseInfo GetResponseInfo { get { return _ResponseInfo; } }
-        public static double GetStarRating { get { return _StarRating; } }
-        public static string GetStore { get { return _Store; } }
-        public static new Type GetType { get { return _Type; } }
+        public Texture2D GetAdChoicesLogo { get { return _AdChoicesLogo; } }
+        public string GetAdvertiser { get { return _Advertiser; } }
+        public string GetBody { get { return _Body; } }
+        public string GetCallToAction { get { return _CallToAction; } }
+        public new int GetHashCode { get { return _HashCode; } }
+        public string GetHeadline { get { return _Headline; } }
+        public Texture2D GetIcon { get { return _Icon; } }
+        public List<Texture2D> GetImage { get { return _Image; } }
+        public string GetPrice { get { return _Price; } }
+        public ResponseInfo GetResponseInfo { get { return _ResponseInfo; } }
+        public double GetStarRating { get { return _StarRating; } }
+        public string GetStore { get { return _Store; } }
+        public new Type GetType { get { return _Type; } }
 
-        private static GameObject _RegisterAdChoicesLogo;
-        private static GameObject _RegisterAdvertiser;
-        private static GameObject _RegisterBody;
-        private static GameObject _RegisterCallToAction;
-        private static GameObject _RegisterHeadline;
-        private static GameObject _RegisterIcon;
-        private static List<GameObject> _RegisterImage;
-        private static GameObject _RegisterPrice;
-        private static GameObject _RegisterStore;
+        private GameObject _RegisterAdChoicesLogo;
+        private GameObject _RegisterAdvertiser;
+        private GameObject _RegisterBody;
+        private GameObject _RegisterCallToAction;
+        private GameObject _RegisterHeadline;
+        private GameObject _RegisterIcon;
+        private List<GameObject> _RegisterImage;
+        private GameObject _RegisterPrice;
+        private GameObject _RegisterStore;
         // External call register gameobject function.
-        public static void RegisterAdChoicesLogo(GameObject _go) => _RegisterAdChoicesLogo = _go;
-        public static void RegisterAdvertiser(GameObject _go) => _RegisterAdvertiser = _go;
-        public static void RegisterBody(GameObject _go) => _RegisterBody = _go;
-        public static void RegisterCallToAction(GameObject _go) => _RegisterCallToAction = _go;
-        public static void RegisterHeadline(GameObject _go) => _RegisterHeadline = _go;
-        public static void RegisterIcon(GameObject _go) => _RegisterIcon = _go;
-        public static void RegisterImage(List<GameObject> _go) => _RegisterImage = _go;
-        public static void RegisterPrice(GameObject _go) => _RegisterPrice = _go;
-        public static void RegisterStore(GameObject _go) => _RegisterStore = _go;
+        public void RegisterAdChoicesLogo(GameObject _go) => _RegisterAdChoicesLogo = _go;
+        public void RegisterAdvertiser(GameObject _go) => _RegisterAdvertiser = _go;
+        public void RegisterBody(GameObject _go) => _RegisterBody = _go;
+        public void RegisterCallToAction(GameObject _go) => _RegisterCallToAction = _go;
+        public void RegisterHeadline(GameObject _go) => _RegisterHeadline = _go;
+        public void RegisterIcon(GameObject _go) => _RegisterIcon = _go;
+        public void RegisterImage(List<GameObject> _go) => _RegisterImage = _go;
+        public void RegisterPrice(GameObject _go) => _RegisterPrice = _go;
+        public void RegisterStore(GameObject _go) => _RegisterStore = _go;
 
-        public UnityEvent OtherFunctions;
+        [SerializeField] private UnityEvent _InitializeEventFunction;
 
         private bool _UnifiedNativeAdLoaded = false;
         private void ShowNativeAd()
@@ -801,7 +810,7 @@ namespace CTJ
                 _Type = _UnifiedNativeAd.GetType();
 
                 // Invoke all registered callbacks (runtime and persistent).
-                OtherFunctions.Invoke();
+                _InitializeEventFunction.Invoke();
 
                 // Register gameobjects.
                 try
@@ -873,6 +882,12 @@ namespace CTJ
         {
             Logger.LogWarningFormat("NativeOnAdFailedToLoad failed to load: {0}.", _args.Message);
             _UnifiedNativeAdLoaded = false;
+            _NativeActivated = false;
+        }
+        public void DestroyUnifiedNativeAd()
+        {
+            _UnifiedNativeAd.Destroy();
+            Logger.LogWarning("Unified Native Destroyed.");
             _NativeActivated = false;
         }
         #endregion

@@ -12,20 +12,19 @@ public class Demo : MonoBehaviour
     [SerializeField] private GameObject _Headline;
     [SerializeField] private GameObject _Icon;
 
-    // 自定義函式
-    public void Test()
+    public void DemoFunction()
     {
-        _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.GetAdChoicesLogo;
-        _Advertiser.GetComponent<Text>().text = CTJ.Ads.GetAdvertiser;
-        _Body.GetComponent<Text>().text = CTJ.Ads.GetBody;
-        _CallToAction.GetComponent<Text>().text = CTJ.Ads.GetCallToAction;
-        _Headline.GetComponent<Text>().text = CTJ.Ads.GetHeadline;
-        _Icon.GetComponent<RawImage>().texture = CTJ.Ads.GetIcon;
-        CTJ.Ads.RegisterAdChoicesLogo(_AdChoicesLogo);
-        CTJ.Ads.RegisterAdvertiser(_Advertiser);
-        CTJ.Ads.RegisterBody(_Body);
-        CTJ.Ads.RegisterCallToAction(_CallToAction);
-        CTJ.Ads.RegisterHeadline(_Headline);
-        CTJ.Ads.RegisterIcon(_Icon);
+        _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetAdChoicesLogo;
+        _Advertiser.GetComponent<Text>().text = CTJ.Ads.Instance.GetAdvertiser;
+        _Body.GetComponent<Text>().text = CTJ.Ads.Instance.GetBody;
+        _CallToAction.GetComponent<Text>().text = CTJ.Ads.Instance.GetCallToAction;
+        _Headline.GetComponent<Text>().text = CTJ.Ads.Instance.GetHeadline;
+        _Icon.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetIcon;
+        CTJ.Ads.Instance.RegisterAdChoicesLogo(_AdChoicesLogo);
+        CTJ.Ads.Instance.RegisterAdvertiser(_Advertiser);
+        CTJ.Ads.Instance.RegisterBody(_Body);
+        CTJ.Ads.Instance.RegisterCallToAction(_CallToAction);
+        CTJ.Ads.Instance.RegisterHeadline(_Headline);
+        CTJ.Ads.Instance.RegisterIcon(_Icon);
     }
 }
