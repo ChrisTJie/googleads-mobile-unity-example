@@ -5,162 +5,234 @@ using UnityEngine;
 
 namespace CTJ
 {
-    [CustomEditor(typeof(Ads))]
-    [CanEditMultipleObjects]
+    [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
-        private Ads _Ads;
-        private SerializedProperty _OtherFunctions;
+        [MenuItem("GameObject/CTJ/Create Ads")]
+        private static void CreatePrefab()
+        {
+            string _local_path = "Assets/Project/Prefabs/Ads.prefab";
+            var _prefab = AssetDatabase.LoadAssetAtPath(_local_path, typeof(GameObject)) as GameObject;
+            var _instance = GameObject.Instantiate<GameObject>(_prefab, null);
+        }
+
+        private SerializedProperty _Mode;
+        private SerializedProperty _AutoInitialize;
+        private SerializedProperty _Android_BannerID;
+        private SerializedProperty _Android_InterstitialID;
+        private SerializedProperty _Android_RewardedID;
+        private SerializedProperty _Android_RewardedInterstitialID;
+        private SerializedProperty _Android_NativeID;
+        private SerializedProperty _IOS_BannerID;
+        private SerializedProperty _IOS_InterstitialID;
+        private SerializedProperty _IOS_RewardedID;
+        private SerializedProperty _IOS_RewardedInterstitialID;
+        private SerializedProperty _IOS_NativeID;
+        private SerializedProperty _TestDeviceMode;
+        private SerializedProperty _MediationTestSuiteMode;
+        private SerializedProperty _EnableTestBanner;
+        private SerializedProperty _EnableTestInterstitial;
+        private SerializedProperty _EnableTestRewarded;
+        private SerializedProperty _EnableTestRewardedInterstitial;
+        private SerializedProperty _EnableTestNative;
+        private SerializedProperty _AutoAdRequest;
+        private SerializedProperty _AdRequestTime;
+        private SerializedProperty _EnableBanner;
+        private SerializedProperty _BannerAdSize;
+        private SerializedProperty _WH;
+        private SerializedProperty _BannerAdPosition;
+        private SerializedProperty _Pos;
+        private SerializedProperty _EnableInterstitial;
+        private SerializedProperty _EnableRewarded;
+        private SerializedProperty _EnableRewardedInterstitial;
+        private SerializedProperty _EnableNative;
+        private SerializedProperty _InitializeEventFunction;
 
         private void OnEnable()
         {
-            _Ads = target as Ads;
-            _OtherFunctions = serializedObject.FindProperty("OtherFunctions");
+            _Mode = serializedObject.FindProperty("_Mode");
+            _AutoInitialize = serializedObject.FindProperty("_AutoInitialize");
+            _Android_BannerID = serializedObject.FindProperty("_Android_BannerID");
+            _Android_InterstitialID = serializedObject.FindProperty("_Android_InterstitialID");
+            _Android_RewardedID = serializedObject.FindProperty("_Android_RewardedID");
+            _Android_RewardedInterstitialID = serializedObject.FindProperty("_Android_RewardedInterstitialID");
+            _Android_NativeID = serializedObject.FindProperty("_Android_NativeID");
+            _IOS_BannerID = serializedObject.FindProperty("_IOS_BannerID");
+            _IOS_InterstitialID = serializedObject.FindProperty("_IOS_InterstitialID");
+            _IOS_RewardedID = serializedObject.FindProperty("_IOS_RewardedID");
+            _IOS_RewardedInterstitialID = serializedObject.FindProperty("_IOS_RewardedInterstitialID");
+            _IOS_NativeID = serializedObject.FindProperty("_IOS_NativeID");
+            _TestDeviceMode = serializedObject.FindProperty("_TestDeviceMode");
+            _MediationTestSuiteMode = serializedObject.FindProperty("_MediationTestSuiteMode");
+            _EnableTestBanner = serializedObject.FindProperty("_EnableTestBanner");
+            _EnableTestInterstitial = serializedObject.FindProperty("_EnableTestInterstitial");
+            _EnableTestRewarded = serializedObject.FindProperty("_EnableTestRewarded");
+            _EnableTestRewardedInterstitial = serializedObject.FindProperty("_EnableTestRewardedInterstitial");
+            _EnableTestNative = serializedObject.FindProperty("_EnableTestNative");
+            _AutoAdRequest = serializedObject.FindProperty("_AutoAdRequest");
+            _AdRequestTime = serializedObject.FindProperty("_AdRequestTime");
+            _EnableBanner = serializedObject.FindProperty("_EnableBanner");
+            _BannerAdSize = serializedObject.FindProperty("_BannerAdSize");
+            _WH = serializedObject.FindProperty("_WH");
+            _BannerAdPosition = serializedObject.FindProperty("_BannerAdPosition");
+            _Pos = serializedObject.FindProperty("_Pos");
+            _EnableInterstitial = serializedObject.FindProperty("_EnableInterstitial");
+            _EnableRewarded = serializedObject.FindProperty("_EnableRewarded");
+            _EnableRewardedInterstitial = serializedObject.FindProperty("_EnableRewardedInterstitial");
+            _EnableNative = serializedObject.FindProperty("_EnableNative");
+            _InitializeEventFunction = serializedObject.FindProperty("_InitializeEventFunction");
         }
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             if (EditorApplication.isPlaying)
             {
                 EditorGUILayout.HelpBox("Editor in play mode.", MessageType.Info);
+                serializedObject.ApplyModifiedProperties();
                 return;
             }
-            if (_Ads._Mode == Ads.Mode.Enable)
+            if (_Mode.enumValueIndex == 0)
             {
                 if (GUILayout.Button("Collapse", GUILayout.Height(25)))
                 {
-                    _Ads._Mode = Ads.Mode.Disable;
+                    _Mode.enumValueIndex = 1;
+                    serializedObject.ApplyModifiedProperties();
                     return;
                 }
-                EditorUtility.SetDirty(_Ads);
                 EditorGUILayout.Space(25);
-                _Ads._AutoInitialize = EditorGUILayout.Toggle("Auto Initialize", _Ads._AutoInitialize);
-                if (_Ads._AutoInitialize)
+                EditorGUILayout.PropertyField(_AutoInitialize, new GUIContent("Auto Initialize"), true);
+                if (_AutoInitialize.boolValue)
                 {
                     EditorGUILayout.Space(25);
-                    _Ads._TestDeviceMode = EditorGUILayout.Toggle("Test Device Mode", _Ads._TestDeviceMode);
-                    if (_Ads._TestDeviceMode)
+                    EditorGUILayout.PropertyField(_TestDeviceMode, new GUIContent("Test Device Mode"), true);
+                    if (_TestDeviceMode.boolValue)
                     {
                         EditorGUILayout.HelpBox("Test device mode enabled.", MessageType.Warning);
                     }
-                    _Ads._MediationTestSuiteMode = EditorGUILayout.Toggle("Mediation Test Suite Mode", _Ads._MediationTestSuiteMode);
-                    if (_Ads._MediationTestSuiteMode)
+                    EditorGUILayout.PropertyField(_MediationTestSuiteMode, new GUIContent("Mediation Test Suite Mode"), true);
+                    if (_MediationTestSuiteMode.boolValue)
                     {
                         EditorGUILayout.HelpBox("Mediation Test Suite mode enabled.", MessageType.Warning);
                     }
                     EditorGUILayout.Space(25);
-                    _Ads._AutoAdRequest = EditorGUILayout.Toggle("Auto Ad Request", _Ads._AutoAdRequest);
-                    if (_Ads._AutoAdRequest)
+                    EditorGUILayout.PropertyField(_AutoAdRequest, new GUIContent("Auto Ad Request"), true);
+                    if (_AutoAdRequest.boolValue)
                     {
-                        _Ads._AdRequestTime = EditorGUILayout.Slider("Ad Request Time", _Ads._AdRequestTime, 5.0f, 100.0f);
+                        EditorGUILayout.PropertyField(_AdRequestTime, new GUIContent("Ad Request Time"), true);
                         EditorGUILayout.HelpBox("Ad request interval per second.", MessageType.Info);
                     }
                     EditorGUILayout.Space(25);
-                    _Ads._EnableBanner = EditorGUILayout.Toggle("Enable Banner", _Ads._EnableBanner);
-                    if (_Ads._EnableBanner)
+                    EditorGUILayout.PropertyField(_EnableBanner, new GUIContent("Enable Banner"), true);
+                    if (_EnableBanner.boolValue)
                     {
-                        _Ads._EnableTestBanner = EditorGUILayout.Toggle("Test Ad Unit ID", _Ads._EnableTestBanner);
-                        if (_Ads._EnableTestBanner)
+                        EditorGUILayout.PropertyField(_EnableTestBanner, new GUIContent("Test Ad Unit ID"), true);
+                        if (_EnableTestBanner.boolValue)
                         {
                             EditorGUILayout.HelpBox("Banner ad test unit enabled.", MessageType.Warning);
                         }
                         else
                         {
-                            _Ads._Android_BannerID = EditorGUILayout.TextField("Android Banner ID", _Ads._Android_BannerID);
-                            _Ads._IOS_BannerID = EditorGUILayout.TextField("iOS Banner ID", _Ads._IOS_BannerID);
+                            EditorGUILayout.PropertyField(_Android_BannerID, new GUIContent("Android Banner ID"), true);
+                            EditorGUILayout.PropertyField(_IOS_BannerID, new GUIContent("iOS Banner ID"), true);
                         }
-                        _Ads._BannerAdSize = (Ads.BannerAdSize)EditorGUILayout.EnumPopup("Banner Ad Size", _Ads._BannerAdSize);
-                        if (_Ads._BannerAdSize == Ads.BannerAdSize.Custom)
+                        EditorGUILayout.PropertyField(_BannerAdSize, new GUIContent("Banner Ad Size"), true);
+                        if (_BannerAdSize.enumValueIndex == 6)
                         {
-                            _Ads._WH = EditorGUILayout.Vector2IntField("Banner Width & Height", new Vector2Int(Mathf.Abs(_Ads._WH.x), Mathf.Abs(_Ads._WH.y)));
+                            EditorGUILayout.PropertyField(_WH, new GUIContent("Banner Width & Height"), true);
                             EditorGUILayout.HelpBox("Size in dp (W x H).", MessageType.Info);
                         }
-                        _Ads._BannerAdPosition = (Ads.BannerAdPosition)EditorGUILayout.EnumPopup("Banner Ad Position", _Ads._BannerAdPosition);
-                        if (_Ads._BannerAdPosition == Ads.BannerAdPosition.Custom)
+                        EditorGUILayout.PropertyField(_BannerAdPosition, new GUIContent("Banner Ad Position"), true);
+                        if (_BannerAdPosition.enumValueIndex == 4)
                         {
-                            _Ads._Pos = EditorGUILayout.Vector2IntField("Banner Position X & Y", _Ads._Pos);
+                            EditorGUILayout.PropertyField(_Pos, new GUIContent("Banner Position X & Y"), true);
                             EditorGUILayout.HelpBox("The top-left corner of the BannerView will be positioned at the x and y values passed to the constructor, where the origin is the top-left of the screen.", MessageType.Info);
                         }
                     }
                     EditorGUILayout.Space(25);
-                    _Ads._EnableInterstitial = EditorGUILayout.Toggle("Enable Interstitial", _Ads._EnableInterstitial);
-                    if (_Ads._EnableInterstitial)
+                    EditorGUILayout.PropertyField(_EnableInterstitial, new GUIContent("Enable Interstitial"), true);
+                    if (_EnableInterstitial.boolValue)
                     {
-                        _Ads._EnableTestInterstitial = EditorGUILayout.Toggle("Test Ad Unit ID", _Ads._EnableTestInterstitial);
-                        if (_Ads._EnableTestInterstitial)
+                        EditorGUILayout.PropertyField(_EnableTestInterstitial, new GUIContent("Test Ad Unit ID"), true);
+                        if (_EnableTestInterstitial.boolValue)
                         {
                             EditorGUILayout.HelpBox("Interstitial ad test unit enabled.", MessageType.Warning);
                         }
                         else
                         {
-                            _Ads._Android_InterstitialID = EditorGUILayout.TextField("Android Interstitial ID", _Ads._Android_InterstitialID);
-                            _Ads._IOS_InterstitialID = EditorGUILayout.TextField("iOS Interstitial ID", _Ads._IOS_InterstitialID);
+                            EditorGUILayout.PropertyField(_Android_InterstitialID, new GUIContent("Android Interstitial ID"), true);
+                            EditorGUILayout.PropertyField(_IOS_InterstitialID, new GUIContent("iOS Interstitial ID"), true);
                         }
                     }
                     EditorGUILayout.Space(25);
-                    _Ads._EnableRewarded = EditorGUILayout.Toggle("Enable Rewarded", _Ads._EnableRewarded);
-                    if (_Ads._EnableRewarded)
+                    EditorGUILayout.PropertyField(_EnableRewarded, new GUIContent("Enable Rewarded"), true);
+                    if (_EnableRewarded.boolValue)
                     {
-                        _Ads._EnableTestRewarded = EditorGUILayout.Toggle("Test Ad Unit ID", _Ads._EnableTestRewarded);
-                        if (_Ads._EnableTestRewarded)
+                        EditorGUILayout.PropertyField(_EnableTestRewarded, new GUIContent("Test Ad Unit ID"), true);
+                        if (_EnableTestRewarded.boolValue)
                         {
                             EditorGUILayout.HelpBox("Rewarded ad test unit enabled.", MessageType.Warning);
                         }
                         else
                         {
-                            _Ads._Android_RewardedID = EditorGUILayout.TextField("Android Rewarded ID", _Ads._Android_RewardedID);
-                            _Ads._IOS_RewardedID = EditorGUILayout.TextField("iOS Rewarded ID", _Ads._IOS_RewardedID);
+                            EditorGUILayout.PropertyField(_Android_RewardedID, new GUIContent("Android Rewarded ID"), true);
+                            EditorGUILayout.PropertyField(_IOS_RewardedID, new GUIContent("iOS Rewarded ID"), true);
                         }
                     }
                     EditorGUILayout.Space(25);
-                    _Ads._EnableRewardedInterstitial = EditorGUILayout.Toggle("Enable Rewarded Interstitial", _Ads._EnableRewardedInterstitial);
-                    if (_Ads._EnableRewardedInterstitial)
+                    EditorGUILayout.PropertyField(_EnableRewardedInterstitial, new GUIContent("Enable Rewarded Interstitial"), true);
+                    if (_EnableRewardedInterstitial.boolValue)
                     {
-                        _Ads._EnableTestRewardedInterstitial = EditorGUILayout.Toggle("Test Ad Unit ID", _Ads._EnableTestRewardedInterstitial);
-                        if (_Ads._EnableTestRewardedInterstitial)
+                        EditorGUILayout.PropertyField(_EnableTestRewardedInterstitial, new GUIContent("Test Ad Unit ID"), true);
+                        if (_EnableTestRewardedInterstitial.boolValue)
                         {
                             EditorGUILayout.HelpBox("Rewarded interstitial ad test unit enabled.", MessageType.Warning);
                         }
                         else
                         {
-                            _Ads._Android_RewardedInterstitialID = EditorGUILayout.TextField("Android Rewarded Interstitial ID", _Ads._Android_RewardedInterstitialID);
-                            _Ads._IOS_RewardedInterstitialID = EditorGUILayout.TextField("iOS Rewarded Interstitial ID", _Ads._IOS_RewardedInterstitialID);
+                            EditorGUILayout.PropertyField(_Android_RewardedInterstitialID, new GUIContent("Android Rewarded Interstitial ID"), true);
+                            EditorGUILayout.PropertyField(_IOS_RewardedInterstitialID, new GUIContent("iOS Rewarded Interstitial ID"), true);
                         }
                     }
                     EditorGUILayout.Space(25);
-                    _Ads._EnableNative = EditorGUILayout.Toggle("Enable Native", _Ads._EnableNative);
-                    if (_Ads._EnableNative)
+                    EditorGUILayout.PropertyField(_EnableNative, new GUIContent("Enable Native"), true);
+                    if (_EnableNative.boolValue)
                     {
                         EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Warning);
-                        _Ads._EnableTestNative = EditorGUILayout.Toggle("Test Ad Unit ID", _Ads._EnableTestNative);
-                        if (_Ads._EnableTestNative)
+                        EditorGUILayout.PropertyField(_EnableTestNative, new GUIContent("Test Ad Unit ID"), true);
+                        if (_EnableTestNative.boolValue)
                         {
                             EditorGUILayout.HelpBox("Native ad test unit enabled.", MessageType.Warning);
                         }
                         else
                         {
-                            _Ads._Android_NativeID = EditorGUILayout.TextField("Android Native ID", _Ads._Android_NativeID);
-                            _Ads._IOS_NativeID = EditorGUILayout.TextField("iOS Native ID", _Ads._IOS_NativeID);
+                            EditorGUILayout.PropertyField(_Android_NativeID, new GUIContent("Android Native ID"), true);
+                            EditorGUILayout.PropertyField(_IOS_NativeID, new GUIContent("iOS Native ID"), true);
                         }
                         EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
                         EditorGUILayout.HelpBox("You can access the Ads module API via the Ads class under the CTJ namespace to get assets of native advanced ads and register gameobjects.", MessageType.Info);
-                        if (_Ads.OtherFunctions.GetPersistentEventCount() <= 0) EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Error);
+                        SerializedProperty _persistent_calls = _InitializeEventFunction.FindPropertyRelative("m_PersistentCalls.m_Calls");
+                        if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Error);
                         else EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Info);
-                        EditorGUILayout.PropertyField(_OtherFunctions, true);
+                        EditorGUILayout.PropertyField(_InitializeEventFunction, true);
                         serializedObject.ApplyModifiedProperties();
                         return;
                     }
+                    serializedObject.ApplyModifiedProperties();
                     return;
                 }
+                serializedObject.ApplyModifiedProperties();
                 return;
             }
-            else if (_Ads._Mode == Ads.Mode.Disable)
+            else if (_Mode.enumValueIndex == 1)
             {
                 if (GUILayout.Button("Edit", GUILayout.Height(25)))
                 {
-                    _Ads._Mode = Ads.Mode.Enable;
+                    _Mode.enumValueIndex = 0;
+                    serializedObject.ApplyModifiedProperties();
                     return;
                 }
+                serializedObject.ApplyModifiedProperties();
                 return;
             }
         }
