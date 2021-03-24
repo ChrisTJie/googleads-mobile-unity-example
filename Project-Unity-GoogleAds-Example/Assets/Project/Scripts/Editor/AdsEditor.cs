@@ -44,7 +44,9 @@ namespace CTJ
         private SerializedProperty _Pos;
         private SerializedProperty _EnableInterstitial;
         private SerializedProperty _EnableRewarded;
+        private SerializedProperty _UserEarnedRewardFunction;
         private SerializedProperty _EnableRewardedInterstitial;
+        private SerializedProperty _UserEarnedRewardCallBackFunction;
         private SerializedProperty _EnableNative;
         private SerializedProperty _InitializeEventFunction;
 
@@ -78,7 +80,9 @@ namespace CTJ
             _Pos = serializedObject.FindProperty("_Pos");
             _EnableInterstitial = serializedObject.FindProperty("_EnableInterstitial");
             _EnableRewarded = serializedObject.FindProperty("_EnableRewarded");
+            _UserEarnedRewardFunction = serializedObject.FindProperty("_UserEarnedRewardFunction");
             _EnableRewardedInterstitial = serializedObject.FindProperty("_EnableRewardedInterstitial");
+            _UserEarnedRewardCallBackFunction = serializedObject.FindProperty("_UserEarnedRewardCallBackFunction");
             _EnableNative = serializedObject.FindProperty("_EnableNative");
             _InitializeEventFunction = serializedObject.FindProperty("_InitializeEventFunction");
         }
@@ -178,6 +182,7 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_Android_RewardedID, new GUIContent("Android Rewarded ID"), true);
                             EditorGUILayout.PropertyField(_IOS_RewardedID, new GUIContent("iOS Rewarded ID"), true);
                         }
+                        EditorGUILayout.PropertyField(_UserEarnedRewardFunction, true);
                     }
                     EditorGUILayout.Space(25);
                     EditorGUILayout.PropertyField(_EnableRewardedInterstitial, new GUIContent("Enable Rewarded Interstitial"), true);
@@ -193,6 +198,7 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_Android_RewardedInterstitialID, new GUIContent("Android Rewarded Interstitial ID"), true);
                             EditorGUILayout.PropertyField(_IOS_RewardedInterstitialID, new GUIContent("iOS Rewarded Interstitial ID"), true);
                         }
+                        EditorGUILayout.PropertyField(_UserEarnedRewardCallBackFunction, true);
                     }
                     EditorGUILayout.Space(25);
                     EditorGUILayout.PropertyField(_EnableNative, new GUIContent("Enable Native"), true);

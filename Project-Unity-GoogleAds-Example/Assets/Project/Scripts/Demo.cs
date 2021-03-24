@@ -12,6 +12,16 @@ public class Demo : MonoBehaviour
     [SerializeField] private GameObject _Headline;
     [SerializeField] private GameObject _Icon;
 
+    public void DemoRewardedOnUserEarnedReward()
+    {
+        CTJ.Logger.Log("Earn rewards.");
+    }
+
+    public void DemoUserEarnedRewardCallBack()
+    {
+        CTJ.Logger.Log("Earn rewards.");
+    }
+
     public void DemoFunction()
     {
         _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetAdChoicesLogo;
