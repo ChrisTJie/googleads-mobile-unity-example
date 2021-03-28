@@ -44,9 +44,9 @@ namespace CTJ
         private SerializedProperty _Pos;
         private SerializedProperty _EnableInterstitial;
         private SerializedProperty _EnableRewarded;
-        private SerializedProperty _UserEarnedRewardFunction;
+        private SerializedProperty _RewardedOnUserEarnedReward;
         private SerializedProperty _EnableRewardedInterstitial;
-        private SerializedProperty _UserEarnedRewardCallBackFunction;
+        private SerializedProperty _UserEarnedRewardCallBack;
         private SerializedProperty _EnableNative;
         private SerializedProperty _InitializeEventFunction;
 
@@ -80,9 +80,9 @@ namespace CTJ
             _Pos = serializedObject.FindProperty("_Pos");
             _EnableInterstitial = serializedObject.FindProperty("_EnableInterstitial");
             _EnableRewarded = serializedObject.FindProperty("_EnableRewarded");
-            _UserEarnedRewardFunction = serializedObject.FindProperty("_UserEarnedRewardFunction");
+            _RewardedOnUserEarnedReward = serializedObject.FindProperty("_RewardedOnUserEarnedReward");
             _EnableRewardedInterstitial = serializedObject.FindProperty("_EnableRewardedInterstitial");
-            _UserEarnedRewardCallBackFunction = serializedObject.FindProperty("_UserEarnedRewardCallBackFunction");
+            _UserEarnedRewardCallBack = serializedObject.FindProperty("_UserEarnedRewardCallBack");
             _EnableNative = serializedObject.FindProperty("_EnableNative");
             _InitializeEventFunction = serializedObject.FindProperty("_InitializeEventFunction");
         }
@@ -106,6 +106,7 @@ namespace CTJ
                 }
                 EditorGUILayout.Space(25);
                 EditorGUILayout.PropertyField(_AutoInitialize, new GUIContent("Auto Initialize"), true);
+                EditorGUILayout.HelpBox("You can access the Ads module API via the Ads class under the CTJ namespace.", MessageType.Info);
                 if (_AutoInitialize.boolValue)
                 {
                     EditorGUILayout.Space(25);
@@ -182,7 +183,7 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_Android_RewardedID, new GUIContent("Android Rewarded ID"), true);
                             EditorGUILayout.PropertyField(_IOS_RewardedID, new GUIContent("iOS Rewarded ID"), true);
                         }
-                        EditorGUILayout.PropertyField(_UserEarnedRewardFunction, true);
+                        EditorGUILayout.PropertyField(_RewardedOnUserEarnedReward, true);
                     }
                     EditorGUILayout.Space(25);
                     EditorGUILayout.PropertyField(_EnableRewardedInterstitial, new GUIContent("Enable Rewarded Interstitial"), true);
@@ -198,7 +199,7 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_Android_RewardedInterstitialID, new GUIContent("Android Rewarded Interstitial ID"), true);
                             EditorGUILayout.PropertyField(_IOS_RewardedInterstitialID, new GUIContent("iOS Rewarded Interstitial ID"), true);
                         }
-                        EditorGUILayout.PropertyField(_UserEarnedRewardCallBackFunction, true);
+                        EditorGUILayout.PropertyField(_UserEarnedRewardCallBack, true);
                     }
                     EditorGUILayout.Space(25);
                     EditorGUILayout.PropertyField(_EnableNative, new GUIContent("Enable Native"), true);
@@ -216,7 +217,7 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_IOS_NativeID, new GUIContent("iOS Native ID"), true);
                         }
                         EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("You can access the Ads module API via the Ads class under the CTJ namespace to get assets of native advanced ads and register gameobjects.", MessageType.Info);
+                        EditorGUILayout.HelpBox("Use script functions to get native advanced ads and registered gameobjects.", MessageType.Info);
                         SerializedProperty _persistent_calls = _InitializeEventFunction.FindPropertyRelative("m_PersistentCalls.m_Calls");
                         if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Error);
                         else EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Info);
