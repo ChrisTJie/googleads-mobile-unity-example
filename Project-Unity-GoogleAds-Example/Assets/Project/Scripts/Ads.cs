@@ -504,7 +504,7 @@ namespace CTJ
         [SerializeField] private bool _EnableRewarded;
         private bool _RewardedActivated;
         private RewardedAd _RewardedAd;
-        [SerializeField] private UnityEvent _UserEarnedRewardFunction;
+        [SerializeField] private UnityEvent _RewardedOnUserEarnedReward;
         private void RequestRewarded()
         {
             if (!_EnableRewarded) return;
@@ -602,7 +602,7 @@ namespace CTJ
             string _type = _args.Type;
             double _amount = _args.Amount;
             Logger.LogFormat("RewardedOnUserEarnedReward event received for {0} {1}.", _amount.ToString(), _type);
-            _UserEarnedRewardFunction.Invoke();
+            _RewardedOnUserEarnedReward.Invoke();
         }
         #endregion
 
@@ -610,7 +610,7 @@ namespace CTJ
         [SerializeField] private bool _EnableRewardedInterstitial;
         private bool _RewardedInterstitialActivated;
         private RewardedInterstitialAd _RewardedInterstitialAd;
-        [SerializeField] private UnityEvent _UserEarnedRewardCallBackFunction;
+        [SerializeField] private UnityEvent _UserEarnedRewardCallBack;
         private void RequestRewardedInterstitial()
         {
             if (!_EnableRewardedInterstitial) return;
@@ -676,7 +676,7 @@ namespace CTJ
         private void UserEarnedRewardCallBack(Reward _reward)
         {
             Logger.Log("TODO: Reward the user.");
-            _UserEarnedRewardCallBackFunction.Invoke();
+            _UserEarnedRewardCallBack.Invoke();
         }
         private void RewardedInterstitialOnAdFailedToPresentFullScreenContent(object _sender, AdErrorEventArgs _args)
         {

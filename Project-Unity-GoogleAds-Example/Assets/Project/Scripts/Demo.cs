@@ -14,15 +14,15 @@ public class Demo : MonoBehaviour
 
     public void DemoRewardedOnUserEarnedReward()
     {
-        CTJ.Logger.Log("Earn rewards.");
+        CTJ.Logger.Log("DemoRewardedOnUserEarnedReward()");
     }
 
     public void DemoUserEarnedRewardCallBack()
     {
-        CTJ.Logger.Log("Earn rewards.");
+        CTJ.Logger.Log("DemoUserEarnedRewardCallBack()");
     }
 
-    public void DemoFunction()
+    public void DemoNativeAdvancedAdsFunction()
     {
         _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetAdChoicesLogo;
         _Advertiser.GetComponent<Text>().text = CTJ.Ads.Instance.GetAdvertiser;

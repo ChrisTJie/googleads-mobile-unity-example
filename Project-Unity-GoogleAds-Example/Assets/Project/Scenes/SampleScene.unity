@@ -1700,7 +1700,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
@@ -1720,6 +1730,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -1733,6 +1748,16 @@ PrefabInstance:
       propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 208213174}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1750,8 +1775,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 208213174}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DemoFunction
+      value: DemoNativeAdvancedAdsFunction
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
@@ -1760,12 +1790,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DemoUserEarnedRewardCallBack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DemoRewardedOnUserEarnedReward
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: DemoRewardedOnUserEarnedReward
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
@@ -1800,7 +1850,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Demo, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Demo, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Demo, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
@@ -1820,7 +1880,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
         type: 3}
+      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
       propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
