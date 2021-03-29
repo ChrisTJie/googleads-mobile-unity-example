@@ -8,6 +8,8 @@ namespace CTJ
     [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
+        private const string Version = "0.0.3";
+
         [MenuItem("GameObject/CTJ/Create Ads")]
         private static void CreatePrefab()
         {
@@ -90,6 +92,7 @@ namespace CTJ
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            EditorGUILayout.HelpBox("Ads Version" + " " + Version, MessageType.Info);
             if (EditorApplication.isPlaying)
             {
                 EditorGUILayout.HelpBox("Editor in play mode.", MessageType.Info);
