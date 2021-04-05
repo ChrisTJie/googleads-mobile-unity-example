@@ -286,7 +286,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1246562194}
+      - m_Target: {fileID: 361300862}
         m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
         m_MethodName: ShowInterstitialAd
         m_Mode: 1
@@ -365,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c7fe0e9372ffc4e82192c3ac78b0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NativeObject: {fileID: 1471705225}
   _AdChoicesLogo: {fileID: 749885818}
   _Advertiser: {fileID: 1024655674}
   _Body: {fileID: 919007409}
@@ -616,6 +617,192 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299881317}
   m_CullTransparentMesh: 0
+--- !u!1001 &361300861
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8390335535311075132, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_Name
+      value: Ads
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableBanner
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableNative
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _AutoAdRequest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _AutoInitialize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableRewarded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableTestBanner
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableTestNative
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableInterstitial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableTestRewarded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableTestInterstitial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _MediationTestSuiteMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableRewardedInterstitial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _EnableTestRewardedInterstitial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 208213174}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DemoInitializeEventFunction
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Demo, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+        type: 3}
+      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 623dd9180f02b454cb98cd0478b4406b, type: 3}
+--- !u!114 &361300862 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
+    type: 3}
+  m_PrefabInstance: {fileID: 361300861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &669863017
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +886,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1246562194}
+      - m_Target: {fileID: 361300862}
         m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
         m_MethodName: ShowRewardedAd
         m_Mode: 1
@@ -1401,7 +1588,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1246562194}
+      - m_Target: {fileID: 361300862}
         m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
         m_MethodName: ShowRewardedInterstitialAd
         m_Mode: 1
@@ -1556,362 +1743,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1001 &1246562193
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8390335535311075132, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_Name
-      value: Ads
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335535311075135, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableBanner
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableNative
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _AutoAdRequest
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _AutoInitialize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableRewarded
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableTestBanner
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableTestNative
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableInterstitial
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableTestRewarded
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableTestInterstitial
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _MediationTestSuiteMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableRewardedInterstitial
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _EnableTestRewardedInterstitial
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 208213174}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 208213174}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 208213174}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 208213174}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DemoNativeAdvancedAdsFunction
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DemoUserEarnedRewardCallBack
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DemoRewardedOnUserEarnedReward
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DemoRewardedOnUserEarnedReward
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 208213174}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DemoUserEarnedRewardCallBack
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Demo, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Demo, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Demo, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Demo, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Demo, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Demo, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _InitializeEventFunction.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBack.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _RewardedOnUserEarnedReward.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-        type: 3}
-      propertyPath: _UserEarnedRewardCallBackFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 623dd9180f02b454cb98cd0478b4406b, type: 3}
---- !u!114 &1246562194 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8390335536725480378, guid: 623dd9180f02b454cb98cd0478b4406b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1246562193}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1451815264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,7 +2158,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1246562194}
+      - m_Target: {fileID: 361300862}
         m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
         m_MethodName: ShowBannerAd
         m_Mode: 1
@@ -2459,7 +2290,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1246562194}
+      - m_Target: {fileID: 361300862}
         m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
         m_MethodName: ShowMediationTestSuite
         m_Mode: 1
@@ -2520,9 +2351,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: IngameDebugConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 132536, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11440770, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_MatchWidthOrHeight
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x

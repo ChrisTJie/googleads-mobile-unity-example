@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Mode: 1
+  _AutoInitialize: 0
   _Android_BannerID: 
   _Android_InterstitialID: 
   _Android_RewardedID: 
@@ -54,7 +55,6 @@ MonoBehaviour:
   _IOS_RewardedID: 
   _IOS_RewardedInterstitialID: 
   _IOS_NativeID: 
-  _AutoInitialize: 0
   _TestDeviceMode: 0
   _MediationTestSuiteMode: 0
   _EnableTestBanner: 0
@@ -69,13 +69,111 @@ MonoBehaviour:
   _WH: {x: 320, y: 50}
   _BannerAdPosition: 0
   _Pos: {x: 0, y: 0}
+  _BannerCallbacks: 0
+  _BannerOnAdLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  _BannerOnAdFailedToLoad:
+    m_PersistentCalls:
+      m_Calls: []
+  _BannerOnAdOpening:
+    m_PersistentCalls:
+      m_Calls: []
+  _BannerOnAdClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  _BannerOnAdLeavingApplication:
+    m_PersistentCalls:
+      m_Calls: []
+  _BannerOnPaidEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _EnableInterstitial: 0
+  _InterstitialCallbacks: 0
+  _InterstitialOnAdLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  _InterstitialOnAdFailedToLoad:
+    m_PersistentCalls:
+      m_Calls: []
+  _InterstitialOnAdOpening:
+    m_PersistentCalls:
+      m_Calls: []
+  _InterstitialOnAdClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  _InterstitialOnAdLeavingApplication:
+    m_PersistentCalls:
+      m_Calls: []
+  _InterstitialOnPaidEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _EnableRewarded: 0
+  _RewardedCallbacks: 0
+  _RewardedOnAdLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedOnAdFailedToLoad:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedOnAdFailedToShow:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedOnAdOpening:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedOnUserEarnedReward:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedOnAdClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedOnPaidEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _EnableRewardedInterstitial: 0
+  _RewardedInterstitialCallbacks: 0
+  _RewardedInterstitialOnAdDidPresentFullScreenContent:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedInterstitialOnAdFailedToPresentFullScreenContent:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedInterstitialOnAdDidDismissFullScreenContent:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedInterstitialOnUserEarnedReward:
+    m_PersistentCalls:
+      m_Calls: []
+  _RewardedInterstitialOnPaidEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _EnableNative: 0
-  _Native_AdChoicesLogo: {fileID: 0}
-  _Native_Advertiser: {fileID: 0}
-  _Native_Body: {fileID: 0}
-  _Native_CallToAction: {fileID: 0}
-  _Native_Headline: {fileID: 0}
-  _Native_Icon: {fileID: 0}
+  _InitializeEventFunction:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeCallbacks: 0
+  _NativeOnUnifiedNativeAdLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnCustomNativeTemplateAdLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnAdFailedToLoad:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnNativeAdClicked:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnNativeAdOpening:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnNativeAdClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnNativeAdImpression:
+    m_PersistentCalls:
+      m_Calls: []
+  _NativeOnNativeAdLeavingApplication:
+    m_PersistentCalls:
+      m_Calls: []
