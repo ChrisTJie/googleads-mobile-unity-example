@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Demo : MonoBehaviour
 {
+    [SerializeField] private GameObject _NativeObject;
     [SerializeField] private GameObject _AdChoicesLogo;
     [SerializeField] private GameObject _Advertiser;
     [SerializeField] private GameObject _Body;
@@ -12,17 +13,9 @@ public class Demo : MonoBehaviour
     [SerializeField] private GameObject _Headline;
     [SerializeField] private GameObject _Icon;
 
-    public void DemoRewardedOnUserEarnedReward()
-    {
-        CTJ.Logger.Log("DemoRewardedOnUserEarnedReward()");
-    }
+    private void Start() => _NativeObject.SetActive(false);
 
-    public void DemoUserEarnedRewardCallBack()
-    {
-        CTJ.Logger.Log("DemoUserEarnedRewardCallBack()");
-    }
-
-    public void DemoNativeAdvancedAdsFunction()
+    public void DemoInitializeEventFunction()
     {
         _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetAdChoicesLogo;
         _Advertiser.GetComponent<Text>().text = CTJ.Ads.Instance.GetAdvertiser;
@@ -36,5 +29,6 @@ public class Demo : MonoBehaviour
         CTJ.Ads.Instance.RegisterCallToAction(_CallToAction);
         CTJ.Ads.Instance.RegisterHeadline(_Headline);
         CTJ.Ads.Instance.RegisterIcon(_Icon);
+        _NativeObject.SetActive(true);
     }
 }
