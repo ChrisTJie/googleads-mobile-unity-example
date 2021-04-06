@@ -16,6 +16,8 @@ namespace CTJ
         private enum Mode { Enable, Disable }
         [SerializeField] private Mode _Mode;
 
+        private bool _Initialized = false;
+
         [SerializeField] private bool _AutoInitialize;
 
         #region Units
@@ -75,6 +77,7 @@ namespace CTJ
                         case AdapterState.Ready:
                             // The adapter was successfully initialized.
                             Logger.LogFormat("Adapter: {0} is initialized.", _class_name);
+                            _Initialized = true;
                             break;
                     }
                 }
@@ -194,6 +197,8 @@ namespace CTJ
         }
         private void Request()
         {
+            if (!_Initialized) { return; }
+
 #if UNITY_ANDROID
             if (IsTestLab) { Logger.LogWarningFormat("{0}: {1}", nameof(TestLab), IsTestLab); return; };
 #endif
