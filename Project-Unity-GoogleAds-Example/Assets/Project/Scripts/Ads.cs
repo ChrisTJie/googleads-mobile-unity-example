@@ -16,8 +16,6 @@ namespace CTJ
         private enum Mode { Enable, Disable }
         [SerializeField] private Mode _Mode;
 
-        private bool _Initialized = false;
-
         [SerializeField] private bool _AutoInitialize;
 
         #region Units
@@ -56,6 +54,9 @@ namespace CTJ
             else { Destroy(gameObject); }
         }
 
+        private Dictionary<string, AdapterStatus> _Map;
+        private string _ClassName;
+        private AdapterStatus _Status;
         private void Start()
         {
             if (!_AutoInitialize) { return; }
@@ -63,21 +64,20 @@ namespace CTJ
             // Initialize the Google Mobile Ads SDK.
             MobileAds.Initialize(_init_status =>
             {
-                Dictionary<string, AdapterStatus> _map = _init_status.getAdapterStatusMap();
-                foreach (KeyValuePair<string, AdapterStatus> _key_value_pair in _map)
+                _Map = _init_status.getAdapterStatusMap();
+                foreach (KeyValuePair<string, AdapterStatus> _key_value_pair in _Map)
                 {
-                    string _class_name = _key_value_pair.Key;
-                    AdapterStatus _status = _key_value_pair.Value;
-                    switch (_status.InitializationState)
+                    _ClassName = _key_value_pair.Key;
+                    _Status = _key_value_pair.Value;
+                    switch (_Status.InitializationState)
                     {
                         case AdapterState.NotReady:
                             // The adapter initialization did not complete.
-                            Logger.LogWarningFormat("Adapter: {0} not ready.", _class_name);
+                            Logger.LogWarningFormat("Adapter: {0} not ready.", _ClassName);
                             break;
                         case AdapterState.Ready:
                             // The adapter was successfully initialized.
-                            Logger.LogFormat("Adapter: {0} is initialized.", _class_name);
-                            _Initialized = true;
+                            Logger.LogFormat("Adapter: {0} is initialized.", _ClassName);
                             break;
                     }
                 }
@@ -97,6 +97,9 @@ namespace CTJ
         [SerializeField] private bool _MediationTestSuiteMode;
         // Test device ID.
         private List<string> _DeviceIDs = new List<string>();
+        private string _AndroidDeviceID;
+        private string _IOSDeviceID;
+        private RequestConfiguration _RequestConfiguration;
         private void SetTestDeviceIds()
         {
             if (!_TestDeviceMode) { return; }
@@ -104,30 +107,28 @@ namespace CTJ
             // Add test device ID.
             _DeviceIDs.Add(AdRequest.TestDeviceSimulator);
 #if UNITY_ANDROID
-            string _andriod_device_id;
-            _andriod_device_id = SystemInfo.deviceUniqueIdentifier.ToUpper().Trim();
-            _DeviceIDs.Add(_andriod_device_id);
+            _AndroidDeviceID = SystemInfo.deviceUniqueIdentifier.ToUpper().Trim();
+            _DeviceIDs.Add(_AndroidDeviceID);
 #elif UNITY_IOS
-            string _ios_device_id;
-            _ios_device_id = UnityEngine.iOS.Device.advertisingIdentifier;
-            _ios_device_id = CreateMD5(_ios_device_id);
-            _ios_device_id = _ios_device_id.ToLower();
-            _DeviceIDs.Add(_ios_device_id);
+            _IOSDeviceID = UnityEngine.iOS.Device.advertisingIdentifier;
+            _IOSDeviceID = CreateMD5(_IOSDeviceID);
+            _IOSDeviceID = _IOSDeviceID.ToLower();
+            _DeviceIDs.Add(_IOSDeviceID);
 #endif
 
             foreach (string _device_ids in _DeviceIDs) { Logger.LogFormat("Added test device ID is: {0}", _device_ids); }
 
-            RequestConfiguration _request_configuration = new RequestConfiguration.Builder().SetTestDeviceIds(_DeviceIDs).build();
+            _RequestConfiguration = new RequestConfiguration.Builder().SetTestDeviceIds(_DeviceIDs).build();
 
             // Set requestConfiguration globally to MobileAds.
-            MobileAds.SetRequestConfiguration(_request_configuration);
+            MobileAds.SetRequestConfiguration(_RequestConfiguration);
 
             // Mediation Test Suite test device.
             if (!_MediationTestSuiteMode) { return; }
 #if UNITY_ANDROID
-            MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_andriod_device_id).Build();
+            MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_AndroidDeviceID).Build();
 #elif UNITY_IOS
-            MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_ios_device_id).Build();
+            MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_IOSDeviceID).Build();
 #endif
         }
         private string CreateMD5(string _input)
@@ -195,10 +196,9 @@ namespace CTJ
                 Request();
             }
         }
+        private AdRequest _AdRequest;
         private void Request()
         {
-            if (!_Initialized) { return; }
-
 #if UNITY_ANDROID
             if (IsTestLab) { Logger.LogWarningFormat("{0}: {1}", nameof(TestLab), IsTestLab); return; };
 #endif
@@ -213,7 +213,7 @@ namespace CTJ
 
         #region Banner Ads
         [SerializeField] private bool _EnableBanner;
-        private bool _BannerActivated;
+        private bool _BannerActivated = false;
         private BannerView _BannerView;
         private enum BannerAdSize
         {
@@ -296,7 +296,7 @@ namespace CTJ
         {
             if (!_EnableBanner) { return; }
 
-            if (_BannerView != null) { if (_BannerActivated) { return; } }
+            if (_BannerActivated) { return; }
 
             // Create a X banner at the X of the screen.
 #if UNITY_ANDROID
@@ -340,11 +340,12 @@ namespace CTJ
             _BannerView.OnAdLeavingApplication += BannerOnAdLeavingApplication;
             _BannerView.OnPaidEvent += BannerOnPaidEvent;
 
+            _AdRequest = null;
             // Create an empty ad request.
-            AdRequest _ad_request = new AdRequest.Builder().Build();
+            _AdRequest = new AdRequest.Builder().Build();
 
             // Load the banner with the request.
-            _BannerView.LoadAd(_ad_request);
+            _BannerView.LoadAd(_AdRequest);
             HideBannerAd();
 
             _BannerActivated = true;
@@ -411,13 +412,13 @@ namespace CTJ
 
         #region Interstitial Ads
         [SerializeField] private bool _EnableInterstitial;
-        private bool _InterstitialActivated;
+        private bool _InterstitialActivated = false;
         private InterstitialAd _InterstitialAd;
         private void RequestInterstitial()
         {
             if (!_EnableInterstitial) { return; }
 
-            if (_InterstitialAd != null) { if (_InterstitialActivated) { return; } }
+            if (_InterstitialActivated) { return; }
 
             // Initialize an InterstitialAd.
 #if UNITY_ANDROID
@@ -456,11 +457,12 @@ namespace CTJ
             _InterstitialAd.OnAdLeavingApplication += InterstitialOnAdLeavingApplication;
             _InterstitialAd.OnPaidEvent += InterstitialOnPaidEvent;
 
+            _AdRequest = null;
             // Create an empty ad request.
-            AdRequest _ad_request = new AdRequest.Builder().Build();
+            _AdRequest = new AdRequest.Builder().Build();
 
             // Load the interstitial with the request.
-            _InterstitialAd.LoadAd(_ad_request);
+            _InterstitialAd.LoadAd(_AdRequest);
 
             _InterstitialActivated = true;
         }
@@ -529,13 +531,13 @@ namespace CTJ
 
         #region Rewarded Ads
         [SerializeField] private bool _EnableRewarded;
-        private bool _RewardedActivated;
+        private bool _RewardedActivated = false;
         private RewardedAd _RewardedAd;
         private void RequestRewarded()
         {
             if (!_EnableRewarded) { return; }
 
-            if (_RewardedAd != null) { if (_RewardedActivated) { return; } }
+            if (_RewardedActivated) { return; }
 
 #if UNITY_ANDROID
             switch (_EnableTestRewarded)
@@ -575,11 +577,12 @@ namespace CTJ
             _RewardedAd.OnAdClosed += RewardedOnAdClosed;
             _RewardedAd.OnPaidEvent += RewardedOnPaidEvent;
 
+            _AdRequest = null;
             // Create an empty ad request.
-            AdRequest _ad_request = new AdRequest.Builder().Build();
+            _AdRequest = new AdRequest.Builder().Build();
 
             // Load the rewarded ad with the request.
-            _RewardedAd.LoadAd(_ad_request);
+            _RewardedAd.LoadAd(_AdRequest);
 
             _RewardedActivated = true;
         }
@@ -650,39 +653,40 @@ namespace CTJ
 
         #region Rewarded Interstitial Ads
         [SerializeField] private bool _EnableRewardedInterstitial;
-        private bool _RewardedInterstitialActivated;
+        private bool _RewardedInterstitialActivated = false;
         private RewardedInterstitialAd _RewardedInterstitialAd;
         private void RequestRewardedInterstitial()
         {
             if (!_EnableRewardedInterstitial) { return; }
 
-            if (_RewardedInterstitialAd != null) { if (_RewardedInterstitialActivated) { return; } }
+            if (_RewardedInterstitialActivated) { return; }
 
+            _AdRequest = null;
             // Create an empty ad request.
-            AdRequest _ad_request = new AdRequest.Builder().Build();
+            _AdRequest = new AdRequest.Builder().Build();
 
 #if UNITY_ANDROID
             switch (_EnableTestRewardedInterstitial)
             {
                 case false:
-                    RewardedInterstitialAd.LoadAd(_Android_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                    RewardedInterstitialAd.LoadAd(_Android_RewardedInterstitialID, _AdRequest, AdLoadCallBack);
                     break;
                 case true:
-                    RewardedInterstitialAd.LoadAd(_Test_Android_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                    RewardedInterstitialAd.LoadAd(_Test_Android_RewardedInterstitialID, _AdRequest, AdLoadCallBack);
                     break;
             }
 #elif UNITY_IOS
             switch (_EnableTestRewardedInterstitial)
             {
                 case false:
-                    RewardedInterstitialAd.LoadAd(_IOS_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                    RewardedInterstitialAd.LoadAd(_IOS_RewardedInterstitialID, _AdRequest, AdLoadCallBack);
                     break;
                 case true:
-                    RewardedInterstitialAd.LoadAd(_Test_IOS_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+                    RewardedInterstitialAd.LoadAd(_Test_IOS_RewardedInterstitialID, _AdRequest, AdLoadCallBack);
                     break;
             }
 #else
-            RewardedInterstitialAd.LoadAd(_RewardedInterstitialID, _ad_request, AdLoadCallBack);
+            RewardedInterstitialAd.LoadAd(_RewardedInterstitialID, _AdRequest, AdLoadCallBack);
 #endif
 
             _RewardedInterstitialActivated = true;
@@ -709,7 +713,10 @@ namespace CTJ
                 _RewardedInterstitialAd.OnAdFailedToPresentFullScreenContent += RewardedInterstitialOnAdFailedToPresentFullScreenContent;
                 _RewardedInterstitialAd.OnAdDidDismissFullScreenContent += RewardedInterstitialOnAdDidDismissFullScreenContent;
                 _RewardedInterstitialAd.OnPaidEvent += RewardedInterstitialOnPaidEvent;
+
+                Logger.Log("RewardedInterstitial successfully loaded.");
             }
+            else { _RewardedInterstitialActivated = false; Logger.LogWarningFormat("RewardedInterstitial: {0}", _error); }
         }
         [SerializeField] private bool _RewardedInterstitialCallbacks;
         [SerializeField] private UnityEvent _RewardedInterstitialOnAdDidPresentFullScreenContent;
@@ -749,49 +756,49 @@ namespace CTJ
 
         #region Native Ads Advanced (Unified)
         [SerializeField] private bool _EnableNative;
-        private bool _NativeActivated;
+        private bool _NativeActivated = false;
         private UnifiedNativeAd _UnifiedNativeAd;
+        private AdLoader _AdLoader;
         private void RequestNative()
         {
             if (!_EnableNative) { return; }
 
-            if (_UnifiedNativeAd != null) { if (_NativeActivated) { return; } }
+            if (_NativeActivated) { return; }
 
-            AdLoader _ad_loader;
 #if UNITY_ANDROID
             switch (_EnableTestNative)
             {
                 case false:
-                    _ad_loader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
+                    _AdLoader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
                     break;
                 case true:
-                    _ad_loader = new AdLoader.Builder(_Test_Android_NativeID).ForUnifiedNativeAd().Build();
+                    _AdLoader = new AdLoader.Builder(_Test_Android_NativeID).ForUnifiedNativeAd().Build();
                     break;
             }
 #elif UNITY_IOS
             switch (_EnableTestNative)
             {
                 case false:
-                    _ad_loader = new AdLoader.Builder(_IOS_NativeID).ForUnifiedNativeAd().Build();
+                    _AdLoader = new AdLoader.Builder(_IOS_NativeID).ForUnifiedNativeAd().Build();
                     break;
                 case true:
-                    _ad_loader = new AdLoader.Builder(_Test_IOS_NativeID).ForUnifiedNativeAd().Build();
+                    _AdLoader = new AdLoader.Builder(_Test_IOS_NativeID).ForUnifiedNativeAd().Build();
                     break;
             }
 #else
-            _ad_loader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
+            _AdLoader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
 #endif
 
-            _ad_loader.OnUnifiedNativeAdLoaded += NativeOnUnifiedNativeAdLoaded;
-            _ad_loader.OnCustomNativeTemplateAdLoaded += NativeOnCustomNativeTemplateAdLoaded;
-            _ad_loader.OnAdFailedToLoad += NativeOnAdFailedToLoad;
-            _ad_loader.OnNativeAdClicked += NativeOnNativeAdClicked;
-            _ad_loader.OnNativeAdOpening += NativeOnNativeAdOpening;
-            _ad_loader.OnNativeAdClosed += NativeOnNativeAdClosed;
-            _ad_loader.OnNativeAdImpression += NativeOnNativeAdImpression;
-            _ad_loader.OnNativeAdLeavingApplication += NativeOnNativeAdLeavingApplication;
+            _AdLoader.OnUnifiedNativeAdLoaded += NativeOnUnifiedNativeAdLoaded;
+            _AdLoader.OnCustomNativeTemplateAdLoaded += NativeOnCustomNativeTemplateAdLoaded;
+            _AdLoader.OnAdFailedToLoad += NativeOnAdFailedToLoad;
+            _AdLoader.OnNativeAdClicked += NativeOnNativeAdClicked;
+            _AdLoader.OnNativeAdOpening += NativeOnNativeAdOpening;
+            _AdLoader.OnNativeAdClosed += NativeOnNativeAdClosed;
+            _AdLoader.OnNativeAdImpression += NativeOnNativeAdImpression;
+            _AdLoader.OnNativeAdLeavingApplication += NativeOnNativeAdLeavingApplication;
 
-            _ad_loader.LoadAd(new AdRequest.Builder().Build());
+            _AdLoader.LoadAd(new AdRequest.Builder().Build());
 
             _NativeActivated = true;
         }
@@ -937,7 +944,7 @@ namespace CTJ
         [SerializeField] private UnityEvent _NativeOnNativeAdLeavingApplication;
         private void NativeOnUnifiedNativeAdLoaded(object _sender, UnifiedNativeAdEventArgs _args)
         {
-            Logger.LogFormat("{0} loaded.", nameof(NativeOnUnifiedNativeAdLoaded));
+            Logger.LogFormat("{0} event received.", nameof(NativeOnUnifiedNativeAdLoaded));
             _UnifiedNativeAd = _args.nativeAd;
             _UnifiedNativeAdLoaded = true;
             _NativeOnUnifiedNativeAdLoaded.Invoke();
@@ -945,7 +952,7 @@ namespace CTJ
         }
         private void NativeOnCustomNativeTemplateAdLoaded(object _sender, CustomNativeEventArgs _args)
         {
-            Logger.LogFormat("{0} loaded.", nameof(NativeOnCustomNativeTemplateAdLoaded));
+            Logger.LogFormat("{0} event received.", nameof(NativeOnCustomNativeTemplateAdLoaded));
             _NativeOnCustomNativeTemplateAdLoaded.Invoke();
         }
         private void NativeOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)

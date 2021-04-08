@@ -8,7 +8,7 @@ namespace CTJ
     [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
-        private const string Version = "0.0.5";
+        private const string Version = "0.0.6";
 
         [MenuItem("GameObject/CTJ/Create Ads")]
         private static void CreatePrefab()
