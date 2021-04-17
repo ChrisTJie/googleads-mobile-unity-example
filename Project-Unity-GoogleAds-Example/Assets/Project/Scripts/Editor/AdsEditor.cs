@@ -8,7 +8,7 @@ namespace CTJ
     [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
-        private const string Version = "0.0.6";
+        private const string Version = "0.0.7";
 
         [MenuItem("GameObject/CTJ/Create Ads")]
         private static void CreatePrefab()
@@ -76,6 +76,7 @@ namespace CTJ
         private SerializedProperty _RewardedInterstitialOnUserEarnedReward;
         private SerializedProperty _RewardedInterstitialOnPaidEvent;
         private SerializedProperty _EnableNative;
+        private SerializedProperty _EnableAwake;
         private SerializedProperty _InitializeEventFunction;
         private SerializedProperty _NativeCallbacks;
         private SerializedProperty _NativeOnUnifiedNativeAdLoaded;
@@ -147,6 +148,7 @@ namespace CTJ
             _RewardedInterstitialOnUserEarnedReward = serializedObject.FindProperty("_RewardedInterstitialOnUserEarnedReward");
             _RewardedInterstitialOnPaidEvent = serializedObject.FindProperty("_RewardedInterstitialOnPaidEvent");
             _EnableNative = serializedObject.FindProperty("_EnableNative");
+            _EnableAwake = serializedObject.FindProperty("_EnableAwake");
             _InitializeEventFunction = serializedObject.FindProperty("_InitializeEventFunction");
             _NativeCallbacks = serializedObject.FindProperty("_NativeCallbacks");
             _NativeOnUnifiedNativeAdLoaded = serializedObject.FindProperty("_NativeOnUnifiedNativeAdLoaded");
@@ -316,6 +318,15 @@ namespace CTJ
                     EditorGUILayout.PropertyField(_EnableNative, new GUIContent("Enable Native"), true);
                     if (_EnableNative.boolValue)
                     {
+                        EditorGUILayout.PropertyField(_EnableAwake, new GUIContent("Enable Awake"), true);
+                        if (_EnableAwake.boolValue)
+                        {
+                            EditorGUILayout.HelpBox("Automatically request native advanced advertising function.", MessageType.Info);
+                        }
+                        else if (!_EnableAwake.boolValue)
+                        {
+                            EditorGUILayout.HelpBox("Manually request native advanced advertising function. 'Use CTJ.Ads.Instance.GetRequestNativeAd()'", MessageType.Info);
+                        }
                         EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Warning);
                         EditorGUILayout.PropertyField(_EnableTestNative, new GUIContent("Test Ad Unit ID"), true);
                         if (_EnableTestNative.boolValue)
