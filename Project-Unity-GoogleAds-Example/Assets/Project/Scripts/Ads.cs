@@ -207,7 +207,7 @@ namespace CTJ
             RequestInterstitial();
             RequestRewarded();
             RequestRewardedInterstitial();
-            RequestNative();
+            if (_EnableAwake) { RequestNative(); }
         }
         #endregion
 
@@ -294,7 +294,7 @@ namespace CTJ
         }
         private void RequestBanner()
         {
-            if (!_EnableBanner) { return; }
+            if (!_EnableBanner) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableBanner), _EnableBanner); return; }
 
             if (_BannerActivated) { return; }
 
@@ -392,13 +392,13 @@ namespace CTJ
         }
         public void ShowBannerAd()
         {
-            if (!_EnableBanner) { return; }
+            if (!_EnableBanner) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableBanner), _EnableBanner); return; }
             if (_BannerView == null) { Logger.LogWarningFormat("{0} is null.", nameof(_BannerView)); return; }
             _BannerView.Show();
         }
         public void HideBannerAd()
         {
-            if (!_EnableBanner) { return; }
+            if (!_EnableBanner) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableBanner), _EnableBanner); return; }
             if (_BannerView == null) { Logger.LogWarningFormat("{0} is null.", nameof(_BannerView)); return; }
             _BannerView.Hide();
         }
@@ -414,9 +414,18 @@ namespace CTJ
         [SerializeField] private bool _EnableInterstitial;
         private bool _InterstitialActivated = false;
         private InterstitialAd _InterstitialAd;
+        internal bool GetInterstitialAdIsLoaded
+        {
+            get
+            {
+                if (_InterstitialAd == null) { Logger.LogWarningFormat("{0} is null.", nameof(_InterstitialAd)); return false; }
+                else if (_InterstitialAd.IsLoaded()) { Logger.LogWarningFormat("{0} IsLoaded(): {1}", nameof(_InterstitialAd), _InterstitialAd.IsLoaded()); return true; }
+                else { Logger.LogWarningFormat("{0} IsLoaded(): {1}", nameof(_InterstitialAd), _InterstitialAd.IsLoaded()); return false; }
+            }
+        }
         private void RequestInterstitial()
         {
-            if (!_EnableInterstitial) { return; }
+            if (!_EnableInterstitial) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableInterstitial), _EnableInterstitial); return; }
 
             if (_InterstitialActivated) { return; }
 
@@ -468,7 +477,7 @@ namespace CTJ
         }
         public void ShowInterstitialAd()
         {
-            if (!_EnableInterstitial) { return; }
+            if (!_EnableInterstitial) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableInterstitial), _EnableInterstitial); return; }
 
             if (_InterstitialAd == null) { Logger.LogWarningFormat("{0} is null.", nameof(_InterstitialAd)); return; }
 
@@ -533,9 +542,18 @@ namespace CTJ
         [SerializeField] private bool _EnableRewarded;
         private bool _RewardedActivated = false;
         private RewardedAd _RewardedAd;
+        internal bool GetRewardedAdIsLoaded
+        {
+            get
+            {
+                if (_RewardedAd == null) { Logger.LogWarningFormat("{0} is null.", nameof(_RewardedAd)); return false; }
+                else if (_RewardedAd.IsLoaded()) { Logger.LogWarningFormat("{0} IsLoaded(): {1}", nameof(_RewardedAd), _RewardedAd.IsLoaded()); return true; }
+                else { Logger.LogWarningFormat("{0} IsLoaded(): {1}", nameof(_RewardedAd), _RewardedAd.IsLoaded()); return false; }
+            }
+        }
         private void RequestRewarded()
         {
-            if (!_EnableRewarded) { return; }
+            if (!_EnableRewarded) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableRewarded), _EnableRewarded); return; }
 
             if (_RewardedActivated) { return; }
 
@@ -588,7 +606,7 @@ namespace CTJ
         }
         public void ShowRewardedAd()
         {
-            if (!_EnableRewarded) { return; }
+            if (!_EnableRewarded) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableRewarded), _EnableRewarded); return; }
 
             if (_RewardedAd == null) { Logger.LogWarningFormat("{0} is null.", nameof(_RewardedAd)); return; }
 
@@ -657,7 +675,7 @@ namespace CTJ
         private RewardedInterstitialAd _RewardedInterstitialAd;
         private void RequestRewardedInterstitial()
         {
-            if (!_EnableRewardedInterstitial) { return; }
+            if (!_EnableRewardedInterstitial) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableRewardedInterstitial), _EnableRewardedInterstitial); return; }
 
             if (_RewardedInterstitialActivated) { return; }
 
@@ -693,7 +711,7 @@ namespace CTJ
         }
         public void ShowRewardedInterstitialAd()
         {
-            if (!_EnableRewardedInterstitial) { return; }
+            if (!_EnableRewardedInterstitial) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableRewardedInterstitial), _EnableRewardedInterstitial); return; }
 
             if (_RewardedInterstitialAd != null)
             {
@@ -714,9 +732,9 @@ namespace CTJ
                 _RewardedInterstitialAd.OnAdDidDismissFullScreenContent += RewardedInterstitialOnAdDidDismissFullScreenContent;
                 _RewardedInterstitialAd.OnPaidEvent += RewardedInterstitialOnPaidEvent;
 
-                Logger.Log("RewardedInterstitial successfully loaded.");
+                Logger.LogFormat("{0} successfully loaded.", nameof(_RewardedInterstitialAd));
             }
-            else { _RewardedInterstitialActivated = false; Logger.LogWarningFormat("RewardedInterstitial: {0}", _error); }
+            else { _RewardedInterstitialActivated = false; Logger.LogWarningFormat("{0}: {1}", nameof(_RewardedInterstitialAd), _error); }
         }
         [SerializeField] private bool _RewardedInterstitialCallbacks;
         [SerializeField] private UnityEvent _RewardedInterstitialOnAdDidPresentFullScreenContent;
@@ -756,12 +774,14 @@ namespace CTJ
 
         #region Native Ads Advanced (Unified)
         [SerializeField] private bool _EnableNative;
+        [SerializeField] private bool _EnableAwake;
         private bool _NativeActivated = false;
         private UnifiedNativeAd _UnifiedNativeAd;
         private AdLoader _AdLoader;
+        public void GetRequestNativeAd() => RequestNative();
         private void RequestNative()
         {
-            if (!_EnableNative) { return; }
+            if (!_EnableNative) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableNative), _EnableNative); return; }
 
             if (_NativeActivated) { return; }
 
