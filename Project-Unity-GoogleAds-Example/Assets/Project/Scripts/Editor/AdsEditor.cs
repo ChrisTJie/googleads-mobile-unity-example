@@ -8,7 +8,7 @@ namespace CTJ
     [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
-        private const string Version = "0.0.7";
+        private const string Version = "0.0.8";
 
         [MenuItem("GameObject/CTJ/Create Ads")]
         private static void CreatePrefab()
@@ -77,7 +77,7 @@ namespace CTJ
         private SerializedProperty _RewardedInterstitialOnPaidEvent;
         private SerializedProperty _EnableNative;
         private SerializedProperty _EnableAwake;
-        private SerializedProperty _InitializeEventFunction;
+        private SerializedProperty _NativeInitialize;
         private SerializedProperty _NativeCallbacks;
         private SerializedProperty _NativeOnUnifiedNativeAdLoaded;
         private SerializedProperty _NativeOnCustomNativeTemplateAdLoaded;
@@ -149,7 +149,7 @@ namespace CTJ
             _RewardedInterstitialOnPaidEvent = serializedObject.FindProperty("_RewardedInterstitialOnPaidEvent");
             _EnableNative = serializedObject.FindProperty("_EnableNative");
             _EnableAwake = serializedObject.FindProperty("_EnableAwake");
-            _InitializeEventFunction = serializedObject.FindProperty("_InitializeEventFunction");
+            _NativeInitialize = serializedObject.FindProperty("_NativeInitialize");
             _NativeCallbacks = serializedObject.FindProperty("_NativeCallbacks");
             _NativeOnUnifiedNativeAdLoaded = serializedObject.FindProperty("_NativeOnUnifiedNativeAdLoaded");
             _NativeOnCustomNativeTemplateAdLoaded = serializedObject.FindProperty("_NativeOnCustomNativeTemplateAdLoaded");
@@ -340,10 +340,10 @@ namespace CTJ
                         }
                         EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
                         EditorGUILayout.HelpBox("Use script functions to get native advanced ads and registered gameobjects.", MessageType.Info);
-                        SerializedProperty _persistent_calls = _InitializeEventFunction.FindPropertyRelative("m_PersistentCalls.m_Calls");
-                        if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Error);
+                        SerializedProperty _persistent_calls = _NativeInitialize.FindPropertyRelative("m_PersistentCalls.m_Calls");
+                        if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("You need to initialize the native function to successfully display native ads.", MessageType.Warning);
                         else EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Info);
-                        EditorGUILayout.PropertyField(_InitializeEventFunction, true);
+                        EditorGUILayout.PropertyField(_NativeInitialize, true);
                         _NativeCallbacks.boolValue = EditorGUILayout.Foldout(_NativeCallbacks.boolValue, "Native Callbacks");
                         if (_NativeCallbacks.boolValue)
                         {

@@ -13,9 +13,12 @@ public class Demo : MonoBehaviour
     [SerializeField] private GameObject _Headline;
     [SerializeField] private GameObject _Icon;
 
-    private void Start() => _NativeObject.SetActive(false);
+    private void Start()
+    {
+        _NativeObject.SetActive(false);
+    }
 
-    public void DemoInitializeEventFunction()
+    public void DemoNativeInitialize()
     {
         _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetAdChoicesLogo;
         _Advertiser.GetComponent<Text>().text = CTJ.Ads.Instance.GetAdvertiser;
