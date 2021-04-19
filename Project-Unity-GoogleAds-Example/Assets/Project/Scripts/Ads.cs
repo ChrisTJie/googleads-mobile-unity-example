@@ -292,7 +292,7 @@ namespace CTJ
                 }
             }
         }
-        private void RequestBanner()
+        public void RequestBanner()
         {
             if (!_EnableBanner) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableBanner), _EnableBanner); return; }
 
@@ -423,7 +423,7 @@ namespace CTJ
                 else { Logger.LogWarningFormat("{0} IsLoaded(): {1}", nameof(_InterstitialAd), _InterstitialAd.IsLoaded()); return false; }
             }
         }
-        private void RequestInterstitial()
+        public void RequestInterstitial()
         {
             if (!_EnableInterstitial) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableInterstitial), _EnableInterstitial); return; }
 
@@ -551,7 +551,7 @@ namespace CTJ
                 else { Logger.LogWarningFormat("{0} IsLoaded(): {1}", nameof(_RewardedAd), _RewardedAd.IsLoaded()); return false; }
             }
         }
-        private void RequestRewarded()
+        public void RequestRewarded()
         {
             if (!_EnableRewarded) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableRewarded), _EnableRewarded); return; }
 
@@ -673,7 +673,7 @@ namespace CTJ
         [SerializeField] private bool _EnableRewardedInterstitial;
         private bool _RewardedInterstitialActivated = false;
         private RewardedInterstitialAd _RewardedInterstitialAd;
-        private void RequestRewardedInterstitial()
+        public void RequestRewardedInterstitial()
         {
             if (!_EnableRewardedInterstitial) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableRewardedInterstitial), _EnableRewardedInterstitial); return; }
 
@@ -778,8 +778,7 @@ namespace CTJ
         private bool _NativeActivated = false;
         private UnifiedNativeAd _UnifiedNativeAd;
         private AdLoader _AdLoader;
-        public void GetRequestNativeAd() => RequestNative();
-        private void RequestNative()
+        public void RequestNative()
         {
             if (!_EnableNative) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableNative), _EnableNative); return; }
 
@@ -868,7 +867,8 @@ namespace CTJ
         internal void RegisterImage(List<GameObject> _go) => _RegisterImage = _go;
         internal void RegisterPrice(GameObject _go) => _RegisterPrice = _go;
         internal void RegisterStore(GameObject _go) => _RegisterStore = _go;
-        [SerializeField] private UnityEvent _InitializeEventFunction;
+        [SerializeField] private UnityEvent _NativeInitialize;
+        internal void EventNativeInitialize(UnityAction _unity_action) => _NativeInitialize.AddListener(_unity_action);
         private bool _UnifiedNativeAdLoaded = false;
         private void ShowNativeAd()
         {
@@ -892,7 +892,7 @@ namespace CTJ
                 _Type = _UnifiedNativeAd.GetType();
 
                 // Invoke all registered callbacks (runtime and persistent).
-                _InitializeEventFunction.Invoke();
+                _NativeInitialize.Invoke();
 
                 // Register gameobjects.
                 try

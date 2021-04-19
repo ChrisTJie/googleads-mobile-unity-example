@@ -6657,7 +6657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ccc9371e0b94a4681061e361861c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Mode: 1
+  _Mode: 0
   _AutoInitialize: 1
   _Android_BannerID: 
   _Android_InterstitialID: 
@@ -6764,21 +6764,9 @@ MonoBehaviour:
       m_Calls: []
   _EnableNative: 1
   _EnableAwake: 1
-  _InitializeEventFunction:
+  _NativeInitialize:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 208213174}
-        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
-        m_MethodName: DemoInitializeEventFunction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   _NativeCallbacks: 0
   _NativeOnUnifiedNativeAdLoaded:
     m_PersistentCalls:
