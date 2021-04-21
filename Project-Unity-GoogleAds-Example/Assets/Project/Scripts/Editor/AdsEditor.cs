@@ -318,6 +318,7 @@ namespace CTJ
                     EditorGUILayout.PropertyField(_EnableNative, new GUIContent("Enable Native"), true);
                     if (_EnableNative.boolValue)
                     {
+                        EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Warning);
                         EditorGUILayout.PropertyField(_EnableAwake, new GUIContent("Enable Awake"), true);
                         if (_EnableAwake.boolValue)
                         {
@@ -325,9 +326,8 @@ namespace CTJ
                         }
                         else if (!_EnableAwake.boolValue)
                         {
-                            EditorGUILayout.HelpBox("Manually request native advanced advertising function. 'Use CTJ.Ads.Instance.GetRequestNativeAd()'", MessageType.Info);
+                            EditorGUILayout.HelpBox("Manually request native advanced advertising function. 'Use CTJ.Ads.Instance.RequestNativeAd()'", MessageType.Info);
                         }
-                        EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Warning);
                         EditorGUILayout.PropertyField(_EnableTestNative, new GUIContent("Test Ad Unit ID"), true);
                         if (_EnableTestNative.boolValue)
                         {
@@ -339,10 +339,9 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_IOS_NativeID, new GUIContent("iOS Native ID"), true);
                         }
                         EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("Use script functions to get native advanced ads and registered gameobjects.", MessageType.Info);
+                        EditorGUILayout.HelpBox("Use the following events to register the object and initialize the native advanced advertising function or use the script to call the api module to register the object.", MessageType.Info);
                         SerializedProperty _persistent_calls = _NativeInitialize.FindPropertyRelative("m_PersistentCalls.m_Calls");
-                        if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("You need to initialize the native function to successfully display native ads.", MessageType.Warning);
-                        else EditorGUILayout.HelpBox("You can only register your custom function by using the following events.", MessageType.Info);
+                        if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("If you don't use registered from the following events, please use api module to register the object. 'Use CTJ.Ads.Instance.EventNativeInitialize(ACTION)'", MessageType.Warning);
                         EditorGUILayout.PropertyField(_NativeInitialize, true);
                         _NativeCallbacks.boolValue = EditorGUILayout.Foldout(_NativeCallbacks.boolValue, "Native Callbacks");
                         if (_NativeCallbacks.boolValue)
