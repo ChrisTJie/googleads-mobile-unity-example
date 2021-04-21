@@ -88,8 +88,6 @@ namespace CTJ
             else { StartCoroutine(AutoAdRequest(_AdRequestTime)); }
             if (_MediationTestSuiteMode) { MediationTestSuite.OnMediationTestSuiteDismissed += HandleMediationTestSuiteDismissed; }
         }
-
-        private void Update() => ShowNativeAd();
         #endregion
 
         #region Test Mode
@@ -352,11 +350,23 @@ namespace CTJ
         }
         [SerializeField] private bool _BannerCallbacks;
         [SerializeField] private UnityEvent _BannerOnAdLoaded;
+        internal void EventAddListener_BannerOnAdLoaded(UnityAction _unity_action) => _BannerOnAdLoaded.AddListener(_unity_action);
+        public void EventRemoveAllListeners_BannerOnAdLoaded() => _BannerOnAdLoaded.RemoveAllListeners();
         [SerializeField] private UnityEvent _BannerOnAdFailedToLoad;
+        internal void EventAddListener_BannerOnAdFailedToLoad(UnityAction _unity_action) => _BannerOnAdFailedToLoad.AddListener(_unity_action);
+        public void EventRemoveAllListeners_BannerOnAdFailedToLoad() => _BannerOnAdFailedToLoad.RemoveAllListeners();
         [SerializeField] private UnityEvent _BannerOnAdOpening;
+        internal void EventAddListener_BannerOnAdOpening(UnityAction _unity_action) => _BannerOnAdOpening.AddListener(_unity_action);
+        public void EventRemoveAllListeners_BannerOnAdOpening() => _BannerOnAdOpening.RemoveAllListeners();
         [SerializeField] private UnityEvent _BannerOnAdClosed;
+        internal void EventAddListener_BannerOnAdClosed(UnityAction _unity_action) => _BannerOnAdClosed.AddListener(_unity_action);
+        public void EventRemoveAllListeners_BannerOnAdClosed() => _BannerOnAdClosed.RemoveAllListeners();
         [SerializeField] private UnityEvent _BannerOnAdLeavingApplication;
+        internal void EventAddListener_BannerOnAdLeavingApplication(UnityAction _unity_action) => _BannerOnAdLeavingApplication.AddListener(_unity_action);
+        public void EventRemoveAllListeners_BannerOnAdLeavingApplication() => _BannerOnAdLeavingApplication.RemoveAllListeners();
         [SerializeField] private UnityEvent _BannerOnPaidEvent;
+        internal void EventAddListener_BannerOnPaidEvent(UnityAction _unity_action) => _BannerOnPaidEvent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_BannerOnPaidEvent() => _BannerOnPaidEvent.RemoveAllListeners();
         private void BannerOnAdLoaded(object _sender, EventArgs _args)
         {
             Logger.LogFormat("{0} event received.", nameof(BannerOnAdLoaded));
@@ -491,11 +501,23 @@ namespace CTJ
         }
         [SerializeField] private bool _InterstitialCallbacks;
         [SerializeField] private UnityEvent _InterstitialOnAdLoaded;
+        internal void EventAddListener_InterstitialOnAdLoaded(UnityAction _unity_action) => _InterstitialOnAdLoaded.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdLoaded() => _InterstitialOnAdLoaded.RemoveAllListeners();
         [SerializeField] private UnityEvent _InterstitialOnAdFailedToLoad;
+        internal void EventAddListener_InterstitialOnAdFailedToLoad(UnityAction _unity_action) => _InterstitialOnAdFailedToLoad.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdFailedToLoad() => _InterstitialOnAdFailedToLoad.RemoveAllListeners();
         [SerializeField] private UnityEvent _InterstitialOnAdOpening;
+        internal void EventAddListener_InterstitialOnAdOpening(UnityAction _unity_action) => _InterstitialOnAdOpening.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdOpening() => _InterstitialOnAdOpening.RemoveAllListeners();
         [SerializeField] private UnityEvent _InterstitialOnAdClosed;
+        internal void EventAddListener_InterstitialOnAdClosed(UnityAction _unity_action) => _InterstitialOnAdClosed.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdClosed() => _InterstitialOnAdClosed.RemoveAllListeners();
         [SerializeField] private UnityEvent _InterstitialOnAdLeavingApplication;
+        internal void EventAddListener_InterstitialOnAdLeavingApplication(UnityAction _unity_action) => _InterstitialOnAdLeavingApplication.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdLeavingApplication() => _InterstitialOnAdLeavingApplication.RemoveAllListeners();
         [SerializeField] private UnityEvent _InterstitialOnPaidEvent;
+        internal void EventAddListener_InterstitialOnPaidEvent(UnityAction _unity_action) => _InterstitialOnPaidEvent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnPaidEvent() => _InterstitialOnPaidEvent.RemoveAllListeners();
         private void InterstitialOnAdLoaded(object _sender, EventArgs _args)
         {
             Logger.LogFormat("{0} event received.", nameof(InterstitialOnAdLoaded));
@@ -620,12 +642,26 @@ namespace CTJ
         }
         [SerializeField] private bool _RewardedCallbacks;
         [SerializeField] private UnityEvent _RewardedOnAdLoaded;
+        internal void EventAddListener_RewardedOnAdLoaded(UnityAction _unity_action) => _RewardedOnAdLoaded.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnAdLoaded() => _RewardedOnAdLoaded.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedOnAdFailedToLoad;
+        internal void EventAddListener_RewardedOnAdFailedToLoad(UnityAction _unity_action) => _RewardedOnAdFailedToLoad.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnAdFailedToLoad() => _RewardedOnAdFailedToLoad.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedOnAdFailedToShow;
+        internal void EventAddListener_RewardedOnAdFailedToShow(UnityAction _unity_action) => _RewardedOnAdFailedToShow.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnAdFailedToShow() => _RewardedOnAdFailedToShow.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedOnAdOpening;
+        internal void EventAddListener_RewardedOnAdOpening(UnityAction _unity_action) => _RewardedOnAdOpening.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnAdOpening() => _RewardedOnAdOpening.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedOnUserEarnedReward;
+        internal void EventAddListener_RewardedOnUserEarnedReward(UnityAction _unity_action) => _RewardedOnUserEarnedReward.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnUserEarnedReward() => _RewardedOnUserEarnedReward.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedOnAdClosed;
+        internal void EventAddListener_RewardedOnAdClosed(UnityAction _unity_action) => _RewardedOnAdClosed.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnAdClosed() => _RewardedOnAdClosed.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedOnPaidEvent;
+        internal void EventAddListener_RewardedOnPaidEvent(UnityAction _unity_action) => _RewardedOnPaidEvent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedOnPaidEvent() => _RewardedOnPaidEvent.RemoveAllListeners();
         private void RewardedOnAdLoaded(object _sender, EventArgs _args)
         {
             Logger.LogFormat("{0} event received.", nameof(RewardedOnAdLoaded));
@@ -738,10 +774,20 @@ namespace CTJ
         }
         [SerializeField] private bool _RewardedInterstitialCallbacks;
         [SerializeField] private UnityEvent _RewardedInterstitialOnAdDidPresentFullScreenContent;
+        internal void EventAddListener_RewardedInterstitialOnAdDidPresentFullScreenContent(UnityAction _unity_action) => _RewardedInterstitialOnAdDidPresentFullScreenContent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedInterstitialOnAdDidPresentFullScreenContent() => _RewardedInterstitialOnAdDidPresentFullScreenContent.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedInterstitialOnAdFailedToPresentFullScreenContent;
+        internal void EventAddListener_RewardedInterstitialOnAdFailedToPresentFullScreenContent(UnityAction _unity_action) => _RewardedInterstitialOnAdFailedToPresentFullScreenContent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedInterstitialOnAdFailedToPresentFullScreenContent() => _RewardedInterstitialOnAdFailedToPresentFullScreenContent.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedInterstitialOnAdDidDismissFullScreenContent;
+        internal void EventAddListener_RewardedInterstitialOnAdDidDismissFullScreenContent(UnityAction _unity_action) => _RewardedInterstitialOnAdDidDismissFullScreenContent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedInterstitialOnAdDidDismissFullScreenContent() => _RewardedInterstitialOnAdDidDismissFullScreenContent.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedInterstitialOnUserEarnedReward;
+        internal void EventAddListener_RewardedInterstitialOnUserEarnedReward(UnityAction _unity_action) => _RewardedInterstitialOnUserEarnedReward.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedInterstitialOnUserEarnedReward() => _RewardedInterstitialOnUserEarnedReward.RemoveAllListeners();
         [SerializeField] private UnityEvent _RewardedInterstitialOnPaidEvent;
+        internal void EventAddListener_RewardedInterstitialOnPaidEvent(UnityAction _unity_action) => _RewardedInterstitialOnPaidEvent.AddListener(_unity_action);
+        public void EventRemoveAllListeners_RewardedInterstitialOnPaidEvent() => _RewardedInterstitialOnPaidEvent.RemoveAllListeners();
         private void RewardedInterstitialOnAdDidPresentFullScreenContent(object _sender, EventArgs _args)
         {
             Logger.LogFormat("{0} has presented.", nameof(RewardedInterstitialOnAdDidPresentFullScreenContent));
@@ -868,105 +914,121 @@ namespace CTJ
         internal void RegisterPrice(GameObject _go) => _RegisterPrice = _go;
         internal void RegisterStore(GameObject _go) => _RegisterStore = _go;
         [SerializeField] private UnityEvent _NativeInitialize;
-        internal void EventNativeInitialize(UnityAction _unity_action) => _NativeInitialize.AddListener(_unity_action);
-        private bool _UnifiedNativeAdLoaded = false;
+        internal void EventAddListener_NativeInitialize(UnityAction _unity_action) => _NativeInitialize.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeInitialize() => _NativeInitialize.RemoveAllListeners();
         private void ShowNativeAd()
         {
             if (!_EnableNative) { return; }
 
-            if (_UnifiedNativeAdLoaded)
+            // Get asset of native ad.
+            _AdChoicesLogo = _UnifiedNativeAd.GetAdChoicesLogoTexture();
+            _Advertiser = _UnifiedNativeAd.GetAdvertiserText();
+            _Body = _UnifiedNativeAd.GetBodyText();
+            _CallToAction = _UnifiedNativeAd.GetCallToActionText();
+            _HashCode = _UnifiedNativeAd.GetHashCode();
+            _Headline = _UnifiedNativeAd.GetHeadlineText();
+            _Icon = _UnifiedNativeAd.GetIconTexture();
+            _Image = _UnifiedNativeAd.GetImageTextures();
+            _Price = _UnifiedNativeAd.GetPrice();
+            _ResponseInfo = _UnifiedNativeAd.GetResponseInfo();
+            _StarRating = _UnifiedNativeAd.GetStarRating();
+            _Store = _UnifiedNativeAd.GetStore();
+            _Type = _UnifiedNativeAd.GetType();
+
+            // Invoke all registered callbacks (runtime and persistent).
+            _NativeInitialize.Invoke();
+
+            // Register gameobjects.
+            try
             {
-                // Get asset of native ad.
-                _AdChoicesLogo = _UnifiedNativeAd.GetAdChoicesLogoTexture();
-                _Advertiser = _UnifiedNativeAd.GetAdvertiserText();
-                _Body = _UnifiedNativeAd.GetBodyText();
-                _CallToAction = _UnifiedNativeAd.GetCallToActionText();
-                _HashCode = _UnifiedNativeAd.GetHashCode();
-                _Headline = _UnifiedNativeAd.GetHeadlineText();
-                _Icon = _UnifiedNativeAd.GetIconTexture();
-                _Image = _UnifiedNativeAd.GetImageTextures();
-                _Price = _UnifiedNativeAd.GetPrice();
-                _ResponseInfo = _UnifiedNativeAd.GetResponseInfo();
-                _StarRating = _UnifiedNativeAd.GetStarRating();
-                _Store = _UnifiedNativeAd.GetStore();
-                _Type = _UnifiedNativeAd.GetType();
-
-                // Invoke all registered callbacks (runtime and persistent).
-                _NativeInitialize.Invoke();
-
-                // Register gameobjects.
-                try
-                {
-                    _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterAdChoicesLogo), _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterAdChoicesLogo), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterAdvertiser), _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterAdvertiser), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterBody), _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterBody), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterCallToAction), _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterCallToAction), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterHeadline), _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterHeadline), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterIcon), _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterIcon), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterImageGameObjects(_RegisterImage);
-                    Logger.LogFormat("{0} total length: {1}", nameof(_RegisterImage), _RegisterImage.Count);
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterImage), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterPrice), _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterPrice), _exception.Message); }
-                try
-                {
-                    _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore);
-                    Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterStore), _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore));
-                }
-                catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterStore), _exception.Message); }
-
-                _UnifiedNativeAdLoaded = false;
+                _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterAdChoicesLogo), _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo));
             }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterAdChoicesLogo), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterAdvertiser), _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterAdvertiser), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterBody), _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterBody), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterCallToAction), _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterCallToAction), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterHeadline), _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterHeadline), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterIcon), _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterIcon), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterImageGameObjects(_RegisterImage);
+                Logger.LogFormat("{0} total length: {1}", nameof(_RegisterImage), _RegisterImage.Count);
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterImage), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterPrice), _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterPrice), _exception.Message); }
+            try
+            {
+                _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore);
+                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterStore), _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore));
+            }
+            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterStore), _exception.Message); }
+        }
+        public void ForceRequestNative()
+        {
+            _NativeActivated = false;
+            RequestNative();
         }
         [SerializeField] private bool _NativeCallbacks;
         [SerializeField] private UnityEvent _NativeOnUnifiedNativeAdLoaded;
+        internal void EventAddListener_NativeOnUnifiedNativeAdLoaded(UnityAction _unity_action) => _NativeOnUnifiedNativeAdLoaded.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnUnifiedNativeAdLoaded() => _NativeOnUnifiedNativeAdLoaded.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnCustomNativeTemplateAdLoaded;
+        internal void EventAddListener_NativeOnCustomNativeTemplateAdLoaded(UnityAction _unity_action) => _NativeOnCustomNativeTemplateAdLoaded.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnCustomNativeTemplateAdLoaded() => _NativeOnCustomNativeTemplateAdLoaded.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnAdFailedToLoad;
+        internal void EventAddListener_NativeOnAdFailedToLoad(UnityAction _unity_action) => _NativeOnAdFailedToLoad.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnAdFailedToLoad() => _NativeOnAdFailedToLoad.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnNativeAdClicked;
+        internal void EventAddListener_NativeOnNativeAdClicked(UnityAction _unity_action) => _NativeOnNativeAdClicked.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnNativeAdClicked() => _NativeOnNativeAdClicked.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnNativeAdOpening;
+        internal void EventAddListener_NativeOnNativeAdOpening(UnityAction _unity_action) => _NativeOnNativeAdOpening.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnNativeAdOpening() => _NativeOnNativeAdOpening.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnNativeAdClosed;
+        internal void EventAddListener_NativeOnNativeAdClosed(UnityAction _unity_action) => _NativeOnNativeAdClosed.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnNativeAdClosed() => _NativeOnNativeAdClosed.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnNativeAdImpression;
+        internal void EventAddListener_NativeOnNativeAdImpression(UnityAction _unity_action) => _NativeOnNativeAdImpression.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnNativeAdImpression() => _NativeOnNativeAdImpression.RemoveAllListeners();
         [SerializeField] private UnityEvent _NativeOnNativeAdLeavingApplication;
+        internal void EventAddListener_NativeOnNativeAdLeavingApplication(UnityAction _unity_action) => _NativeOnNativeAdLeavingApplication.AddListener(_unity_action);
+        public void EventRemoveAllListeners_NativeOnNativeAdLeavingApplication() => _NativeOnNativeAdLeavingApplication.RemoveAllListeners();
         private void NativeOnUnifiedNativeAdLoaded(object _sender, UnifiedNativeAdEventArgs _args)
         {
             Logger.LogFormat("{0} event received.", nameof(NativeOnUnifiedNativeAdLoaded));
             _UnifiedNativeAd = _args.nativeAd;
-            _UnifiedNativeAdLoaded = true;
+            ShowNativeAd();
             _NativeOnUnifiedNativeAdLoaded.Invoke();
             _NativeActivated = true;
         }
@@ -978,7 +1040,6 @@ namespace CTJ
         private void NativeOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
         {
             Logger.LogWarningFormat("{0} failed to load: {1}", nameof(NativeOnAdFailedToLoad), _args.Message);
-            _UnifiedNativeAdLoaded = false;
             _NativeOnAdFailedToLoad.Invoke();
             _NativeActivated = false;
         }

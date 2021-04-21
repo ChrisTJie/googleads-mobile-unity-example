@@ -16,9 +16,10 @@ public class Demo : MonoBehaviour
     private void Start()
     {
         _NativeObject.SetActive(false);
+        CTJ.Ads.Instance.EventAddListener_NativeInitialize(DemoNativeInitialize);
     }
 
-    public void DemoNativeInitialize()
+    private void DemoNativeInitialize()
     {
         _AdChoicesLogo.GetComponent<RawImage>().texture = CTJ.Ads.Instance.GetAdChoicesLogo;
         _Advertiser.GetComponent<Text>().text = CTJ.Ads.Instance.GetAdvertiser;
