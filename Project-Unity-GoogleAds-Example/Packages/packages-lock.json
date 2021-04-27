@@ -120,6 +120,13 @@
       "dependencies": {},
       "hash": "a9dafdcbcde80d0db9a5578449af1f44940e5591"
     },
+    "com.yasirkula.simplegdprconsent": {
+      "version": "https://github.com/yasirkula/UnitySimpleGDPRConsent.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b29ed263923ac4d6c636e8d98bf73158d0c4a521"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
