@@ -15,6 +15,7 @@ public class Demo : MonoBehaviour
 
     private void Start()
     {
+        CTJ.Logger.Log(CTJ.Ads.Instance.GetGDPRApplicable);
         _NativeObject.SetActive(false);
         CTJ.Ads.Instance.EventAddListener_NativeInitialize(DemoNativeInitialize);
     }
