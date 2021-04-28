@@ -3,6 +3,7 @@ using GoogleMobileAdsMediationTestSuite.Api;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
@@ -178,6 +179,68 @@ namespace CTJ
             }
         }
 #endif
+        #endregion
+
+        #region GDPR
+        private class GDPRJson
+        {
+            [SerializeField] internal bool is_request_in_eea_or_unknown;
+        }
+        //private bool? _GPPRApplicable = null;
+        private string _Response;
+        private const string EU_QUERY_URL = "https://adservice.google.com/getconfig/pubvendors";
+        //private int _Index;
+        internal bool GetGDPRApplicable
+        {
+            get
+            {
+                GDPRJson _GDPRJson = new GDPRJson();
+                try
+                {
+                    using (WebClient _web_client = new WebClient())
+                    {
+                        _Response = _web_client.DownloadString(EU_QUERY_URL);
+                        _GDPRJson = JsonUtility.FromJson<GDPRJson>(_Response);
+                    }
+                }
+                catch (Exception _exception)
+                {
+                    _GDPRJson.is_request_in_eea_or_unknown = true;
+                    Logger.LogWarningFormat("{0}: {1}", nameof(GetGDPRApplicable), _exception.Message);
+                }
+                finally { Logger.LogFormat("Is user possibly located in the EEA: {0}", _GDPRJson.is_request_in_eea_or_unknown); }
+                return _GDPRJson.is_request_in_eea_or_unknown;
+            }
+            /*
+            get
+            {
+                if (!_GPPRApplicable.HasValue)
+                {
+                    try
+                    {
+                        using (WebClient _web_client = new WebClient())
+                        {
+                            _Response = _web_client.DownloadString(EU_QUERY_URL);
+                            _Index = _Response.IndexOf("is_request_in_eea_or_unknown\":");
+                            if (_Index < 0)
+                                _GPPRApplicable = true;
+                            else
+                            {
+                                _Index += 30;
+                                _GPPRApplicable = _Index >= _Response.Length || !_Response.Substring(_Index).TrimStart().StartsWith("false");
+                            }
+                        }
+                    }
+                    catch (Exception _exception)
+                    {
+                        Logger.LogWarningFormat("{0}: {1}", nameof(_GPPRApplicable), _exception.Message);
+                        _GPPRApplicable = true;
+                    }
+                }
+                return _GPPRApplicable.Value;
+            }
+            */
+        }
         #endregion
 
         #region Ads Request
