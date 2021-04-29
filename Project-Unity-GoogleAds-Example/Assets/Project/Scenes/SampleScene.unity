@@ -6837,7 +6837,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8390335535654417474}
   - component: {fileID: 8390335536397734087}
-  - component: {fileID: 8390335535654417475}
   m_Layer: 0
   m_Name: Ads
   m_TagString: Untagged
@@ -6859,18 +6858,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8390335535654417475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8390335535654417473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6a009dd552f4ae4cab3bd91d150f4f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8390335536397734087
 MonoBehaviour:
   m_ObjectHideFlags: 0
