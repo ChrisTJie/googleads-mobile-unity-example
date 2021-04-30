@@ -1,8 +1,8 @@
 # Project-Unity-GoogleAds-Example
  
-Unity 2020.3.5f1
+Unity 2020.3.6f1
 
-External Dependency Manager for Unity v1.2.164
+External Dependency Manager for Unity v1.2.165
 
 Google Mobile Ads Unity Plugin v5.4.0.90
 
