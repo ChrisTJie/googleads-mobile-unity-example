@@ -1,4 +1,4 @@
-# Project-Unity-GoogleAds-Example
+# Google Mobile Ads Example for Unity
  
 Unity 2020.3.8f1
 
