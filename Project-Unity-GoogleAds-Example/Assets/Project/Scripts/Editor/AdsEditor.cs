@@ -8,7 +8,7 @@ namespace CTJ
     [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
-        private const string Version = "0.0.8 With Native Ads Advanced (Unified)";
+        private const string Version = "0.0.9-alpha";
 
         [MenuItem("GameObject/CTJ/Create Ads")]
         private static void CreatePrefab()
@@ -31,7 +31,6 @@ namespace CTJ
         private SerializedProperty _IOS_RewardedInterstitialID;
         private SerializedProperty _IOS_NativeID;
         private SerializedProperty _TestDeviceMode;
-        private SerializedProperty _MediationTestSuiteMode;
         private SerializedProperty _EnableTestBanner;
         private SerializedProperty _EnableTestInterstitial;
         private SerializedProperty _EnableTestRewarded;
@@ -40,16 +39,15 @@ namespace CTJ
         private SerializedProperty _AutoAdRequest;
         private SerializedProperty _AdRequestTime;
         private SerializedProperty _EnableBanner;
+        private SerializedProperty _AutoShowBanner;
         private SerializedProperty _BannerAdSize;
         private SerializedProperty _WH;
         private SerializedProperty _BannerAdPosition;
-        private SerializedProperty _Pos;
         private SerializedProperty _BannerCallbacks;
         private SerializedProperty _BannerOnAdLoaded;
         private SerializedProperty _BannerOnAdFailedToLoad;
         private SerializedProperty _BannerOnAdOpening;
         private SerializedProperty _BannerOnAdClosed;
-        private SerializedProperty _BannerOnAdLeavingApplication;
         private SerializedProperty _BannerOnPaidEvent;
         private SerializedProperty _EnableInterstitial;
         private SerializedProperty _InterstitialCallbacks;
@@ -57,7 +55,8 @@ namespace CTJ
         private SerializedProperty _InterstitialOnAdFailedToLoad;
         private SerializedProperty _InterstitialOnAdOpening;
         private SerializedProperty _InterstitialOnAdClosed;
-        private SerializedProperty _InterstitialOnAdLeavingApplication;
+        private SerializedProperty _InterstitialOnAdFailedToShow;
+        private SerializedProperty _InterstitialOnAdDidRecordImpression;
         private SerializedProperty _InterstitialOnPaidEvent;
         private SerializedProperty _EnableRewarded;
         private SerializedProperty _RewardedCallbacks;
@@ -75,18 +74,6 @@ namespace CTJ
         private SerializedProperty _RewardedInterstitialOnAdDidDismissFullScreenContent;
         private SerializedProperty _RewardedInterstitialOnUserEarnedReward;
         private SerializedProperty _RewardedInterstitialOnPaidEvent;
-        private SerializedProperty _EnableNative;
-        private SerializedProperty _EnableAwake;
-        private SerializedProperty _NativeInitialize;
-        private SerializedProperty _NativeCallbacks;
-        private SerializedProperty _NativeOnUnifiedNativeAdLoaded;
-        private SerializedProperty _NativeOnCustomNativeTemplateAdLoaded;
-        private SerializedProperty _NativeOnAdFailedToLoad;
-        private SerializedProperty _NativeOnNativeAdClicked;
-        private SerializedProperty _NativeOnNativeAdOpening;
-        private SerializedProperty _NativeOnNativeAdClosed;
-        private SerializedProperty _NativeOnNativeAdImpression;
-        private SerializedProperty _NativeOnNativeAdLeavingApplication;
 
         private void OnEnable()
         {
@@ -103,7 +90,6 @@ namespace CTJ
             _IOS_RewardedInterstitialID = serializedObject.FindProperty("_IOS_RewardedInterstitialID");
             _IOS_NativeID = serializedObject.FindProperty("_IOS_NativeID");
             _TestDeviceMode = serializedObject.FindProperty("_TestDeviceMode");
-            _MediationTestSuiteMode = serializedObject.FindProperty("_MediationTestSuiteMode");
             _EnableTestBanner = serializedObject.FindProperty("_EnableTestBanner");
             _EnableTestInterstitial = serializedObject.FindProperty("_EnableTestInterstitial");
             _EnableTestRewarded = serializedObject.FindProperty("_EnableTestRewarded");
@@ -112,16 +98,15 @@ namespace CTJ
             _AutoAdRequest = serializedObject.FindProperty("_AutoAdRequest");
             _AdRequestTime = serializedObject.FindProperty("_AdRequestTime");
             _EnableBanner = serializedObject.FindProperty("_EnableBanner");
+            _AutoShowBanner = serializedObject.FindProperty("_AutoShowBanner");
             _BannerAdSize = serializedObject.FindProperty("_BannerAdSize");
             _WH = serializedObject.FindProperty("_WH");
             _BannerAdPosition = serializedObject.FindProperty("_BannerAdPosition");
-            _Pos = serializedObject.FindProperty("_Pos");
             _BannerCallbacks = serializedObject.FindProperty("_BannerCallbacks");
             _BannerOnAdLoaded = serializedObject.FindProperty("_BannerOnAdLoaded");
             _BannerOnAdFailedToLoad = serializedObject.FindProperty("_BannerOnAdFailedToLoad");
             _BannerOnAdOpening = serializedObject.FindProperty("_BannerOnAdOpening");
             _BannerOnAdClosed = serializedObject.FindProperty("_BannerOnAdClosed");
-            _BannerOnAdLeavingApplication = serializedObject.FindProperty("_BannerOnAdLeavingApplication");
             _BannerOnPaidEvent = serializedObject.FindProperty("_BannerOnPaidEvent");
             _EnableInterstitial = serializedObject.FindProperty("_EnableInterstitial");
             _InterstitialCallbacks = serializedObject.FindProperty("_InterstitialCallbacks");
@@ -129,7 +114,8 @@ namespace CTJ
             _InterstitialOnAdFailedToLoad = serializedObject.FindProperty("_InterstitialOnAdFailedToLoad");
             _InterstitialOnAdOpening = serializedObject.FindProperty("_InterstitialOnAdOpening");
             _InterstitialOnAdClosed = serializedObject.FindProperty("_InterstitialOnAdClosed");
-            _InterstitialOnAdLeavingApplication = serializedObject.FindProperty("_InterstitialOnAdLeavingApplication");
+            _InterstitialOnAdFailedToShow = serializedObject.FindProperty("_InterstitialOnAdFailedToShow");
+            _InterstitialOnAdDidRecordImpression = serializedObject.FindProperty("_InterstitialOnAdDidRecordImpression");
             _InterstitialOnPaidEvent = serializedObject.FindProperty("_InterstitialOnPaidEvent");
             _EnableRewarded = serializedObject.FindProperty("_EnableRewarded");
             _RewardedCallbacks = serializedObject.FindProperty("_RewardedCallbacks");
@@ -147,18 +133,6 @@ namespace CTJ
             _RewardedInterstitialOnAdDidDismissFullScreenContent = serializedObject.FindProperty("_RewardedInterstitialOnAdDidDismissFullScreenContent");
             _RewardedInterstitialOnUserEarnedReward = serializedObject.FindProperty("_RewardedInterstitialOnUserEarnedReward");
             _RewardedInterstitialOnPaidEvent = serializedObject.FindProperty("_RewardedInterstitialOnPaidEvent");
-            _EnableNative = serializedObject.FindProperty("_EnableNative");
-            _EnableAwake = serializedObject.FindProperty("_EnableAwake");
-            _NativeInitialize = serializedObject.FindProperty("_NativeInitialize");
-            _NativeCallbacks = serializedObject.FindProperty("_NativeCallbacks");
-            _NativeOnUnifiedNativeAdLoaded = serializedObject.FindProperty("_NativeOnUnifiedNativeAdLoaded");
-            _NativeOnCustomNativeTemplateAdLoaded = serializedObject.FindProperty("_NativeOnCustomNativeTemplateAdLoaded");
-            _NativeOnAdFailedToLoad = serializedObject.FindProperty("_NativeOnAdFailedToLoad");
-            _NativeOnNativeAdClicked = serializedObject.FindProperty("_NativeOnNativeAdClicked");
-            _NativeOnNativeAdOpening = serializedObject.FindProperty("_NativeOnNativeAdOpening");
-            _NativeOnNativeAdClosed = serializedObject.FindProperty("_NativeOnNativeAdClosed");
-            _NativeOnNativeAdImpression = serializedObject.FindProperty("_NativeOnNativeAdImpression");
-            _NativeOnNativeAdLeavingApplication = serializedObject.FindProperty("_NativeOnNativeAdLeavingApplication");
         }
 
         public override void OnInspectorGUI()
@@ -189,11 +163,7 @@ namespace CTJ
                     if (_TestDeviceMode.boolValue)
                     {
                         EditorGUILayout.HelpBox("Test device mode enabled.", MessageType.Warning);
-                    }
-                    EditorGUILayout.PropertyField(_MediationTestSuiteMode, new GUIContent("Mediation Test Suite Mode"), true);
-                    if (_MediationTestSuiteMode.boolValue)
-                    {
-                        EditorGUILayout.HelpBox("Mediation Test Suite mode enabled.", MessageType.Warning);
+                        EditorGUILayout.HelpBox("Currently Google Mobile Ads Mediation Test Suite does not support Google Mobile Ads Unity Plugin v6.0.0", MessageType.Warning);
                     }
                     EditorGUILayout.Space(25);
                     EditorGUILayout.PropertyField(_AutoAdRequest, new GUIContent("Auto Ad Request"), true);
@@ -206,6 +176,7 @@ namespace CTJ
                     EditorGUILayout.PropertyField(_EnableBanner, new GUIContent("Enable Banner"), true);
                     if (_EnableBanner.boolValue)
                     {
+                        EditorGUILayout.PropertyField(_AutoShowBanner, new GUIContent("Auto Show Banner"), true);
                         EditorGUILayout.PropertyField(_EnableTestBanner, new GUIContent("Test Ad Unit ID"), true);
                         if (_EnableTestBanner.boolValue)
                         {
@@ -223,11 +194,6 @@ namespace CTJ
                             EditorGUILayout.HelpBox("Size in dp (W x H).", MessageType.Info);
                         }
                         EditorGUILayout.PropertyField(_BannerAdPosition, new GUIContent("Banner Ad Position"), true);
-                        if (_BannerAdPosition.enumValueIndex == 4)
-                        {
-                            EditorGUILayout.PropertyField(_Pos, new GUIContent("Banner Position X & Y"), true);
-                            EditorGUILayout.HelpBox("The top-left corner of the BannerView will be positioned at the x and y values passed to the constructor, where the origin is the top-left of the screen.", MessageType.Info);
-                        }
                         _BannerCallbacks.boolValue = EditorGUILayout.Foldout(_BannerCallbacks.boolValue, "Banner Callbacks");
                         if (_BannerCallbacks.boolValue)
                         {
@@ -235,7 +201,6 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_BannerOnAdFailedToLoad, true);
                             EditorGUILayout.PropertyField(_BannerOnAdOpening, true);
                             EditorGUILayout.PropertyField(_BannerOnAdClosed, true);
-                            EditorGUILayout.PropertyField(_BannerOnAdLeavingApplication, true);
                             EditorGUILayout.PropertyField(_BannerOnPaidEvent, true);
                         }
                     }
@@ -260,7 +225,8 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_InterstitialOnAdFailedToLoad, true);
                             EditorGUILayout.PropertyField(_InterstitialOnAdOpening, true);
                             EditorGUILayout.PropertyField(_InterstitialOnAdClosed, true);
-                            EditorGUILayout.PropertyField(_InterstitialOnAdLeavingApplication, true);
+                            EditorGUILayout.PropertyField(_InterstitialOnAdFailedToShow, true);
+                            EditorGUILayout.PropertyField(_InterstitialOnAdDidRecordImpression, true);
                             EditorGUILayout.PropertyField(_InterstitialOnPaidEvent, true);
                         }
                     }
@@ -313,50 +279,6 @@ namespace CTJ
                             EditorGUILayout.PropertyField(_RewardedInterstitialOnUserEarnedReward, true);
                             EditorGUILayout.PropertyField(_RewardedInterstitialOnPaidEvent, true);
                         }
-                    }
-                    EditorGUILayout.Space(25);
-                    EditorGUILayout.PropertyField(_EnableNative, new GUIContent("Enable Native"), true);
-                    if (_EnableNative.boolValue)
-                    {
-                        EditorGUILayout.HelpBox("Native advanced ads will not show in edit mode.", MessageType.Warning);
-                        EditorGUILayout.PropertyField(_EnableAwake, new GUIContent("Enable Awake"), true);
-                        if (_EnableAwake.boolValue)
-                        {
-                            EditorGUILayout.HelpBox("Automatically request native advanced advertising function.", MessageType.Info);
-                        }
-                        else if (!_EnableAwake.boolValue)
-                        {
-                            EditorGUILayout.HelpBox("Manually request native advanced advertising function. 'Use CTJ.Ads.Instance.RequestNativeAd()'", MessageType.Info);
-                        }
-                        EditorGUILayout.PropertyField(_EnableTestNative, new GUIContent("Test Ad Unit ID"), true);
-                        if (_EnableTestNative.boolValue)
-                        {
-                            EditorGUILayout.HelpBox("Native ad test unit enabled.", MessageType.Warning);
-                        }
-                        else
-                        {
-                            EditorGUILayout.PropertyField(_Android_NativeID, new GUIContent("Android Native ID"), true);
-                            EditorGUILayout.PropertyField(_IOS_NativeID, new GUIContent("iOS Native ID"), true);
-                        }
-                        EditorGUILayout.HelpBox("If GameObject objects registered to ad assets are missing Collider components or have an incorrectly configured one, native advanced ads will not operate correctly.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("Use the following events to register the object and initialize the native advanced advertising function or use the script to call the api module to register the object.", MessageType.Info);
-                        SerializedProperty _persistent_calls = _NativeInitialize.FindPropertyRelative("m_PersistentCalls.m_Calls");
-                        if (_persistent_calls.arraySize <= 0) EditorGUILayout.HelpBox("If you don't use registered from the following events, please use api module to register the object. 'Use CTJ.Ads.Instance.EventNativeInitialize(ACTION)'", MessageType.Warning);
-                        EditorGUILayout.PropertyField(_NativeInitialize, true);
-                        _NativeCallbacks.boolValue = EditorGUILayout.Foldout(_NativeCallbacks.boolValue, "Native Callbacks");
-                        if (_NativeCallbacks.boolValue)
-                        {
-                            EditorGUILayout.PropertyField(_NativeOnUnifiedNativeAdLoaded, true);
-                            EditorGUILayout.PropertyField(_NativeOnCustomNativeTemplateAdLoaded, true);
-                            EditorGUILayout.PropertyField(_NativeOnAdFailedToLoad, true);
-                            EditorGUILayout.PropertyField(_NativeOnNativeAdClicked, true);
-                            EditorGUILayout.PropertyField(_NativeOnNativeAdOpening, true);
-                            EditorGUILayout.PropertyField(_NativeOnNativeAdClosed, true);
-                            EditorGUILayout.PropertyField(_NativeOnNativeAdImpression, true);
-                            EditorGUILayout.PropertyField(_NativeOnNativeAdLeavingApplication, true);
-                        }
-                        serializedObject.ApplyModifiedProperties();
-                        return;
                     }
                     serializedObject.ApplyModifiedProperties();
                     return;

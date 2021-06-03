@@ -1,5 +1,4 @@
 ﻿using GoogleMobileAds.Api;
-using GoogleMobileAdsMediationTestSuite.Api;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -87,13 +86,11 @@ namespace CTJ
             TestLab();
             if (!_AutoAdRequest) { Invoke("Request", 10.0f); }
             else { StartCoroutine(AutoAdRequest(_AdRequestTime)); }
-            if (_MediationTestSuiteMode) { MediationTestSuite.OnMediationTestSuiteDismissed += HandleMediationTestSuiteDismissed; }
         }
         #endregion
 
         #region Test Mode
         [SerializeField] private bool _TestDeviceMode;
-        [SerializeField] private bool _MediationTestSuiteMode;
         // Test device ID.
         private List<string> _DeviceIDs = new List<string>();
         private string _AndroidDeviceID;
@@ -121,14 +118,6 @@ namespace CTJ
 
             // Set requestConfiguration globally to MobileAds.
             MobileAds.SetRequestConfiguration(_RequestConfiguration);
-
-            // Mediation Test Suite test device.
-            if (!_MediationTestSuiteMode) { return; }
-#if UNITY_ANDROID
-            MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_AndroidDeviceID).Build();
-#elif UNITY_IOS
-            MediationTestSuite.AdRequest = new AdRequest.Builder().AddTestDevice(_IOSDeviceID).Build();
-#endif
         }
         private string CreateMD5(string _input)
         {
@@ -268,12 +257,12 @@ namespace CTJ
             RequestInterstitial();
             RequestRewarded();
             RequestRewardedInterstitial();
-            if (_EnableAwake) { RequestNative(); }
         }
         #endregion
 
         #region Banner Ads
         [SerializeField] private bool _EnableBanner;
+        [SerializeField] private bool _AutoShowBanner;
         private bool _BannerActivated = false;
         private BannerView _BannerView;
         private enum BannerAdSize
@@ -319,13 +308,11 @@ namespace CTJ
             BottomLeft,
             BottomRight,
             Center,
-            Custom,
             Top,
             TopLeft,
             TopRight
         }
         [SerializeField] private BannerAdPosition _BannerAdPosition;
-        [SerializeField] private Vector2Int _Pos;
         private AdPosition _AdPosition
         {
             get
@@ -340,8 +327,6 @@ namespace CTJ
                         return AdPosition.BottomRight;
                     case BannerAdPosition.Center:
                         return AdPosition.Center;
-                    case BannerAdPosition.Custom:
-                        return AdPosition.Custom;
                     case BannerAdPosition.Top:
                         return AdPosition.Top;
                     case BannerAdPosition.TopLeft:
@@ -364,29 +349,24 @@ namespace CTJ
             switch (_EnableTestBanner)
             {
                 case false:
-                    if (_BannerAdPosition == BannerAdPosition.Custom) { _BannerView = new BannerView(_Android_BannerID, _AdSize, _Pos.x, _Pos.y); }
-                    else { _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition); }
+                    _BannerView = new BannerView(_Android_BannerID, _AdSize, _AdPosition);
                     break;
                 case true:
-                    if (_BannerAdPosition == BannerAdPosition.Custom) { _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _Pos.x, _Pos.y); }
-                    else { _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _AdPosition); }
+                    _BannerView = new BannerView(_Test_Android_BannerID, _AdSize, _AdPosition);
                     break;
             }
 #elif UNITY_IOS
             switch (_EnableTestBanner)
             {
                 case false:
-                    if (_BannerAdPosition == BannerAdPosition.Custom) { _BannerView = new BannerView(_IOS_BannerID, _AdSize, _Pos.x, _Pos.y); }
-                    else { _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition); }
+                    _BannerView = new BannerView(_IOS_BannerID, _AdSize, _AdPosition);
                     break;
                 case true:
-                    if (_BannerAdPosition == BannerAdPosition.Custom) { _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _Pos.x, _Pos.y); }
-                    else { _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _AdPosition); }
+                    _BannerView = new BannerView(_Test_IOS_BannerID, _AdSize, _AdPosition);
                     break;
             }
 #else
-            if (_BannerAdPosition == BannerAdPosition.Custom) { _BannerView = new BannerView(_BannerID, _AdSize, _Pos.x, _Pos.y); }
-            else { _BannerView = new BannerView(_BannerID, _AdSize, _AdPosition); }
+            _BannerView = new BannerView(_BannerID, _AdSize, _AdPosition);
 #endif
 
             // Called when an ad request has successfully loaded.
@@ -397,8 +377,6 @@ namespace CTJ
             _BannerView.OnAdOpening += BannerOnAdOpening;
             // Called when the user returned from the app after an ad click.
             _BannerView.OnAdClosed += BannerOnAdClosed;
-            // Called when the ad click caused the user to leave the application.
-            _BannerView.OnAdLeavingApplication += BannerOnAdLeavingApplication;
             _BannerView.OnPaidEvent += BannerOnPaidEvent;
 
             _AdRequest = null;
@@ -407,7 +385,9 @@ namespace CTJ
 
             // Load the banner with the request.
             _BannerView.LoadAd(_AdRequest);
-            HideBannerAd();
+
+            if (_AutoShowBanner) { ShowBannerAd(); }
+            else if (!_AutoShowBanner) { HideBannerAd(); }
 
             _BannerActivated = true;
         }
@@ -424,9 +404,6 @@ namespace CTJ
         [SerializeField] private UnityEvent _BannerOnAdClosed;
         internal void EventAddListener_BannerOnAdClosed(UnityAction _unity_action) => _BannerOnAdClosed.AddListener(_unity_action);
         public void EventRemoveAllListeners_BannerOnAdClosed() => _BannerOnAdClosed.RemoveAllListeners();
-        [SerializeField] private UnityEvent _BannerOnAdLeavingApplication;
-        internal void EventAddListener_BannerOnAdLeavingApplication(UnityAction _unity_action) => _BannerOnAdLeavingApplication.AddListener(_unity_action);
-        public void EventRemoveAllListeners_BannerOnAdLeavingApplication() => _BannerOnAdLeavingApplication.RemoveAllListeners();
         [SerializeField] private UnityEvent _BannerOnPaidEvent;
         internal void EventAddListener_BannerOnPaidEvent(UnityAction _unity_action) => _BannerOnPaidEvent.AddListener(_unity_action);
         public void EventRemoveAllListeners_BannerOnPaidEvent() => _BannerOnPaidEvent.RemoveAllListeners();
@@ -439,7 +416,33 @@ namespace CTJ
         }
         private void BannerOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
         {
-            Logger.LogWarningFormat("{0} event received with message: {1}", nameof(BannerOnAdFailedToLoad), _args.Message);
+            LoadAdError _load_ad_error = _args.LoadAdError;
+
+            // Gets the domain from which the error came.
+            string _domain = _load_ad_error.GetDomain();
+
+            // Gets the error code. See
+            // https://developers.google.com/android/reference/com/google/android/gms/ads/AdRequest
+            // and https://developers.google.com/admob/ios/api/reference/Enums/GADErrorCode
+            // for a list of possible codes.
+            int _code = _load_ad_error.GetCode();
+
+            // Gets an error message.
+            // For example "Account not approved yet". See
+            // https://support.google.com/admob/answer/9905175 for explanations of
+            // common errors.
+            string _message = _load_ad_error.GetMessage();
+
+            // Gets the cause of the error, if available.
+            AdError _ad_error = _load_ad_error.GetCause();
+
+            // All of this information is available via the error's toString() method.
+            Logger.LogWarningFormat("{0} load error string: {1}", nameof(BannerOnAdFailedToLoad), _load_ad_error.ToString());
+
+            // Get response information, which may include results of mediation requests.
+            ResponseInfo _response_info = _load_ad_error.GetResponseInfo();
+            Logger.LogWarningFormat("{0} response info: {1}", nameof(BannerOnAdFailedToLoad), _response_info.ToString());
+
             _BannerOnAdFailedToLoad.Invoke();
             _BannerActivated = false;
         }
@@ -452,11 +455,6 @@ namespace CTJ
         {
             Logger.LogFormat("{0} event received.", nameof(BannerOnAdClosed));
             _BannerOnAdClosed.Invoke();
-        }
-        private void BannerOnAdLeavingApplication(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(BannerOnAdLeavingApplication));
-            _BannerOnAdLeavingApplication.Invoke();
         }
         private void BannerOnPaidEvent(object _sender, AdValueEventArgs _args)
         {
@@ -535,8 +533,7 @@ namespace CTJ
             _InterstitialAd.OnAdOpening += InterstitialOnAdOpening;
             // Called when the ad is closed.
             _InterstitialAd.OnAdClosed += InterstitialOnAdClosed;
-            // Called when the ad click caused the user to leave the application.
-            _InterstitialAd.OnAdLeavingApplication += InterstitialOnAdLeavingApplication;
+            _InterstitialAd.OnAdFailedToShow += InterstitialOnAdFailedToShow;
             _InterstitialAd.OnPaidEvent += InterstitialOnPaidEvent;
 
             _AdRequest = null;
@@ -575,9 +572,12 @@ namespace CTJ
         [SerializeField] private UnityEvent _InterstitialOnAdClosed;
         internal void EventAddListener_InterstitialOnAdClosed(UnityAction _unity_action) => _InterstitialOnAdClosed.AddListener(_unity_action);
         public void EventRemoveAllListeners_InterstitialOnAdClosed() => _InterstitialOnAdClosed.RemoveAllListeners();
-        [SerializeField] private UnityEvent _InterstitialOnAdLeavingApplication;
-        internal void EventAddListener_InterstitialOnAdLeavingApplication(UnityAction _unity_action) => _InterstitialOnAdLeavingApplication.AddListener(_unity_action);
-        public void EventRemoveAllListeners_InterstitialOnAdLeavingApplication() => _InterstitialOnAdLeavingApplication.RemoveAllListeners();
+        [SerializeField] private UnityEvent _InterstitialOnAdFailedToShow;
+        internal void EventAddListener_InterstitialOnAdFailedToShow(UnityAction _unity_action) => _InterstitialOnAdFailedToShow.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdFailedToShow() => _InterstitialOnAdFailedToShow.RemoveAllListeners();
+        [SerializeField] private UnityEvent _InterstitialOnAdDidRecordImpression;
+        internal void EventAddListener_InterstitialOnAdDidRecordImpression(UnityAction _unity_action) => _InterstitialOnAdDidRecordImpression.AddListener(_unity_action);
+        public void EventRemoveAllListeners_InterstitialOnAdDidRecordImpression() => _InterstitialOnAdDidRecordImpression.RemoveAllListeners();
         [SerializeField] private UnityEvent _InterstitialOnPaidEvent;
         internal void EventAddListener_InterstitialOnPaidEvent(UnityAction _unity_action) => _InterstitialOnPaidEvent.AddListener(_unity_action);
         public void EventRemoveAllListeners_InterstitialOnPaidEvent() => _InterstitialOnPaidEvent.RemoveAllListeners();
@@ -589,7 +589,33 @@ namespace CTJ
         }
         private void InterstitialOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
         {
-            Logger.LogWarningFormat("{0} event received with message: {1}", nameof(InterstitialOnAdFailedToLoad), _args.Message);
+            LoadAdError _load_ad_error = _args.LoadAdError;
+
+            // Gets the domain from which the error came.
+            string _domain = _load_ad_error.GetDomain();
+
+            // Gets the error code. See
+            // https://developers.google.com/android/reference/com/google/android/gms/ads/AdRequest
+            // and https://developers.google.com/admob/ios/api/reference/Enums/GADErrorCode
+            // for a list of possible codes.
+            int _code = _load_ad_error.GetCode();
+
+            // Gets an error message.
+            // For example "Account not approved yet". See
+            // https://support.google.com/admob/answer/9905175 for explanations of
+            // common errors.
+            string _message = _load_ad_error.GetMessage();
+
+            // Gets the cause of the error, if available.
+            AdError _ad_error = _load_ad_error.GetCause();
+
+            // All of this information is available via the error's toString() method.
+            Logger.LogWarningFormat("{0} load error string: {1}", nameof(InterstitialOnAdFailedToLoad), _load_ad_error.ToString());
+
+            // Get response information, which may include results of mediation requests.
+            ResponseInfo _response_info = _load_ad_error.GetResponseInfo();
+            Logger.LogWarningFormat("{0} response info: {1}", nameof(InterstitialOnAdFailedToLoad), _response_info.ToString());
+
             _InterstitialOnAdFailedToLoad.Invoke();
             _InterstitialActivated = false;
         }
@@ -605,10 +631,15 @@ namespace CTJ
             _InterstitialActivated = false;
             RequestInterstitial();
         }
-        private void InterstitialOnAdLeavingApplication(object _sender, EventArgs _args)
+        private void InterstitialOnAdFailedToShow(object _sender, AdErrorEventArgs _args)
         {
-            Logger.LogFormat("{0} event received.", nameof(InterstitialOnAdLeavingApplication));
-            _InterstitialOnAdLeavingApplication.Invoke();
+            Logger.LogFormat("{0} event received with message: {1}", nameof(InterstitialOnAdFailedToShow), _args.AdError.GetMessage());
+            _InterstitialOnAdFailedToShow.Invoke();
+        }
+        private void InterstitialOnAdDidRecordImpression(object _sender, EventArgs _args)
+        {
+            Logger.LogFormat("{0} event received.", nameof(InterstitialOnAdDidRecordImpression));
+            _InterstitialOnAdDidRecordImpression.Invoke();
         }
         private void InterstitialOnPaidEvent(object _sender, AdValueEventArgs _args)
         {
@@ -731,15 +762,41 @@ namespace CTJ
             _RewardedOnAdLoaded.Invoke();
             _RewardedActivated = true;
         }
-        private void RewardedOnAdFailedToLoad(object _sender, AdErrorEventArgs _args)
+        private void RewardedOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
         {
-            Logger.LogWarningFormat("{0} event received with message: {1}", nameof(RewardedOnAdFailedToLoad), _args.Message);
+            LoadAdError _load_ad_error = _args.LoadAdError;
+
+            // Gets the domain from which the error came.
+            string _domain = _load_ad_error.GetDomain();
+
+            // Gets the error code. See
+            // https://developers.google.com/android/reference/com/google/android/gms/ads/AdRequest
+            // and https://developers.google.com/admob/ios/api/reference/Enums/GADErrorCode
+            // for a list of possible codes.
+            int _code = _load_ad_error.GetCode();
+
+            // Gets an error message.
+            // For example "Account not approved yet". See
+            // https://support.google.com/admob/answer/9905175 for explanations of
+            // common errors.
+            string _message = _load_ad_error.GetMessage();
+
+            // Gets the cause of the error, if available.
+            AdError _ad_error = _load_ad_error.GetCause();
+
+            // All of this information is available via the error's toString() method.
+            Logger.LogWarningFormat("{0} load error string: {1}", nameof(RewardedOnAdFailedToLoad), _load_ad_error.ToString());
+
+            // Get response information, which may include results of mediation requests.
+            ResponseInfo _response_info = _load_ad_error.GetResponseInfo();
+            Logger.LogWarningFormat("{0} response info: {1}", nameof(RewardedOnAdFailedToLoad), _response_info.ToString());
+
             _RewardedOnAdFailedToLoad.Invoke();
             _RewardedActivated = false;
         }
         private void RewardedOnAdFailedToShow(object _sender, AdErrorEventArgs _args)
         {
-            Logger.LogWarningFormat("{0} event received with message: {1}", nameof(RewardedOnAdFailedToShow), _args.Message);
+            Logger.LogWarningFormat("{0} event received with message: {1}", nameof(RewardedOnAdFailedToShow), _args.AdError.GetMessage());
             _RewardedOnAdFailedToShow.Invoke();
         }
         private void RewardedOnAdOpening(object _sender, EventArgs _args)
@@ -820,9 +877,9 @@ namespace CTJ
             }
             else { Logger.LogWarningFormat("{0} is null.", nameof(_RewardedInterstitialAd)); }
         }
-        private void AdLoadCallBack(RewardedInterstitialAd _rewarded_interstitial_ad, string _error)
+        private void AdLoadCallBack(RewardedInterstitialAd _rewarded_interstitial_ad, AdFailedToLoadEventArgs _args)
         {
-            if (_error == null)
+            if (_args == null)
             {
                 _RewardedInterstitialAd = _rewarded_interstitial_ad;
 
@@ -833,7 +890,37 @@ namespace CTJ
 
                 Logger.LogFormat("{0} successfully loaded.", nameof(_RewardedInterstitialAd));
             }
-            else { _RewardedInterstitialActivated = false; Logger.LogWarningFormat("{0}: {1}", nameof(_RewardedInterstitialAd), _error); }
+            else
+            {
+                LoadAdError _load_ad_error = _args.LoadAdError;
+
+                // Gets the domain from which the error came.
+                string _domain = _load_ad_error.GetDomain();
+
+                // Gets the error code. See
+                // https://developers.google.com/android/reference/com/google/android/gms/ads/AdRequest
+                // and https://developers.google.com/admob/ios/api/reference/Enums/GADErrorCode
+                // for a list of possible codes.
+                int _code = _load_ad_error.GetCode();
+
+                // Gets an error message.
+                // For example "Account not approved yet". See
+                // https://support.google.com/admob/answer/9905175 for explanations of
+                // common errors.
+                string _message = _load_ad_error.GetMessage();
+
+                // Gets the cause of the error, if available.
+                AdError _ad_error = _load_ad_error.GetCause();
+
+                // All of this information is available via the error's toString() method.
+                Logger.LogWarningFormat("{0} load error string: {1}", nameof(_RewardedInterstitialAd), _load_ad_error.ToString());
+
+                // Get response information, which may include results of mediation requests.
+                ResponseInfo _response_info = _load_ad_error.GetResponseInfo();
+                Logger.LogWarningFormat("{0} response info: {1}", nameof(_RewardedInterstitialAd), _response_info.ToString());
+
+                _RewardedInterstitialActivated = false;
+            }
         }
         [SerializeField] private bool _RewardedInterstitialCallbacks;
         [SerializeField] private UnityEvent _RewardedInterstitialOnAdDidPresentFullScreenContent;
@@ -878,276 +965,6 @@ namespace CTJ
         {
             Logger.LogFormat("{0} has received a paid event.", nameof(RewardedInterstitialOnPaidEvent));
             _RewardedInterstitialOnPaidEvent.Invoke();
-        }
-        #endregion
-
-        #region Native Ads Advanced (Unified)
-        [SerializeField] private bool _EnableNative;
-        [SerializeField] private bool _EnableAwake;
-        private bool _NativeActivated = false;
-        private UnifiedNativeAd _UnifiedNativeAd;
-        private AdLoader _AdLoader;
-        public void RequestNative()
-        {
-            if (!_EnableNative) { Logger.LogWarningFormat("{0}: {1}", nameof(_EnableNative), _EnableNative); return; }
-
-            if (_NativeActivated) { return; }
-
-#if UNITY_ANDROID
-            switch (_EnableTestNative)
-            {
-                case false:
-                    _AdLoader = new AdLoader.Builder(_Android_NativeID).ForUnifiedNativeAd().Build();
-                    break;
-                case true:
-                    _AdLoader = new AdLoader.Builder(_Test_Android_NativeID).ForUnifiedNativeAd().Build();
-                    break;
-            }
-#elif UNITY_IOS
-            switch (_EnableTestNative)
-            {
-                case false:
-                    _AdLoader = new AdLoader.Builder(_IOS_NativeID).ForUnifiedNativeAd().Build();
-                    break;
-                case true:
-                    _AdLoader = new AdLoader.Builder(_Test_IOS_NativeID).ForUnifiedNativeAd().Build();
-                    break;
-            }
-#else
-            _AdLoader = new AdLoader.Builder(_NativeID).ForUnifiedNativeAd().Build();
-#endif
-
-            _AdLoader.OnUnifiedNativeAdLoaded += NativeOnUnifiedNativeAdLoaded;
-            _AdLoader.OnCustomNativeTemplateAdLoaded += NativeOnCustomNativeTemplateAdLoaded;
-            _AdLoader.OnAdFailedToLoad += NativeOnAdFailedToLoad;
-            _AdLoader.OnNativeAdClicked += NativeOnNativeAdClicked;
-            _AdLoader.OnNativeAdOpening += NativeOnNativeAdOpening;
-            _AdLoader.OnNativeAdClosed += NativeOnNativeAdClosed;
-            _AdLoader.OnNativeAdImpression += NativeOnNativeAdImpression;
-            _AdLoader.OnNativeAdLeavingApplication += NativeOnNativeAdLeavingApplication;
-
-            _AdLoader.LoadAd(new AdRequest.Builder().Build());
-
-            _NativeActivated = true;
-        }
-        private Texture2D _AdChoicesLogo;
-        private string _Advertiser;
-        private string _Body;
-        private string _CallToAction;
-        private int _HashCode;
-        private string _Headline;
-        private Texture2D _Icon;
-        private List<Texture2D> _Image;
-        private string _Price;
-        private ResponseInfo _ResponseInfo;
-        private double _StarRating;
-        private string _Store;
-        private Type _Type;
-        // External call get assets of native advanced ads.
-        internal Texture2D GetAdChoicesLogo { get { return _AdChoicesLogo; } }
-        internal string GetAdvertiser { get { return _Advertiser; } }
-        internal string GetBody { get { return _Body; } }
-        internal string GetCallToAction { get { return _CallToAction; } }
-        internal new int GetHashCode { get { return _HashCode; } }
-        internal string GetHeadline { get { return _Headline; } }
-        internal Texture2D GetIcon { get { return _Icon; } }
-        internal List<Texture2D> GetImage { get { return _Image; } }
-        internal string GetPrice { get { return _Price; } }
-        internal ResponseInfo GetResponseInfo { get { return _ResponseInfo; } }
-        internal double GetStarRating { get { return _StarRating; } }
-        internal string GetStore { get { return _Store; } }
-        internal new Type GetType { get { return _Type; } }
-        private GameObject _RegisterAdChoicesLogo;
-        private GameObject _RegisterAdvertiser;
-        private GameObject _RegisterBody;
-        private GameObject _RegisterCallToAction;
-        private GameObject _RegisterHeadline;
-        private GameObject _RegisterIcon;
-        private List<GameObject> _RegisterImage;
-        private GameObject _RegisterPrice;
-        private GameObject _RegisterStore;
-        // External call register gameobject function.
-        internal void RegisterAdChoicesLogo(GameObject _go) => _RegisterAdChoicesLogo = _go;
-        internal void RegisterAdvertiser(GameObject _go) => _RegisterAdvertiser = _go;
-        internal void RegisterBody(GameObject _go) => _RegisterBody = _go;
-        internal void RegisterCallToAction(GameObject _go) => _RegisterCallToAction = _go;
-        internal void RegisterHeadline(GameObject _go) => _RegisterHeadline = _go;
-        internal void RegisterIcon(GameObject _go) => _RegisterIcon = _go;
-        internal void RegisterImage(List<GameObject> _go) => _RegisterImage = _go;
-        internal void RegisterPrice(GameObject _go) => _RegisterPrice = _go;
-        internal void RegisterStore(GameObject _go) => _RegisterStore = _go;
-        [SerializeField] private UnityEvent _NativeInitialize;
-        internal void EventAddListener_NativeInitialize(UnityAction _unity_action) => _NativeInitialize.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeInitialize() => _NativeInitialize.RemoveAllListeners();
-        private void ShowNativeAd()
-        {
-            if (!_EnableNative) { return; }
-
-            // Get asset of native ad.
-            _AdChoicesLogo = _UnifiedNativeAd.GetAdChoicesLogoTexture();
-            _Advertiser = _UnifiedNativeAd.GetAdvertiserText();
-            _Body = _UnifiedNativeAd.GetBodyText();
-            _CallToAction = _UnifiedNativeAd.GetCallToActionText();
-            _HashCode = _UnifiedNativeAd.GetHashCode();
-            _Headline = _UnifiedNativeAd.GetHeadlineText();
-            _Icon = _UnifiedNativeAd.GetIconTexture();
-            _Image = _UnifiedNativeAd.GetImageTextures();
-            _Price = _UnifiedNativeAd.GetPrice();
-            _ResponseInfo = _UnifiedNativeAd.GetResponseInfo();
-            _StarRating = _UnifiedNativeAd.GetStarRating();
-            _Store = _UnifiedNativeAd.GetStore();
-            _Type = _UnifiedNativeAd.GetType();
-
-            // Invoke all registered callbacks (runtime and persistent).
-            _NativeInitialize.Invoke();
-
-            // Register gameobjects.
-            try
-            {
-                _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterAdChoicesLogo), _UnifiedNativeAd.RegisterAdChoicesLogoGameObject(_RegisterAdChoicesLogo));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterAdChoicesLogo), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterAdvertiser), _UnifiedNativeAd.RegisterAdvertiserTextGameObject(_RegisterAdvertiser));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterAdvertiser), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterBody), _UnifiedNativeAd.RegisterBodyTextGameObject(_RegisterBody));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterBody), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterCallToAction), _UnifiedNativeAd.RegisterCallToActionGameObject(_RegisterCallToAction));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterCallToAction), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterHeadline), _UnifiedNativeAd.RegisterHeadlineTextGameObject(_RegisterHeadline));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterHeadline), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterIcon), _UnifiedNativeAd.RegisterIconImageGameObject(_RegisterIcon));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterIcon), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterImageGameObjects(_RegisterImage);
-                Logger.LogFormat("{0} total length: {1}", nameof(_RegisterImage), _RegisterImage.Count);
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterImage), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterPrice), _UnifiedNativeAd.RegisterPriceGameObject(_RegisterPrice));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterPrice), _exception.Message); }
-            try
-            {
-                _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore);
-                Logger.LogFormat("{0} registration status: {1}", nameof(_RegisterStore), _UnifiedNativeAd.RegisterStoreGameObject(_RegisterStore));
-            }
-            catch (Exception _exception) { Logger.LogWarningFormat("{0}: {1}", nameof(_RegisterStore), _exception.Message); }
-        }
-        public void ForceRequestNative()
-        {
-            _NativeActivated = false;
-            RequestNative();
-        }
-        [SerializeField] private bool _NativeCallbacks;
-        [SerializeField] private UnityEvent _NativeOnUnifiedNativeAdLoaded;
-        internal void EventAddListener_NativeOnUnifiedNativeAdLoaded(UnityAction _unity_action) => _NativeOnUnifiedNativeAdLoaded.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnUnifiedNativeAdLoaded() => _NativeOnUnifiedNativeAdLoaded.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnCustomNativeTemplateAdLoaded;
-        internal void EventAddListener_NativeOnCustomNativeTemplateAdLoaded(UnityAction _unity_action) => _NativeOnCustomNativeTemplateAdLoaded.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnCustomNativeTemplateAdLoaded() => _NativeOnCustomNativeTemplateAdLoaded.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnAdFailedToLoad;
-        internal void EventAddListener_NativeOnAdFailedToLoad(UnityAction _unity_action) => _NativeOnAdFailedToLoad.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnAdFailedToLoad() => _NativeOnAdFailedToLoad.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnNativeAdClicked;
-        internal void EventAddListener_NativeOnNativeAdClicked(UnityAction _unity_action) => _NativeOnNativeAdClicked.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnNativeAdClicked() => _NativeOnNativeAdClicked.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnNativeAdOpening;
-        internal void EventAddListener_NativeOnNativeAdOpening(UnityAction _unity_action) => _NativeOnNativeAdOpening.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnNativeAdOpening() => _NativeOnNativeAdOpening.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnNativeAdClosed;
-        internal void EventAddListener_NativeOnNativeAdClosed(UnityAction _unity_action) => _NativeOnNativeAdClosed.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnNativeAdClosed() => _NativeOnNativeAdClosed.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnNativeAdImpression;
-        internal void EventAddListener_NativeOnNativeAdImpression(UnityAction _unity_action) => _NativeOnNativeAdImpression.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnNativeAdImpression() => _NativeOnNativeAdImpression.RemoveAllListeners();
-        [SerializeField] private UnityEvent _NativeOnNativeAdLeavingApplication;
-        internal void EventAddListener_NativeOnNativeAdLeavingApplication(UnityAction _unity_action) => _NativeOnNativeAdLeavingApplication.AddListener(_unity_action);
-        public void EventRemoveAllListeners_NativeOnNativeAdLeavingApplication() => _NativeOnNativeAdLeavingApplication.RemoveAllListeners();
-        private void NativeOnUnifiedNativeAdLoaded(object _sender, UnifiedNativeAdEventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnUnifiedNativeAdLoaded));
-            _UnifiedNativeAd = _args.nativeAd;
-            ShowNativeAd();
-            _NativeOnUnifiedNativeAdLoaded.Invoke();
-            _NativeActivated = true;
-        }
-        private void NativeOnCustomNativeTemplateAdLoaded(object _sender, CustomNativeEventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnCustomNativeTemplateAdLoaded));
-            _NativeOnCustomNativeTemplateAdLoaded.Invoke();
-        }
-        private void NativeOnAdFailedToLoad(object _sender, AdFailedToLoadEventArgs _args)
-        {
-            Logger.LogWarningFormat("{0} failed to load: {1}", nameof(NativeOnAdFailedToLoad), _args.Message);
-            _NativeOnAdFailedToLoad.Invoke();
-            _NativeActivated = false;
-        }
-        private void NativeOnNativeAdClicked(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnNativeAdClicked));
-            _NativeOnNativeAdClicked.Invoke();
-        }
-        private void NativeOnNativeAdOpening(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnNativeAdOpening));
-            _NativeOnNativeAdOpening.Invoke();
-        }
-        private void NativeOnNativeAdClosed(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnNativeAdClosed));
-            _NativeOnNativeAdClosed.Invoke();
-        }
-        private void NativeOnNativeAdImpression(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnNativeAdImpression));
-            _NativeOnNativeAdImpression.Invoke();
-        }
-        private void NativeOnNativeAdLeavingApplication(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(NativeOnNativeAdLeavingApplication));
-            _NativeOnNativeAdLeavingApplication.Invoke();
-        }
-        public void DestroyUnifiedNativeAd()
-        {
-            _UnifiedNativeAd.Destroy();
-            Logger.LogWarningFormat("{0} Destroyed.", nameof(_UnifiedNativeAd));
-            _NativeActivated = false;
-        }
-        #endregion
-
-        #region Mediation Test Suite
-        public void ShowMediationTestSuite()
-        {
-            if (_MediationTestSuiteMode) { MediationTestSuite.Show(); return; }
-            else { Logger.LogWarningFormat("{0}: {1}", nameof(_MediationTestSuiteMode), _MediationTestSuiteMode); }
-        }
-        private void HandleMediationTestSuiteDismissed(object _sender, EventArgs _args)
-        {
-            Logger.LogFormat("{0} event received.", nameof(HandleMediationTestSuiteDismissed));
         }
         #endregion
     }

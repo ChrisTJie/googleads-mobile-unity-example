@@ -365,13 +365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c7fe0e9372ffc4e82192c3ac78b0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _NativeObject: {fileID: 1471705225}
-  _AdChoicesLogo: {fileID: 749885818}
-  _Advertiser: {fileID: 1024655674}
-  _Body: {fileID: 919007409}
-  _CallToAction: {fileID: 914687080}
-  _Headline: {fileID: 1562257295}
-  _Icon: {fileID: 241465911}
 --- !u!4 &208213175
 Transform:
   m_ObjectHideFlags: 0
@@ -440,7 +433,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -695,23 +688,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 374271636}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8390335536397734087}
-        m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
-        m_MethodName: RequestNative
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &374271636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,7 +918,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1047,7 +1028,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 833050052}
   m_OnClick:
     m_PersistentCalls:
@@ -1068,7 +1049,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1144,7 +1125,7 @@ MonoBehaviour:
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1250,7 +1231,7 @@ MonoBehaviour:
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1492,7 +1473,7 @@ MonoBehaviour:
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2064,7 +2045,7 @@ MonoBehaviour:
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2393,23 +2374,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1858520306}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8390335536397734087}
-        m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
-        m_MethodName: ForceRequestNative
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1858520306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2525,23 +2494,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1925898508}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8390335536397734087}
-        m_TargetAssemblyTypeName: CTJ.Ads, Assembly-CSharp
-        m_MethodName: ShowMediationTestSuite
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1925898508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2558,7 +2515,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6883,7 +6840,6 @@ MonoBehaviour:
   _IOS_RewardedInterstitialID: 
   _IOS_NativeID: 
   _TestDeviceMode: 1
-  _MediationTestSuiteMode: 1
   _EnableTestBanner: 1
   _EnableTestInterstitial: 1
   _EnableTestRewarded: 1
@@ -6892,10 +6848,10 @@ MonoBehaviour:
   _AutoAdRequest: 1
   _AdRequestTime: 10
   _EnableBanner: 1
-  _BannerAdSize: 5
+  _AutoShowBanner: 0
+  _BannerAdSize: 0
   _WH: {x: 320, y: 50}
   _BannerAdPosition: 0
-  _Pos: {x: 0, y: 0}
   _BannerCallbacks: 0
   _BannerOnAdLoaded:
     m_PersistentCalls:
@@ -6907,9 +6863,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _BannerOnAdClosed:
-    m_PersistentCalls:
-      m_Calls: []
-  _BannerOnAdLeavingApplication:
     m_PersistentCalls:
       m_Calls: []
   _BannerOnPaidEvent:
@@ -6929,7 +6882,10 @@ MonoBehaviour:
   _InterstitialOnAdClosed:
     m_PersistentCalls:
       m_Calls: []
-  _InterstitialOnAdLeavingApplication:
+  _InterstitialOnAdFailedToShow:
+    m_PersistentCalls:
+      m_Calls: []
+  _InterstitialOnAdDidRecordImpression:
     m_PersistentCalls:
       m_Calls: []
   _InterstitialOnPaidEvent:
@@ -6973,35 +6929,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _RewardedInterstitialOnPaidEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _EnableNative: 1
-  _EnableAwake: 0
-  _NativeInitialize:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeCallbacks: 0
-  _NativeOnUnifiedNativeAdLoaded:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnCustomNativeTemplateAdLoaded:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnAdFailedToLoad:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnNativeAdClicked:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnNativeAdOpening:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnNativeAdClosed:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnNativeAdImpression:
-    m_PersistentCalls:
-      m_Calls: []
-  _NativeOnNativeAdLeavingApplication:
     m_PersistentCalls:
       m_Calls: []
