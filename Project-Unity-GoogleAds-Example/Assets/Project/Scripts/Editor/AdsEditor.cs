@@ -8,7 +8,7 @@ namespace CTJ
     [CustomEditor(typeof(Ads)), CanEditMultipleObjects]
     public class AdsEditor : Editor
     {
-        private const string Version = "0.0.8 With Native Ads Advanced (Unified)";
+        private const string Version = "0.0.9-alpha With Native Ads Advanced (Unified)";
 
         [MenuItem("GameObject/CTJ/Create Ads")]
         private static void CreatePrefab()
@@ -40,6 +40,7 @@ namespace CTJ
         private SerializedProperty _AutoAdRequest;
         private SerializedProperty _AdRequestTime;
         private SerializedProperty _EnableBanner;
+        private SerializedProperty _AutoShowBanner;
         private SerializedProperty _BannerAdSize;
         private SerializedProperty _WH;
         private SerializedProperty _BannerAdPosition;
@@ -112,6 +113,7 @@ namespace CTJ
             _AutoAdRequest = serializedObject.FindProperty("_AutoAdRequest");
             _AdRequestTime = serializedObject.FindProperty("_AdRequestTime");
             _EnableBanner = serializedObject.FindProperty("_EnableBanner");
+            _AutoShowBanner = serializedObject.FindProperty("_AutoShowBanner");
             _BannerAdSize = serializedObject.FindProperty("_BannerAdSize");
             _WH = serializedObject.FindProperty("_WH");
             _BannerAdPosition = serializedObject.FindProperty("_BannerAdPosition");
@@ -206,6 +208,7 @@ namespace CTJ
                     EditorGUILayout.PropertyField(_EnableBanner, new GUIContent("Enable Banner"), true);
                     if (_EnableBanner.boolValue)
                     {
+                        EditorGUILayout.PropertyField(_AutoShowBanner, new GUIContent("Auto Show Banner"), true);
                         EditorGUILayout.PropertyField(_EnableTestBanner, new GUIContent("Test Ad Unit ID"), true);
                         if (_EnableTestBanner.boolValue)
                         {

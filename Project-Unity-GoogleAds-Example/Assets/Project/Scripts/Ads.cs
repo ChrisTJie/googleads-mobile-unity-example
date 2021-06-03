@@ -274,6 +274,7 @@ namespace CTJ
 
         #region Banner Ads
         [SerializeField] private bool _EnableBanner;
+        [SerializeField] private bool _AutoShowBanner;
         private bool _BannerActivated = false;
         private BannerView _BannerView;
         private enum BannerAdSize
@@ -407,7 +408,9 @@ namespace CTJ
 
             // Load the banner with the request.
             _BannerView.LoadAd(_AdRequest);
-            HideBannerAd();
+
+            if (_AutoShowBanner) { ShowBannerAd(); }
+            else if (!_AutoShowBanner) { HideBannerAd(); }
 
             _BannerActivated = true;
         }
