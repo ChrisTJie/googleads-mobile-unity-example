@@ -1,8 +1,7 @@
 <dependencies>
   <packages>
     <package>com.google.android.ads:mediation-test-suite:1.5.0</package>
-    <package>com.google.android.gms:play-services-ads:19.5.0</package>
-    <package>com.google.code.gson:gson:2.8.5</package>
+    <package>com.google.android.gms:play-services-ads:20.0.0</package>
   </packages>
   <files>
     <file>Assets/Plugins/Android/androidx.activity.activity-1.0.0.aar</file>
@@ -55,16 +54,17 @@
     <file>Assets/Plugins/Android/com.android.volley.volley-1.1.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.ads.mediation-test-suite-1.5.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.flexbox-1.1.1.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-19.5.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-base-19.5.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-20.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-base-20.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-identifier-17.0.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-lite-19.5.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-basement-17.3.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-gass-19.5.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-base-17.2.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-sdk-api-17.2.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-lite-20.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-basement-17.6.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-gass-20.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-base-18.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-sdk-api-18.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-tasks-17.1.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.material.material-1.1.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.ump.user-messaging-platform-1.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.code.gson.gson-2.8.5.jar</file>
     <file>Assets/Plugins/Android/com.google.guava.listenablefuture-1.0.jar</file>
   </files>
