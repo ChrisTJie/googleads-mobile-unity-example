@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-
 using UnityEditor;
 using UnityEngine;
 
@@ -21,12 +16,6 @@ namespace GoogleMobileAds.Editor
         private static GoogleMobileAdsSettings instance;
 
         [SerializeField]
-        private bool isAdManagerEnabled = false;
-
-        [SerializeField]
-        private bool isAdMobEnabled = false;
-
-        [SerializeField]
         private string adMobAndroidAppId = string.Empty;
 
         [SerializeField]
@@ -35,33 +24,7 @@ namespace GoogleMobileAds.Editor
         [SerializeField]
         private bool delayAppMeasurementInit = false;
 
-        public bool IsAdManagerEnabled
-        {
-            get
-            {
-                return Instance.isAdManagerEnabled;
-            }
-
-            set
-            {
-                Instance.isAdManagerEnabled = value;
-            }
-        }
-
-        public bool IsAdMobEnabled
-        {
-            get
-            {
-                return Instance.isAdMobEnabled;
-            }
-
-            set
-            {
-                Instance.isAdMobEnabled = value;
-            }
-        }
-
-        public string AdMobAndroidAppId
+        public string GoogleMobileAdsAndroidAppId
         {
             get
             {
@@ -74,7 +37,7 @@ namespace GoogleMobileAds.Editor
             }
         }
 
-        public string AdMobIOSAppId
+        public string GoogleMobileAdsIOSAppId
         {
             get
             {
@@ -106,6 +69,11 @@ namespace GoogleMobileAds.Editor
             {
                 if (instance == null)
                 {
+                    if (!AssetDatabase.IsValidFolder(MobileAdsSettingsDir))
+                    {
+                        AssetDatabase.CreateFolder("Assets", "GoogleMobileAds");
+                    }
+
                     if (!AssetDatabase.IsValidFolder(MobileAdsSettingsResDir))
                     {
                         AssetDatabase.CreateFolder(MobileAdsSettingsDir, "Resources");
