@@ -1,3 +1,4 @@
+** This project is currently on hold and I hope to have more time to update this project :( **
 # Google Mobile Ads Example for Unity
 ## Features
 - Easy to use
